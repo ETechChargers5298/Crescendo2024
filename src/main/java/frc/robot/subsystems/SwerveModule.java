@@ -10,6 +10,8 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.SparkAbsoluteEncoder.Type;
+import com.revrobotics.SparkPIDController;
+import com.revrobotics.CANSparkBase.ControlType;
 
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
@@ -29,7 +31,9 @@ public class SwerveModule extends SubsystemBase {
   private final RelativeEncoder driveEncoder;
   private final AbsoluteEncoder turnEncoder;
 
-//
+  public final SparkPIDController turnController;
+
+  public SwerveModuleState currentState;
 
   public final ModuleConfig config;
 
@@ -52,8 +56,56 @@ public class SwerveModule extends SubsystemBase {
     turnEncoder.setVelocityConversionFactor((Math.PI * 2) / 60);
     turnEncoder.setPositionConversionFactor(Math.PI * 2);
 
+    turnController = SwerveConstants.TURN_PID.getConfiguredController(turnMotor, turnEncoder);
+    
     this.config = config;
   }
+
+  public SwerveModuleState getState() {
+    return new SwerveModuleState(driveEncoder.getVelocity(), new Rotation2d(turnEncoder.getPosition()));
+}
+
+/**
+ * Gets the position of the swerve module
+ * @author Aiden Sing
+ * @return the position
+ */ 
+public SwerveModulePosition getPosition() {
+    return new SwerveModulePosition(driveEncoder.getPosition(), new Rotation2d(turnEncoder.getPosition()));
+}
+
+/**
+ * Moves the swerve module
+ * @author Aiden Sing
+ * @param desiredState Where the module should go
+ */
+public void setState(SwerveModuleState desiredState) {
+    // updating the desired state using the angle offset
+    //desiredState.angle.plus(Rotation2d.fromRadians(angleOffset));
+
+    // optimizing the state of the angle
+    SwerveModuleState optimizedState = SwerveModuleState.optimize(desiredState, getState().angle);
+
+    // running the optimized state
+    driveMotor.set(optimizedState.speedMetersPerSecond / SwerveConstants.TOP_SPEED);
+
+    if(Math.abs(desiredState.angle.minus(currentState.angle).getRadians()) > SwerveConstants.ANGLE_THRESHOLD) {
+        turnController.setReference(optimizedState.angle.getRadians(), ControlType.kPosition);
+    }
+
+    currentState = getState();
+}
+
+public void updateTelemetry() {
+    SmartDashboard.putNumber(config.NAME + " Angle Degrees", getPosition().angle.getDegrees());
+    SmartDashboard.putNumber(config.NAME + " Angle Radians", getPosition().angle.getRadians());
+
+    SmartDashboard.putNumber(config.NAME + " Drive Position", getPosition().distanceMeters);
+}
+
+public void resetEncoder() {
+  driveEncoder.setPosition(0.0);
+}
 
 
   @Override

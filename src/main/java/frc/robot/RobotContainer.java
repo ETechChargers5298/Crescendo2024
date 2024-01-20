@@ -8,6 +8,9 @@ package frc.robot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import edu.wpi.first.wpilibj.XboxController;
+import frc.robot.commands.SwerveDrive;
+import frc.robot.subsystems.Drivetrain;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -20,8 +23,8 @@ public class RobotContainer {
 
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
-  private final CommandXboxController driverController =
-      new CommandXboxController(Ports.DRIVER_CONTROLLER);
+  private final XboxController driverController =
+      new XboxController(Ports.DRIVER_CONTROLLER);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -40,7 +43,11 @@ public class RobotContainer {
    */
   private void configureBindings() {
     // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
-
+    Drivetrain.getInstance().setDefaultCommand(new SwerveDrive(
+      () -> -driverController.getRawAxis(1),
+      () -> driverController.getRawAxis(0),
+      () -> driverController.getRawAxis(4)
+    ));
 
     // Schedule `exampleMethodCommand` when the Xbox controller's B button is pressed,
     // cancelling on release.
