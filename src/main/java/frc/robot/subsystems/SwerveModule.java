@@ -15,6 +15,7 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.Constants.SwerveConstants;
 import frc.robot.utils.ModuleConfig;
 
 
@@ -31,7 +32,7 @@ public class SwerveModule extends SubsystemBase {
 //
 
   public final ModuleConfig config;
-  
+
   /** Creates a new SwerveModule. */
   public SwerveModule(ModuleConfig config) {
 
@@ -45,8 +46,8 @@ public class SwerveModule extends SubsystemBase {
 
     // converting the drive factors to meters and the turn factors to radians
 
-    // driveEncoder.setVelocityConversionFactor(((Math.PI * SwerveConstants.WHEEL_DIAMETER) / SwerveConstants.GEER_RATTIOLI) / 60); 
-    // driveEncoder.setPositionConversionFactor((Math.PI * SwerveConstants.WHEEL_DIAMETER) / SwerveConstants.GEER_RATTIOLI);
+     driveEncoder.setVelocityConversionFactor(((Math.PI * SwerveConstants.WHEEL_DIAMETER) / SwerveConstants.GEER_RATTIOLI) / 60); 
+     driveEncoder.setPositionConversionFactor((Math.PI * SwerveConstants.WHEEL_DIAMETER) / SwerveConstants.GEER_RATTIOLI);
 
     turnEncoder.setVelocityConversionFactor((Math.PI * 2) / 60);
     turnEncoder.setPositionConversionFactor(Math.PI * 2);

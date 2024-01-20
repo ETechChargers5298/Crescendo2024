@@ -28,7 +28,7 @@ public final class Constants {
     //public static final double TOP_ANGULAR_SPEED = 2 * 2 * Math.PI;
 
     //public static final double TOP_SPEED = Units.feetToMeters(9.6);
-   //public static final double GEER_RATTIOLI = 6.55;
+    public static final double GEER_RATTIOLI = 5.08;
 
     public static final double TRACK_WIDTH = Units.inchesToMeters(25);
     public static final double WHEEL_BASE = Units.inchesToMeters(25);
