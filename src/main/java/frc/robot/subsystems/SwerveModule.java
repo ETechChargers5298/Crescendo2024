@@ -19,6 +19,19 @@ import frc.robot.utils.ModuleConfig;
 
 
 public class SwerveModule extends SubsystemBase {
+
+  // Drive & turn motor
+  private final CANSparkMax driveMotor;
+  private final CANSparkMax turnMotor;
+
+  // Relative & Absolute Encoders
+  private final RelativeEncoder driveEncoder;
+  private final AbsoluteEncoder turnEncoder;
+
+//
+
+  public final ModuleConfig config;
+  
   /** Creates a new SwerveModule. */
   public SwerveModule(ModuleConfig config) {
 
@@ -40,18 +53,6 @@ public class SwerveModule extends SubsystemBase {
 
     this.config = config;
   }
-
-  // Drive & turn motor
-  private final CANSparkMax driveMotor;
-  private final CANSparkMax turnMotor;
-
-  // Relative & Absolute Encoders
-  private final RelativeEncoder driveEncoder;
-  private final AbsoluteEncoder turnEncoder;
-
-//
-
-  public final ModuleConfig config;
 
 
   @Override
