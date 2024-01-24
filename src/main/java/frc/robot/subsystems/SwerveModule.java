@@ -58,6 +58,8 @@ public class SwerveModule extends SubsystemBase {
 
     turnController = SwerveConstants.TURN_PID.getConfiguredController(turnMotor, turnEncoder);
     
+    currentState = new SwerveModuleState();
+
     this.config = config;
   }
 
@@ -80,8 +82,6 @@ public SwerveModulePosition getPosition() {
  * @param desiredState Where the module should go
  */
 public void setState(SwerveModuleState desiredState) {
-    // updating the desired state using the angle offset
-    //desiredState.angle.plus(Rotation2d.fromRadians(angleOffset));
 
     // optimizing the state of the angle
     SwerveModuleState optimizedState = SwerveModuleState.optimize(desiredState, getState().angle);
@@ -90,7 +90,7 @@ public void setState(SwerveModuleState desiredState) {
     driveMotor.set(optimizedState.speedMetersPerSecond / SwerveConstants.TOP_SPEED);
 
     if(Math.abs(desiredState.angle.minus(currentState.angle).getRadians()) > SwerveConstants.ANGLE_THRESHOLD) {
-        turnController.setReference(optimizedState.angle.getRadians(), ControlType.kPosition);
+        turnController.setReference(optimizedState.angle.getRadians(), CANSparkMax.ControlType.kPosition);
     }
 
     currentState = getState();
@@ -99,7 +99,6 @@ public void setState(SwerveModuleState desiredState) {
 public void updateTelemetry() {
     SmartDashboard.putNumber(config.NAME + " Angle Degrees", getPosition().angle.getDegrees());
     SmartDashboard.putNumber(config.NAME + " Angle Radians", getPosition().angle.getRadians());
-
     SmartDashboard.putNumber(config.NAME + " Drive Position", getPosition().distanceMeters);
 }
 
