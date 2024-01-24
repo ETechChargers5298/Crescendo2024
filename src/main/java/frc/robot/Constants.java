@@ -39,4 +39,9 @@ public final class Constants {
     // public static final PIDConstants rotationPID = new PIDConstants(0.08, 0, 0);
 
   }
+
+  public static class CameraConstants {
+    public static final String GRID_APRIL_CAM_NAME = "";
+  }
+  
 }
