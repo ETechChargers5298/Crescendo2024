@@ -17,6 +17,7 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.Constants;
 import frc.robot.Constants.SwerveConstants;
 import frc.robot.utils.ModuleConfig;
 
@@ -44,17 +45,25 @@ public class SwerveModule extends SubsystemBase {
     driveMotor = new CANSparkMax(config.DRIVE_PORT, MotorType.kBrushless);
     turnMotor= new CANSparkMax(config.TURN_PORT, MotorType.kBrushless);
 
+    driveMotor.restoreFactoryDefaults();
+    turnMotor.restoreFactoryDefaults();
+
     // get drive & turn encoders
     driveEncoder = driveMotor.getEncoder();
     turnEncoder = turnMotor.getAbsoluteEncoder(Type.kDutyCycle);
 
     // converting the drive factors to meters and the turn factors to radians
 
-     driveEncoder.setVelocityConversionFactor(((Math.PI * SwerveConstants.WHEEL_DIAMETER) / SwerveConstants.GEER_RATTIOLI) / 60); 
-     driveEncoder.setPositionConversionFactor((Math.PI * SwerveConstants.WHEEL_DIAMETER) / SwerveConstants.GEER_RATTIOLI);
+    driveEncoder.setVelocityConversionFactor(((Math.PI * SwerveConstants.WHEEL_DIAMETER) / SwerveConstants.GEER_RATTIOLI) / 60); 
+    driveEncoder.setPositionConversionFactor((Math.PI * SwerveConstants.WHEEL_DIAMETER) / SwerveConstants.GEER_RATTIOLI);
 
     turnEncoder.setVelocityConversionFactor((Math.PI * 2) / 60);
     turnEncoder.setPositionConversionFactor(Math.PI * 2);
+
+    turnEncoder.setZeroOffset(config.OFFSET);
+    turnEncoder.setInverted(Constants.SwerveConstants.TURN_INVERSION);
+
+    turnMotor.burnFlash();
 
     turnController = SwerveConstants.TURN_PID.getConfiguredController(turnMotor, turnEncoder);
     

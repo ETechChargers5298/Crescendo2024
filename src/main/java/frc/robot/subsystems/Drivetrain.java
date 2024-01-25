@@ -51,12 +51,12 @@ public class Drivetrain extends SubsystemBase {
 
     modules[0] = new SwerveModule(SwerveConstants.SWERVE_FL);
     modules[1] = new SwerveModule(SwerveConstants.SWERVE_FR);
-    modules[2] = new SwerveModule(SwerveConstants.SWERVE_BL);
-    modules[3] = new SwerveModule(SwerveConstants.SWERVE_BR);
+    modules[2] = new SwerveModule(SwerveConstants.SWERVE_BR);
+    modules[3] = new SwerveModule(SwerveConstants.SWERVE_BL);
 
     driveKinematics = new SwerveDriveKinematics(
-      new Translation2d(SwerveConstants.WHEEL_BASE / 2, -SwerveConstants.TRACK_WIDTH / 2),
       new Translation2d(SwerveConstants.WHEEL_BASE / 2, SwerveConstants.TRACK_WIDTH / 2),
+      new Translation2d(SwerveConstants.WHEEL_BASE / 2, -SwerveConstants.TRACK_WIDTH / 2),
       new Translation2d(-SwerveConstants.WHEEL_BASE / 2, -SwerveConstants.TRACK_WIDTH / 2),
       new Translation2d(-SwerveConstants.WHEEL_BASE / 2, SwerveConstants.TRACK_WIDTH / 2));
 
@@ -211,13 +211,13 @@ public class Drivetrain extends SubsystemBase {
       modules[i].updateTelemetry();
     }
 
-    SmartDashboard.putNumber("Robot Angle", getHeading().getDegrees());
+    // SmartDashboard.putNumber("Robot Angle", getHeading().getDegrees());
 
     SmartDashboard.putNumber("xOdometry", getPose2d().getX());
     SmartDashboard.putNumber("yOdometry", getPose2d().getY());
     SmartDashboard.putNumber("rotOdometry", getPose2d().getRotation().getDegrees());
-    SmartDashboard.putNumber("pitch", getPitch());
-    SmartDashboard.putNumber("roll", getRoll());
+    // SmartDashboard.putNumber("pitch", getPitch());
+    // SmartDashboard.putNumber("roll", getRoll());
 
     //SmartDashboard.putData("Odometry Field", field);
   }
