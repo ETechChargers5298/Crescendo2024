@@ -29,10 +29,16 @@ public class Intake extends SubsystemBase {
 
         Color detectedColor = noteFinder.getColor();
         return detectedColor;
-
-
     }
 
+    public boolean haveNote() {
+  
+     ColorMatchResult match = noteFinder.matchClosestColor(getColor());
+
+        if (match.color == kOrangeTarget) {
+        return true;
+        }
+    }
 
 
 //     /**
