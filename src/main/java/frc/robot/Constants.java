@@ -41,7 +41,7 @@ public final class Constants {
   }
 
   public static class CameraConstants {
-    public static final String GRID_APRIL_CAM_NAME = "";
+    public static final String GRID_APRIL_CAM_NAME = "Arducam_OV9782_USB_Camera";
   }
   
 }
