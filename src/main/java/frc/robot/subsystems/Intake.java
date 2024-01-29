@@ -17,6 +17,7 @@ public class Intake extends SubsystemBase {
     
     private CANSparkMax intakeMotor;
     private ColorSensorV3 noteFinder;
+    private static Intake instance;
     private final I2C.Port i2cPort = I2C.Port.kOnboard;
     private final Color kOrangeTarget = new Color(1, 0.65, 0);
 
@@ -25,20 +26,42 @@ public class Intake extends SubsystemBase {
         noteFinder = new ColorSensorV3(i2cPort);
     }
 
+    public static Intake getInstance(){
+        if(instance == null) {
+            instance = new Intake();
+        }
+        return instance;
+    }
+
     public Color getColor() {
 
         Color detectedColor = noteFinder.getColor();
         return detectedColor;
     }
 
-    public boolean haveNote() {
-  
-     ColorMatchResult match = noteFinder.matchClosestColor(getColor());
-
-        if (match.color == kOrangeTarget) {
-        return true;
-        }
+    //Elijah did this
+    public void eat(){
+        intakeMotor.set(0.7);
     }
+
+    
+    //Elijah did this
+    public void spitt(){
+        intakeMotor.set(-0.7);
+    }
+ //Elijah did this
+    public void stop(){
+        intakeMotor.set(0);
+    }
+
+    // public boolean haveNote() {
+  
+    //  ColorMatchResult match = noteFinder.matchClosestColor(getColor());
+
+    //     if (match.color == kOrangeTarget) {
+    //     return true;
+    //     }
+    // }
 
 
 //     /**

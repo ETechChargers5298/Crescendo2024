@@ -26,16 +26,17 @@ bottomEncoder = bottomMotor.getEncoder();
 
 
 public void take(double speed){
-topMotor.set(-speed);
-bottomMotor.set(-speed);
+    topMotor.set(-speed);
+    bottomMotor.set(-speed);
 }
 
 
 public void launch(double speed){
-topMotor.set(speed);
-bottomMotor.set(speed);
+    topMotor.set(speed);
+    bottomMotor.set(speed);
 
 }
+
 public double getBottomEncoder(){
 double bottomPosition = bottomEncoder.getPosition();
 return bottomPosition;
