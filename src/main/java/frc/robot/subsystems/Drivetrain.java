@@ -88,8 +88,8 @@ public class Drivetrain extends SubsystemBase {
   /**
    * Making a drive function to make the speed for drive a fraction of total
    * @author Aiden Sing
-   * @param xSpeed speed of the robot left to right
-   * @param ySpeed speed of robot foward to back
+   * @param xSpeed speed of the robot front to back
+   * @param ySpeed speed of robot left to right
    * @param rotSpeed speed of robot turning
    */
   public void drive(double xSpeed, double ySpeed, double rotSpeed) {

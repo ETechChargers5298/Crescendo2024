@@ -45,8 +45,8 @@ public class SwerveModule extends SubsystemBase {
     driveMotor = new CANSparkMax(config.DRIVE_PORT, MotorType.kBrushless);
     turnMotor= new CANSparkMax(config.TURN_PORT, MotorType.kBrushless);
 
-    driveMotor.restoreFactoryDefaults();
-    turnMotor.restoreFactoryDefaults();
+    // driveMotor.restoreFactoryDefaults();
+    // turnMotor.restoreFactoryDefaults();
 
     // get drive & turn encoders
     driveEncoder = driveMotor.getEncoder();
