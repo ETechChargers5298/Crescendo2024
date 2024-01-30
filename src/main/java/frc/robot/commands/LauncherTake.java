@@ -25,7 +25,7 @@ public class LauncherTake extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    launcher.take(0.5);
+    launcher.take(0.7);
   }
 
   // Called once the command ends or is interrupted.
