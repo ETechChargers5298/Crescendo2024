@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class Launcher extends SubsystemBase {
+    private static Launcher instance;
 private CANSparkFlex topMotor;
 private CANSparkFlex bottomMotor;
 private RelativeEncoder topEncoder;
@@ -24,6 +25,12 @@ topEncoder = topMotor.getEncoder();
 bottomEncoder = bottomMotor.getEncoder();
 }
 
+public static Launcher getInstance(){
+    if(instance == null) {
+        instance = new Launcher();
+    }
+    return instance;
+}
 
 public void take(double speed){
     topMotor.set(-speed);
@@ -31,7 +38,7 @@ public void take(double speed){
 }
 
 
-public void launch(double speed){
+public void shoot(double speed){
     topMotor.set(speed);
     bottomMotor.set(speed);
 
@@ -49,11 +56,11 @@ return topPosition;
 }
 
 
-/*
+
 public void stop(){
-topMotor.set(0);
-bottomMotor.set(0);
+    topMotor.set(0);
+    bottomMotor.set(0);
 }
-*/
+
 
 }
