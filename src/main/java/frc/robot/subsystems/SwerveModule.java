@@ -34,12 +34,14 @@ public class SwerveModule extends SubsystemBase {
 
   public final SparkPIDController turnController;
 
-  public SwerveModuleState currentState;
+  public SwerveModuleState desiredState;
 
+  public double angularOffset;
+  
   public final ModuleConfig config;
 
   /** Creates a new SwerveModule. */
-  public SwerveModule(ModuleConfig config) {
+  public SwerveModule(ModuleConfig config, double angularOffset) {
 
     // initialize drive & turn motors
     driveMotor = new CANSparkMax(config.DRIVE_PORT, MotorType.kBrushless);
@@ -67,13 +69,14 @@ public class SwerveModule extends SubsystemBase {
 
     turnController = SwerveConstants.TURN_PID.getConfiguredController(turnMotor, turnEncoder);
     
-    currentState = new SwerveModuleState();
+    desiredState = new SwerveModuleState();
+    this.angularOffset = angularOffset;
 
     this.config = config;
   }
 
   public SwerveModuleState getState() {
-    return new SwerveModuleState(driveEncoder.getVelocity(), new Rotation2d(turnEncoder.getPosition()));
+    return new SwerveModuleState(driveEncoder.getVelocity(), new Rotation2d(turnEncoder.getPosition() - angularOffset));
 }
 
 /**
@@ -82,7 +85,7 @@ public class SwerveModule extends SubsystemBase {
  * @return the position
  */ 
 public SwerveModulePosition getPosition() {
-    return new SwerveModulePosition(driveEncoder.getPosition(), new Rotation2d(turnEncoder.getPosition()));
+    return new SwerveModulePosition(driveEncoder.getPosition(), new Rotation2d(turnEncoder.getPosition() - angularOffset));
 }
 
 /**
@@ -94,15 +97,16 @@ public void setState(SwerveModuleState desiredState) {
 
     // optimizing the state of the angle
     SwerveModuleState optimizedState = SwerveModuleState.optimize(desiredState, getState().angle);
-
+    optimizedState.speedMetersPerSecond = desiredState.speedMetersPerSecond;
+    optimizedState.angle = desiredState.angle.plus(Rotation2d.fromRadians(angularOffset));
     // running the optimized state
     driveMotor.set(optimizedState.speedMetersPerSecond / SwerveConstants.TOP_SPEED);
 
-    if(Math.abs(desiredState.angle.minus(currentState.angle).getRadians()) > SwerveConstants.ANGLE_THRESHOLD) {
+    if(Math.abs(desiredState.angle.minus(this.desiredState.angle).getRadians()) > SwerveConstants.ANGLE_THRESHOLD) {
         turnController.setReference(optimizedState.angle.getRadians(), CANSparkMax.ControlType.kPosition);
     }
 
-    currentState = getState();
+    desiredState = getState();
 }
 
 public void updateTelemetry() {
