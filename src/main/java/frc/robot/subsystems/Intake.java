@@ -22,7 +22,7 @@ public class Intake extends SubsystemBase {
     private final Color kOrangeTarget = new Color(1, 0.65, 0);
 
     private Intake() {
-        intakeMotor = new CANSparkMax(9, MotorType.kBrushless);
+        intakeMotor = new CANSparkMax(29, MotorType.kBrushless);
         noteFinder = new ColorSensorV3(i2cPort);
     }
 
