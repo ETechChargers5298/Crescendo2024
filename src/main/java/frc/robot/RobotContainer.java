@@ -54,21 +54,19 @@ public class RobotContainer {
    * joysticks}.
    */
   private void configureBindings() {
-    // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
-    new Trigger(m_exampleSubsystem::exampleCondition)
-        .onTrue(new ExampleCommand(m_exampleSubsystem));
 
-    //test intake eat/spit
+    //intake eat/spit
     new JoystickButton(operatorController,Button.kB.value).whileTrue(new IntakeEat());
     new JoystickButton(operatorController,Button.kX.value).whileTrue(new IntakeSpit());
 
-    // test launcher shoot/take
+    //launcher shoot/take
     new JoystickButton(operatorController,Button.kA.value).whileTrue(new LauncherShoot());
     new JoystickButton(operatorController,Button.kY.value).whileTrue(new LauncherTake());
 
-    // Schedule `exampleMethodCommand` when the Xbox controller's B button is pressed,
-    // cancelling on release.
-    m_driverController.b().whileTrue(m_exampleSubsystem.exampleMethodCommand());
+    //pivot up/down with joystick (RY or LY?)
+    //new JoystickButton(operatorController,Button.kY.value).whileTrue(new LauncherTake());
+
+
   }
 
   /**

@@ -39,5 +39,7 @@ public final class Constants {
   public static class MotorSpeeds {
     public static final double LAUNCHER_SPEED = 1.0;
     public static final double INTAKE_SPEED = 1.0;
+    public static final double ARM_PIVOT_SPEED = 1.0;
+    
   }
 }
