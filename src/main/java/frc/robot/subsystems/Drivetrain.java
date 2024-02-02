@@ -47,10 +47,12 @@ public class Drivetrain extends SubsystemBase {
   private Drivetrain() {
     modules = new SwerveModule[4];
 
-    modules[0] = new SwerveModule(SwerveConstants.SWERVE_FL, 90);
-    modules[1] = new SwerveModule(SwerveConstants.SWERVE_FR, 0);
-    modules[2] = new SwerveModule(SwerveConstants.SWERVE_BR, 90);
-    modules[3] = new SwerveModule(SwerveConstants.SWERVE_BL, 0);
+    modules[0] = new SwerveModule(SwerveConstants.SWERVE_FL, SwerveConstants.FL_ANGULAR_OFFSET);
+    modules[1] = new SwerveModule(SwerveConstants.SWERVE_FR, SwerveConstants.FR_ANGULAR_OFFSET);
+    modules[2] = new SwerveModule(SwerveConstants.SWERVE_BR, SwerveConstants.BR_ANGULAR_OFFSET);
+    modules[3] = new SwerveModule(SwerveConstants.SWERVE_BL, SwerveConstants.BL_ANGULAR_OFFSET);
+
+    navX = new AHRS(SPI.Port.kMXP);
 
     driveKinematics = new SwerveDriveKinematics(
       new Translation2d(SwerveConstants.WHEEL_BASE / 2, SwerveConstants.TRACK_WIDTH / 2),
@@ -58,7 +60,6 @@ public class Drivetrain extends SubsystemBase {
       new Translation2d(-SwerveConstants.WHEEL_BASE / 2, -SwerveConstants.TRACK_WIDTH / 2),
       new Translation2d(-SwerveConstants.WHEEL_BASE / 2, SwerveConstants.TRACK_WIDTH / 2));
 
-      navX = new AHRS(SPI.Port.kMXP);
       driveOdometry = new SwerveDriveOdometry(driveKinematics, getHeading(), swerveModulepos(), new Pose2d(0, 0, new Rotation2d()));
 
       //pose = driveOdometry.getPoseMeters();
