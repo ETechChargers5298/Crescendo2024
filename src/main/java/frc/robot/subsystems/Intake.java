@@ -56,6 +56,20 @@ public class Intake extends SubsystemBase {
         intakeMotor.set(0);
     }
 
+    @Override
+    public void periodic() {
+        // This method will be called once per scheduler run
+        
+        Color detectedColor = getColor();
+        //ColorMatchResult match = m_colorMatcher.matchClosestColor(detectedColor);
+        
+        SmartDashboard.putNumber("Red", detectedColor.red);
+        SmartDashboard.putNumber("Green", detectedColor.green);
+        SmartDashboard.putNumber("Blue", detectedColor.blue);
+        //SmartDashboard.putNumber("Confidence", match.confidence);
+        //SmartDashboard.putString("Detected Color", colorString);
+    }
+
     // public boolean haveNote() {
   
     //  ColorMatchResult match = noteFinder.matchClosestColor(getColor());
