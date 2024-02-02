@@ -45,24 +45,23 @@ public class Drivetrain extends SubsystemBase {
 
   private boolean fieldCentric;
 
-  private boolean tip;
-
   /** Creates a new Drivetrain. */
   private Drivetrain() {
     modules = new SwerveModule[4];
 
-    modules[0] = new SwerveModule(SwerveConstants.SWERVE_FL);
-    modules[1] = new SwerveModule(SwerveConstants.SWERVE_FR);
-    modules[2] = new SwerveModule(SwerveConstants.SWERVE_BL);
-    modules[3] = new SwerveModule(SwerveConstants.SWERVE_BR);
+    modules[0] = new SwerveModule(SwerveConstants.SWERVE_FL, SwerveConstants.FL_ANGULAR_OFFSET);
+    modules[1] = new SwerveModule(SwerveConstants.SWERVE_FR, SwerveConstants.FR_ANGULAR_OFFSET);
+    modules[2] = new SwerveModule(SwerveConstants.SWERVE_BR, SwerveConstants.BR_ANGULAR_OFFSET);
+    modules[3] = new SwerveModule(SwerveConstants.SWERVE_BL, SwerveConstants.BL_ANGULAR_OFFSET);
+
+    navX = new AHRS(SPI.Port.kMXP);
 
     driveKinematics = new SwerveDriveKinematics(
-      new Translation2d(SwerveConstants.WHEEL_BASE / 2, -SwerveConstants.TRACK_WIDTH / 2),
       new Translation2d(SwerveConstants.WHEEL_BASE / 2, SwerveConstants.TRACK_WIDTH / 2),
+      new Translation2d(SwerveConstants.WHEEL_BASE / 2, -SwerveConstants.TRACK_WIDTH / 2),
       new Translation2d(-SwerveConstants.WHEEL_BASE / 2, -SwerveConstants.TRACK_WIDTH / 2),
       new Translation2d(-SwerveConstants.WHEEL_BASE / 2, SwerveConstants.TRACK_WIDTH / 2));
 
-      navX = new AHRS(SPI.Port.kMXP);
       driveOdometry = new SwerveDriveOdometry(driveKinematics, getHeading(), swerveModulepos(), new Pose2d(0, 0, new Rotation2d()));
 
       //pose = driveOdometry.getPoseMeters();
@@ -71,8 +70,6 @@ public class Drivetrain extends SubsystemBase {
       navX.reset();
 
       fieldCentric = true;
-
-      tip = false;
   }
 
   /**
@@ -90,8 +87,8 @@ public class Drivetrain extends SubsystemBase {
   /**
    * Making a drive function to make the speed for drive a fraction of total
    * @author Aiden Sing
-   * @param xSpeed speed of the robot left to right
-   * @param ySpeed speed of robot foward to back
+   * @param xSpeed speed of the robot front to back
+   * @param ySpeed speed of robot left to right
    * @param rotSpeed speed of robot turning
    */
   public void drive(double xSpeed, double ySpeed, double rotSpeed) {
@@ -197,17 +194,6 @@ public class Drivetrain extends SubsystemBase {
     return field;
   }
 
-  public void setTip(boolean newTip) {
-    tip = newTip;
-  }
-
-  public boolean getTip() {
-    return tip;
-  }
-
-  
-
-  // Assuming this method is part of a drivetrain subsystem that provides the necessary methods
 
 
   public void updateTelemetry() {
@@ -215,13 +201,13 @@ public class Drivetrain extends SubsystemBase {
       modules[i].updateTelemetry();
     }
 
-    SmartDashboard.putNumber("Robot Angle", getHeading().getDegrees());
+    // SmartDashboard.putNumber("Robot Angle", getHeading().getDegrees());
 
     SmartDashboard.putNumber("xOdometry", getPose2d().getX());
     SmartDashboard.putNumber("yOdometry", getPose2d().getY());
     SmartDashboard.putNumber("rotOdometry", getPose2d().getRotation().getDegrees());
-    SmartDashboard.putNumber("pitch", getPitch());
-    SmartDashboard.putNumber("roll", getRoll());
+    // SmartDashboard.putNumber("pitch", getPitch());
+    // SmartDashboard.putNumber("roll", getRoll());
 
     //SmartDashboard.putData("Odometry Field", field);
   }

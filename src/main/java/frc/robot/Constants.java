@@ -18,13 +18,23 @@ import frc.robot.utils.PIDF;
  */
 public final class Constants {
   public static class SwerveConstants {
-    public static final ModuleConfig SWERVE_FL = new ModuleConfig("FL", Ports.SWERVE_DRIVE_FL, Ports.SWERVE_TURN_FL, 0);
-    public static final ModuleConfig SWERVE_FR = new ModuleConfig("FR", Ports.SWERVE_DRIVE_FR, Ports.SWERVE_TURN_FR, 0);
-    public static final ModuleConfig SWERVE_BL = new ModuleConfig("BL", Ports.SWERVE_DRIVE_BL, Ports.SWERVE_TURN_BL, 0);
-    public static final ModuleConfig SWERVE_BR = new ModuleConfig("BR", Ports.SWERVE_DRIVE_BR, Ports.SWERVE_TURN_BR, 0);
+    // public static final ModuleConfig SWERVE_FL = new ModuleConfig("FL", Ports.SWERVE_DRIVE_FL, Ports.SWERVE_TURN_FL, (2.9483314 + Math.PI/2) % (2 * Math.PI));
+    // public static final ModuleConfig SWERVE_FR = new ModuleConfig("FR", Ports.SWERVE_DRIVE_FR, Ports.SWERVE_TURN_FR, 5.6096436);
+    // public static final ModuleConfig SWERVE_BL = new ModuleConfig("BL", Ports.SWERVE_DRIVE_BL, Ports.SWERVE_TURN_BL, 0.6873395);
+    // public static final ModuleConfig SWERVE_BR = new ModuleConfig("BR", Ports.SWERVE_DRIVE_BR, Ports.SWERVE_TURN_BR, (1.9551601 + Math.PI/2) % (2 * Math.PI));
+
+    public static final ModuleConfig SWERVE_FL = new ModuleConfig("FL", Ports.SWERVE_DRIVE_FL, Ports.SWERVE_TURN_FL, 2.9483314);
+    public static final ModuleConfig SWERVE_FR = new ModuleConfig("FR", Ports.SWERVE_DRIVE_FR, Ports.SWERVE_TURN_FR, 5.6096436);
+    public static final ModuleConfig SWERVE_BL = new ModuleConfig("BL", Ports.SWERVE_DRIVE_BL, Ports.SWERVE_TURN_BL, 0.6873395);
+    public static final ModuleConfig SWERVE_BR = new ModuleConfig("BR", Ports.SWERVE_DRIVE_BR, Ports.SWERVE_TURN_BR, 1.9551601);
+
+    public static final double FL_ANGULAR_OFFSET = -Math.PI / 2;
+    public static final double FR_ANGULAR_OFFSET = 0;
+    public static final double BL_ANGULAR_OFFSET = Math.PI;
+    public static final double BR_ANGULAR_OFFSET = Math.PI / 2;
 
     public static final PIDF TURN_PID = new PIDF(0.16, 0, 2 * Math.PI, -1, 1, true);
-    public static final double ANGLE_THRESHOLD = Units.degreesToRadians(1.5);
+    public static final double ANGLE_THRESHOLD = Units.degreesToRadians(1);
     public static final  boolean TURN_INVERSION = true;
     public static final double TOP_ANGULAR_SPEED = 2 * 2 * Math.PI;
 
