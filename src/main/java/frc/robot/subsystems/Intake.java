@@ -1,5 +1,6 @@
 package frc.robot.subsystems;
 
+import frc.robot.Constants;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.ColorSensorV3;
 import com.revrobotics.CANSparkLowLevel.MotorType;
@@ -13,6 +14,7 @@ import com.revrobotics.ColorMatch;
 import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj.I2C;
 
+
 public class Intake extends SubsystemBase {
     
     private CANSparkMax intakeMotor;
@@ -22,7 +24,7 @@ public class Intake extends SubsystemBase {
     private final Color kOrangeTarget = new Color(1, 0.65, 0);
 
     private Intake() {
-        intakeMotor = new CANSparkMax(9, MotorType.kBrushless);
+        intakeMotor = new CANSparkMax(Constants.MechConstants.INTAKE_MOTOR_PORT, MotorType.kBrushless);
         noteFinder = new ColorSensorV3(i2cPort);
     }
 
@@ -41,17 +43,31 @@ public class Intake extends SubsystemBase {
 
     //Elijah did this
     public void eat(){
-        intakeMotor.set(0.7);
+        intakeMotor.set(Constants.MotorSpeeds.INTAKE_SPEED);
     }
 
     
     //Elijah did this
     public void spitt(){
-        intakeMotor.set(-0.7);
+        intakeMotor.set(-Constants.MotorSpeeds.INTAKE_SPEED);
     }
  //Elijah did this
     public void stop(){
         intakeMotor.set(0);
+    }
+
+    @Override
+    public void periodic() {
+        // This method will be called once per scheduler run
+        
+        Color detectedColor = getColor();
+        //ColorMatchResult match = m_colorMatcher.matchClosestColor(detectedColor);
+        
+        SmartDashboard.putNumber("Red", detectedColor.red);
+        SmartDashboard.putNumber("Green", detectedColor.green);
+        SmartDashboard.putNumber("Blue", detectedColor.blue);
+        //SmartDashboard.putNumber("Confidence", match.confidence);
+        //SmartDashboard.putString("Detected Color", colorString);
     }
 
     // public boolean haveNote() {
