@@ -7,61 +7,86 @@ package frc.robot.subsystems;
 import com.kauailabs.navx.frc.AHRS;
 // import com.pathplanner.lib.PathPlannerTrajectory;
 // import com.pathplanner.lib.commands.PPSwerveControllerCommand;
-
+import edu.wpi.first.math.geometry.Translation2d;
+//import edu.wpi.first.wpilibj.ADIS16470_IMU;
 import edu.wpi.first.wpilibj.SPI;
-import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.wpilibj.smartdashboard.Field2d;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
-import edu.wpi.first.wpilibj.smartdashboard.Field2d;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.util.WPIUtilJNI;
+// import edu.wpi.first.wpilibj.ADIS16470_IMU;
+// import edu.wpi.first.wpilibj.ADIS16470_IMU.IMUAxis;
+import frc.robot.Ports;
 import frc.robot.Constants.SwerveConstants;
+import frc.robot.utils.SwerveUtils;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Drivetrain extends SubsystemBase {
+
+    //---------------FIELDS --------------//
 
   // an instance variable for the drivetrain
   private static Drivetrain instance;
 
   private final SwerveModule[] modules;
-
   private final SwerveDriveKinematics driveKinematics;
   private final SwerveDriveOdometry driveOdometry;
-  
+   //private Pose2d pose;
+   private Field2d field;
+   private boolean fieldCentric;
+
+
+  // Create SwerveModules
+  private final SwerveModule frontLeft = new SwerveModule(SwerveConstants.SWERVE_FL);
+  private final SwerveModule frontRight = new SwerveModule(SwerveConstants.SWERVE_FR);
+  private final SwerveModule backLeft = new SwerveModule(SwerveConstants.SWERVE_BL);
+  private final SwerveModule backRight = new SwerveModule(SwerveConstants.SWERVE_BR);
+
+  // The gyro sensor
   private AHRS navX;
+  // private final ADIS16470_IMU m_gyro = new ADIS16470_IMU();
 
-  //private Pose2d pose;
-  private Field2d field;
+  // Slew rate filter variables for controlling lateral acceleration
+  private double m_currentRotation = 0.0;
+  private double m_currentTranslationDir = 0.0;
+  private double m_currentTranslationMag = 0.0;
 
-  private boolean fieldCentric;
+  private SlewRateLimiter m_magLimiter = new SlewRateLimiter(SwerveConstants.kMagnitudeSlewRate);
+  private SlewRateLimiter m_rotLimiter = new SlewRateLimiter(SwerveConstants.kRotationalSlewRate);
+  private double m_prevTime = WPIUtilJNI.now() * 1e-6;
 
-  /** Creates a new Drivetrain. */
-  private Drivetrain() {
-    
-    modules = new SwerveModule[4];
+  //---------------DRIVETRAIN SUBSYSTEM CONSTRUCTOR --------------//
+  public Drivetrain() {
 
-    modules[0] = new SwerveModule(SwerveConstants.SWERVE_FL);
-    modules[1] = new SwerveModule(SwerveConstants.SWERVE_FR);
-    modules[2] = new SwerveModule(SwerveConstants.SWERVE_BR);
-    modules[3] = new SwerveModule(SwerveConstants.SWERVE_BL);
+    //assign all 4 SwerveModules to an array of modules
+    this.modules = new SwerveModule[4];
+    modules[0] = frontLeft;
+    modules[1] = frontRight;
+    modules[2] = backLeft;
+    modules[3] = backRight;
 
-    navX = new AHRS(SPI.Port.kMXP);
+    //assign the NavX to be our sensor for rotation
+    this.navX = new AHRS(SPI.Port.kMXP);
 
-    driveKinematics = new SwerveDriveKinematics(
-      new Translation2d(SwerveConstants.WHEEL_BASE / 2, SwerveConstants.TRACK_WIDTH / 2),
-      new Translation2d(SwerveConstants.WHEEL_BASE / 2, -SwerveConstants.TRACK_WIDTH / 2),
-      new Translation2d(-SwerveConstants.WHEEL_BASE / 2, -SwerveConstants.TRACK_WIDTH / 2),
-      new Translation2d(-SwerveConstants.WHEEL_BASE / 2, SwerveConstants.TRACK_WIDTH / 2));
+    //store the shape of the robot wheels
+    this.driveKinematics = SwerveConstants.DRIVE_KINEMATICS;
 
-    driveOdometry = new SwerveDriveOdometry(driveKinematics, getHeading(), swerveModulepos(), new Pose2d(0, 0, new Rotation2d()));
+    // Odometry object for tracking robot pose
+    this.driveOdometry = new SwerveDriveOdometry(
+      SwerveConstants.DRIVE_KINEMATICS,
+      getHeading(),
+      getSwerveModulePos()
+    );
+
+
+    //driveOdometry = new SwerveDriveOdometry(driveKinematics, getHeading(), swerveModulePos(), new Pose2d(0, 0, new Rotation2d()));
 
     //pose = driveOdometry.getPoseMeters();
     field = new Field2d();
@@ -69,9 +94,10 @@ public class Drivetrain extends SubsystemBase {
     navX.reset();
 
     fieldCentric = true; //default to fieldcentric
-  }
 
-  /**
+  } //end constructor
+
+    /**
    * Gets the single instance of drivetrain
    * @author Aiden Sing
    * @return the instance of the drivetrain
@@ -83,6 +109,17 @@ public class Drivetrain extends SubsystemBase {
     return instance;
   }
 
+  public boolean getFieldCentric() {
+    return fieldCentric;
+  }
+
+  public void setFieldCentric(boolean fieldCentric) {
+    this.fieldCentric = fieldCentric;
+  }
+
+    
+  //---------------DRIVE METHODS --------------//
+
   /**
    * Making a drive function to make the speed for drive a fraction of total
    * @author Aiden Sing
@@ -91,52 +128,190 @@ public class Drivetrain extends SubsystemBase {
    * @param rotSpeed speed of robot turning
    */
   public void drive(double xSpeed, double ySpeed, double rotSpeed) {
-    drive(xSpeed, ySpeed, rotSpeed, false);
+    drive(xSpeed, ySpeed, rotSpeed, false, true);
   }
+
 
 
   /**
-   * Making a drive function to make the speed for drive a fraction of total with option for field-centric driving
-   * @author Aiden Sing
-   * @param xSpeed speed of the robot front to back
-   * @param ySpeed speed of robot left to right
-   * @param rotSpeed speed of robot turning
-   * @param fieldCentric whether robot is forward from field's perspective or robot's perspective
+   * Method to drive the robot using joystick info.
+   *
+   * @param xSpeed        Speed of the robot in the x direction (forward).
+   * @param ySpeed        Speed of the robot in the y direction (sideways).
+   * @param rot           Angular rate of the robot.
+   * @param fieldcentric Whether the provided x and y speeds are relative to the field.
+   * @param rateLimit     Whether to enable rate limiting for smoother control.
    */
-  public void drive(double xSpeed, double ySpeed, double rotSpeed, boolean fieldCentric) {
+  public void drive(double xSpeed, double ySpeed, double rot, boolean fieldcentric, boolean rateLimit) {
+    
+    double xSpeedCommanded;
+    double ySpeedCommanded;
 
-    //change the value of fieldcentric here
-    setFieldCentric(fieldCentric);
+    if (rateLimit) {
+      // Convert XY to polar for rate limiting
+      double inputTranslationDir = Math.atan2(ySpeed, xSpeed);
+      double inputTranslationMag = Math.sqrt(Math.pow(xSpeed, 2) + Math.pow(ySpeed, 2));
 
-    //multiply each -1.0 to 1.0 speed by the top speed
-    xSpeed *= SwerveConstants.TOP_SPEED;
-    ySpeed *= SwerveConstants.TOP_SPEED;
-    rotSpeed *= SwerveConstants.TOP_ANGULAR_SPEED;
+      // Calculate the direction slew rate based on an estimate of the lateral acceleration
+      double directionSlewRate;
+      if (m_currentTranslationMag != 0.0) {
+        directionSlewRate = Math.abs(SwerveConstants.kDirectionSlewRate / m_currentTranslationMag);
+      } else {
+        directionSlewRate = 500.0; //some high number that means the slew rate is effectively instantaneous
+      }
+      
+
+      double currentTime = WPIUtilJNI.now() * 1e-6;
+      double elapsedTime = currentTime - m_prevTime;
+      double angleDif = SwerveUtils.AngleDifference(inputTranslationDir, m_currentTranslationDir);
+      if (angleDif < 0.45*Math.PI) {
+        m_currentTranslationDir = SwerveUtils.StepTowardsCircular(m_currentTranslationDir, inputTranslationDir, directionSlewRate * elapsedTime);
+        m_currentTranslationMag = m_magLimiter.calculate(inputTranslationMag);
+      }
+      else if (angleDif > 0.85*Math.PI) {
+        if (m_currentTranslationMag > 1e-4) { //some small number to avoid floating-point errors with equality checking
+          // keep currentTranslationDir unchanged
+          m_currentTranslationMag = m_magLimiter.calculate(0.0);
+        }
+        else {
+          m_currentTranslationDir = SwerveUtils.WrapAngle(m_currentTranslationDir + Math.PI);
+          m_currentTranslationMag = m_magLimiter.calculate(inputTranslationMag);
+        }
+      }
+      else {
+        m_currentTranslationDir = SwerveUtils.StepTowardsCircular(m_currentTranslationDir, inputTranslationDir, directionSlewRate * elapsedTime);
+        m_currentTranslationMag = m_magLimiter.calculate(0.0);
+      }
+      m_prevTime = currentTime;
+      
+      xSpeedCommanded = m_currentTranslationMag * Math.cos(m_currentTranslationDir);
+      ySpeedCommanded = m_currentTranslationMag * Math.sin(m_currentTranslationDir);
+      m_currentRotation = m_rotLimiter.calculate(rot);
+
+
+    } else {
+      xSpeedCommanded = xSpeed;
+      ySpeedCommanded = ySpeed;
+      m_currentRotation = rot;
+    }
+
+    // Convert the commanded speeds into the correct units for the drivetrain
+    double xSpeedDelivered = xSpeedCommanded * SwerveConstants.TOP_SPEED;
+    double ySpeedDelivered = ySpeedCommanded * SwerveConstants.TOP_SPEED;
+    double rotSpeedDelivered = m_currentRotation * SwerveConstants.TOP_ANGULAR_SPEED;
+
+    //var???
+    //SwerveModuleState[] 
+    // var swerveModuleStates = SwerveConstants.DRIVE_KINEMATICS.toSwerveModuleStates(
+    //     fieldcentric
+    //         ? ChassisSpeeds.fromfieldcentricSpeeds(xSpeedDelivered, ySpeedDelivered, rotDelivered, Rotation2d.fromDegrees(m_gyro.getAngle(IMUAxis.kZ)))
+    //         : new ChassisSpeeds(xSpeedDelivered, ySpeedDelivered, rotDelivered));
+    // SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates, SwerveConstants.TOP_SPEED);
 
     //Store an array of speeds for each wheel
-    //ChassisSpeeds speeds = new ChassisSpeeds(xSpeed, ySpeed, rotSpeed);
-    ChassisSpeeds speeds = fieldCentric ? 
-      ChassisSpeeds.fromFieldRelativeSpeeds(xSpeed, ySpeed, rotSpeed, getHeading()) : 
-      new ChassisSpeeds(xSpeed, ySpeed, rotSpeed);
-    
+    ChassisSpeeds speeds = new ChassisSpeeds(xSpeedDelivered, ySpeedDelivered, rotSpeedDelivered);
+    // ChassisSpeeds speeds = fieldCentric ? 
+    //   ChassisSpeeds.fromfieldcentricSpeeds(xSpeed, ySpeed, rotSpeed, getHeading()) : 
+    //   new ChassisSpeeds(xSpeed, ySpeed, rotSpeed);
+
+
     //Store the states of each module
-    SwerveModuleState[] states = driveKinematics.toSwerveModuleStates(speeds);
+    SwerveModuleState[] swerveModuleStates = driveKinematics.toSwerveModuleStates(speeds);
     
     //cleans up any weird speeds that may be too high after kinematics equation
-    SwerveDriveKinematics.desaturateWheelSpeeds(states, SwerveConstants.TOP_SPEED);
+    SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates, SwerveConstants.TOP_SPEED);
 
     // setting the state for each module as an array
     for(int i = 0; i < modules.length; i++) {
-      modules[i].setState(states[i]);
+      modules[i].setDesiredState(swerveModuleStates[i]);
     }
   }
 
+  /**
+   * Sets the wheels into an X formation to prevent movement.
+   */
+  public void setX() {
+    frontLeft.setDesiredState(new SwerveModuleState(0, Rotation2d.fromDegrees(45)));
+    frontRight.setDesiredState(new SwerveModuleState(0, Rotation2d.fromDegrees(-45)));
+    backLeft.setDesiredState(new SwerveModuleState(0, Rotation2d.fromDegrees(-45)));
+    backRight.setDesiredState(new SwerveModuleState(0, Rotation2d.fromDegrees(45)));
+  }
+
+
+    
+  //---------------SWERVEMODULE HELPER METHODS --------------//
+
+  /**
+   * Sets the swerve ModuleStates.
+   *
+   * @param desiredStates The desired SwerveModule states.
+   */
+  public void setModuleStates(SwerveModuleState[] desiredStates) {
+    SwerveDriveKinematics.desaturateWheelSpeeds(desiredStates, SwerveConstants.TOP_SPEED);
+    for(int i = 0; i < modules.length; i++) {
+      modules[i].setDesiredState(desiredStates[i]);
+    }
+  }
+
+  // method to return all the positions of the 4 modules
+  public SwerveModulePosition[] getSwerveModulePos() {
+    
+    // return new SwerveModulePosition[] {
+    //         frontLeft.getPosition(),
+    //         frontRight.getPosition(),
+    //         backLeft.getPosition(),
+    //         backRight.getPosition()
+    // };
+    
+    SwerveModulePosition[] modulePosition = new SwerveModulePosition[4];
+    for(int i = 0; i < modules.length; i++) {
+      modulePosition[i] = modules[i].getPosition();
+    }
+    return modulePosition;
+  }
+
+  
+  
+  //---------------NAVX METHODS --------------//
+
+  /**
+   * Returns the heading of the robot.
+   *
+   * @return the robot's heading in degrees, from -180 to 180
+   */
+  public Rotation2d getHeading() {
+    return Rotation2d.fromDegrees(navX.getAngle());
+    //return Rotation2d.fromDegrees(m_gyro.getAngle(IMUAxis.kZ)).getDegrees();
+  }
+
+ public double getHeadingRadians() {
+    return getHeading().getRadians();
+  }
+
+  // Resets the drive encoders to currently read a position of 0.
+  public void resetEncoders() {
+    frontLeft.resetEncoders();
+    frontRight.resetEncoders();
+    backRight.resetEncoders();
+    backLeft.resetEncoders();
+  }
+
+  // Zeroes the heading of the robot
+  public void zeroHeading() {
+    navX.reset();
+  }
   public void resetIMU() {
     navX.reset();
   }
 
-  public Rotation2d getHeading() {
-    return Rotation2d.fromDegrees(navX.getAngle());
+  /**
+   * Returns the turn rate of the robot.
+   *
+   * @return The turn rate of the robot, in degrees per second
+   */
+  public double getTurnRate() {
+    return navX.getVelocityZ() * (SwerveConstants.kGyroReversed ? -1.0 : 1.0);
+    //return m_gyro.getRate(IMUAxis.kZ) * (SwerveConstants.kGyroReversed ? -1.0 : 1.0);
   }
 
   public float getPitch() {
@@ -147,50 +322,31 @@ public class Drivetrain extends SubsystemBase {
     return navX.getRoll();
   }
 
-  // public Rotation2d getHeading() {
-  //   return Rotation2d.fromRadians(MathUtil.angleModulus(getRawHeading().getRadians()));
-  // }
 
-  public boolean getFieldCentric() {
-    return fieldCentric;
-  }
 
-  public void setFieldCentric(boolean fieldCentric) {
-    this.fieldCentric = fieldCentric;
-  }
-
-  public void setModuleState(SwerveModuleState[] states) {
-
-    SwerveDriveKinematics.desaturateWheelSpeeds(states, SwerveConstants.TOP_SPEED);
-
-    for(int i = 0; i < modules.length; i++) {
-      modules[i].setState(states[i]);
-    }
-  }
-
-  // method to return all the positions of the 4 modules
-  public SwerveModulePosition[] swerveModulepos() {
-    SwerveModulePosition[] modulePosition = new SwerveModulePosition[4];
-    for(int i = 0; i < modules.length; i++) {
-      modulePosition[i] = modules[i].getPosition();
-    }
-    return modulePosition;
-  }
-
+    //---------------ODOMETRY METHODS --------------//
   public SwerveDriveOdometry getOdometry() {
     return driveOdometry;
   }
 
-  public SwerveDriveKinematics getKinematics() {
-    return driveKinematics;
-  }
-
+   /**
+   * Resets the odometry to the specified pose.
+   *
+   * @param pose The pose to which to set the odometry.
+   */
   public void resetOdometry(Pose2d newPose) {
-    driveOdometry.resetPosition(getHeading(), swerveModulepos(), newPose);
+    //driveOdometry.resetPosition(getHeading(), getSwerveModulePos(), newPose);
+    driveOdometry.resetPosition(
+        Rotation2d.fromDegrees(getHeadingRadians()),
+        getSwerveModulePos(),
+        newPose);
   }
 
   public void updateOdometry() {
-    driveOdometry.update(getHeading(), swerveModulepos());
+      driveOdometry.update(
+        Rotation2d.fromDegrees(getHeadingRadians()),
+        getSwerveModulePos()
+    );
   }
 
   public Pose2d getPose2d() {
@@ -201,10 +357,22 @@ public class Drivetrain extends SubsystemBase {
     return field;
   }
 
-  // Assuming this method is part of a drivetrain subsystem that provides the necessary methods
+  public SwerveDriveKinematics getKinematics() {
+    return driveKinematics;
+  }
+
+  /**
+   * Returns the currently-estimated pose of the robot.
+   *
+   * @return The pose.
+   */
+  public Pose2d getPose() {
+    return driveOdometry.getPoseMeters();
+  }
 
 
-  public void updateTelemetry() {
+
+ public void updateTelemetry() {
     for(int i = 0; i < modules.length; i++) {
       modules[i].updateTelemetry();
     }
@@ -216,14 +384,21 @@ public class Drivetrain extends SubsystemBase {
     SmartDashboard.putNumber("rotOdometry", getPose2d().getRotation().getDegrees());
     // SmartDashboard.putNumber("pitch", getPitch());
     // SmartDashboard.putNumber("roll", getRoll());
+    SmartDashboard.putNumber("turnRate", getTurnRate());
 
     //SmartDashboard.putData("Odometry Field", field);
   }
 
+
+
+
+
   @Override
   public void periodic() {
-    // This method will be called once per scheduler run
-    updateTelemetry();
     updateOdometry();
+    updateTelemetry();
   }
+
+
+
 }

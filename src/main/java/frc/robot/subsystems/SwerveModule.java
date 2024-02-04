@@ -4,27 +4,25 @@
 
 package frc.robot.subsystems;
 
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import com.revrobotics.AbsoluteEncoder;
-import com.revrobotics.CANSparkMax;
-import com.revrobotics.RelativeEncoder;
-import com.revrobotics.CANSparkLowLevel.MotorType;
-import com.revrobotics.SparkAbsoluteEncoder.Type;
-import com.revrobotics.SparkPIDController;
-import com.revrobotics.CANSparkBase.IdleMode;
+import frc.robot.utils.ModuleConfig;
 
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.robot.Constants;
-import frc.robot.Constants.SwerveConstants;
-import frc.robot.utils.ModuleConfig;
 
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkLowLevel.MotorType;
+import com.revrobotics.SparkAbsoluteEncoder.Type;
+import com.revrobotics.SparkPIDController;
+import com.revrobotics.AbsoluteEncoder;
+import com.revrobotics.RelativeEncoder;
 
-public class SwerveModule extends SubsystemBase {
+import frc.robot.Constants.ModuleConstants;
 
-  // Drive & turn motor
+public class SwerveModule {
+
+    // Drive & turn motor
   private final CANSparkMax driveMotor;
   private final CANSparkMax turnMotor;
 
@@ -32,143 +30,164 @@ public class SwerveModule extends SubsystemBase {
   private final RelativeEncoder driveEncoder;
   private final AbsoluteEncoder turnEncoder;
 
-  public final SparkPIDController driveController;
-  public final SparkPIDController turnController;
+  // PID Controllers for drive & turn motors
+  private final SparkPIDController drivePIDController;
+  private final SparkPIDController turnPIDController;
 
-  public SwerveModuleState desiredState;
-  public double angularOffset;
-  
+  private SwerveModuleState desiredState = new SwerveModuleState(0.0, new Rotation2d());
+
   public final ModuleConfig config;
 
-  /** Creates a new SwerveModule. */
+  /**
+   * Constructs a SwerveModule and configures the driving and turning motor,
+   * encoder, and PID controller. This configuration is specific to the REV
+   * MAXSwerve Module built with NEOs, SPARKS MAX, and a Through Bore
+   * Encoder.
+   */
   public SwerveModule(ModuleConfig config) {
+    
+    //store the ModuleConfig object for each module
+    this.config = config;
 
     // initialize drive & turn motors
     driveMotor = new CANSparkMax(config.DRIVE_PORT, MotorType.kBrushless);
     turnMotor= new CANSparkMax(config.TURN_PORT, MotorType.kBrushless);
 
-    //clear off the SparkMaxes to default values
+    // Factory reset, so we get the SPARKS MAX to a known state before configuring
+    // them. This is useful in case a SPARK MAX is swapped out.
     driveMotor.restoreFactoryDefaults();
     turnMotor.restoreFactoryDefaults();
 
-    // get drive & turn encoders
+    // Setup encoders and PID controllers for the driving and turning SPARKS MAX.
     driveEncoder = driveMotor.getEncoder();
     turnEncoder = turnMotor.getAbsoluteEncoder(Type.kDutyCycle);
+    drivePIDController = driveMotor.getPIDController();
+    turnPIDController = turnMotor.getPIDController();
+    drivePIDController.setFeedbackDevice(driveEncoder);
+    turnPIDController.setFeedbackDevice(turnEncoder);
 
-    /**** TEST**/
-    System.out.println("Initialized! " + turnEncoder.getPosition());
+    // Apply position and velocity conversion factors for the driving encoder. The
+    // native units for position and velocity are rotations and RPM, respectively,
+    // but we want meters and meters per second to use with WPILib's swerve APIs.
+    driveEncoder.setPositionConversionFactor(ModuleConstants.kDrivingEncoderPositionFactor);
+    driveEncoder.setVelocityConversionFactor(ModuleConstants.kDrivingEncoderVelocityFactor);
 
-    // setup PID controllers for drive & turn with appropriate sensors
-    driveController = driveMotor.getPIDController();
-    driveController.setFeedbackDevice(driveEncoder);
-    turnController = SwerveConstants.TURN_PID.getConfiguredController(turnMotor, turnEncoder);
-    
-    // converting the drive factors to meters and the turn factors to radians
-    driveEncoder.setVelocityConversionFactor(((Math.PI * SwerveConstants.WHEEL_DIAMETER) / SwerveConstants.GEER_RATTIOLI) / 60); 
-    driveEncoder.setPositionConversionFactor((Math.PI * SwerveConstants.WHEEL_DIAMETER) / SwerveConstants.GEER_RATTIOLI);
-    turnEncoder.setVelocityConversionFactor((Math.PI * 2) / 60);
-    turnEncoder.setPositionConversionFactor(Math.PI * 2);
+    // Apply position and velocity conversion factors for the turning encoder. We
+    // want these in radians and radians per second to use with WPILib's swerve APIs.
+    turnEncoder.setPositionConversionFactor(ModuleConstants.kTurningEncoderPositionFactor);
+    turnEncoder.setVelocityConversionFactor(ModuleConstants.kTurningEncoderVelocityFactor);
+
+    // Invert the turning encoder, since the output shaft rotates in the opposite direction of
+    // the steering motor in the MAXSwerve Module.
+    turnEncoder.setInverted(ModuleConstants.kTurningEncoderInverted);
+
+    // Enable PID wrap around for the turning motor. This will allow the PID
+    // controller to go through 0 to get to the setpoint i.e. going from 350 degrees
+    // to 10 degrees will go through 0 rather than the other direction which is a
+    // longer route.
+    turnPIDController.setPositionPIDWrappingEnabled(true);
+    turnPIDController.setPositionPIDWrappingMinInput(ModuleConstants.kTurningEncoderPositionPIDMinInput);
+    turnPIDController.setPositionPIDWrappingMaxInput(ModuleConstants.kTurningEncoderPositionPIDMaxInput);
+
+    // Set the PID gains for the driving motor. Note these are example gains, and you
+    // may need to tune them for your own robot!
+    drivePIDController.setP(ModuleConstants.kDrivingP);
+    drivePIDController.setI(ModuleConstants.kDrivingI);
+    drivePIDController.setD(ModuleConstants.kDrivingD);
+    drivePIDController.setFF(ModuleConstants.kDrivingFF);
+    drivePIDController.setOutputRange(ModuleConstants.kDrivingMinOutput,
+        ModuleConstants.kDrivingMaxOutput);
+
+    // Set the PID gains for the turning motor. Note these are example gains, and you
+    // may need to tune them for your own robot!
+    turnPIDController.setP(ModuleConstants.kTurningP);
+    turnPIDController.setI(ModuleConstants.kTurningI);
+    turnPIDController.setD(ModuleConstants.kTurningD);
+    turnPIDController.setFF(ModuleConstants.kTurningFF);
+    turnPIDController.setOutputRange(ModuleConstants.kTurningMinOutput,
+        ModuleConstants.kTurningMaxOutput);
 
     // Set the motors to coast (instead of brake)
-    driveMotor.setIdleMode(IdleMode.kCoast);
-    turnMotor.setIdleMode(IdleMode.kCoast);
+    driveMotor.setIdleMode(ModuleConstants.kDrivingMotorIdleMode);
+    turnMotor.setIdleMode(ModuleConstants.kTurningMotorIdleMode);
 
     // Set the limit for the max amount of current each motor can pull
-    driveMotor.setSmartCurrentLimit(50);
-    turnMotor.setSmartCurrentLimit(20);
+    driveMotor.setSmartCurrentLimit(ModuleConstants.kDrivingMotorCurrentLimit);
+    turnMotor.setSmartCurrentLimit(ModuleConstants.kTurningMotorCurrentLimit);
 
-    // Set the zero offset with code with saved value from the ModuleConfig
-    turnEncoder.setZeroOffset(config.OFFSET);
-
-    //???  Goes crazy without this
-    turnEncoder.setInverted(Constants.SwerveConstants.TURN_INVERSION);
-
-    // Burn the new Java data into the Sparkmaxes
+    // Burn the new Java data into the Sparkmaxes 
+    //If a SPARK MAX browns out during operation, it will maintain the above configurations.
     driveMotor.burnFlash();
     turnMotor.burnFlash();
 
-    // Set starting angle of wheels
-    desiredState = new SwerveModuleState();
     desiredState.angle = new Rotation2d(turnEncoder.getPosition());
-    
-    // 
-    //this.angularOffset = angularOffset;
-    this.config = config;
-
     driveEncoder.setPosition(0);
   }
 
+  /**
+   * Returns the current state of the module.
+   *
+   * @return The current state of the module.
+   */
   public SwerveModuleState getState() {
-    return new SwerveModuleState(driveEncoder.getVelocity(), new Rotation2d(turnEncoder.getPosition() + angularOffset));
-}
-
-/**
- * Gets the position of the swerve module
- * @author Aiden Sing
- * @return the position
- */ 
-public SwerveModulePosition getPosition() {
-    return new SwerveModulePosition(driveEncoder.getPosition(), new Rotation2d(turnEncoder.getPosition() + angularOffset));
-}
-
-public double getTurnRadians(){
-  return getPosition().angle.getRadians();
-}
-
-
-int count =0;
-double startVal = 0;
-double endVal = 0;
-/**
- * Moves the swerve module
- * @author Aiden Sing
- * @param desiredState Where the module should go
- */
-public void setState(SwerveModuleState desiredState) {
-
-  //printout of angle before setState() is run
-  if(config.NAME.equals("BL") && count ==0){
-  startVal = getTurnRadians();
+    // Apply chassis angular offset to the encoder position to get the position
+    // relative to the chassis.
+    return new SwerveModuleState(driveEncoder.getVelocity(),
+        new Rotation2d(turnEncoder.getPosition() - config.ANGULAR_OFFSET));
   }
 
-  //SwerveModuleState correctedDesiredState = new SwerveModuleState();
-    //correctedDesiredState.speedMetersPerSecond = desiredState.speedMetersPerSecond;
-    // correctedDesiredState.angle = desiredState.angle.minus(Rotation2d.fromRadians(angularOffset));
 
-    // optimizing the state of the angle
-    SwerveModuleState optimizedState = SwerveModuleState.optimize(desiredState, new Rotation2d(getTurnRadians()));
-    // running the optimized state
-    driveMotor.set(optimizedState.speedMetersPerSecond / SwerveConstants.TOP_SPEED);
+  /**
+   * Gets the position of the swerve module
+   * @author Aiden Sing
+   * @return the position
+   */ 
+  public SwerveModulePosition getPosition() {
+    return new SwerveModulePosition(
+      driveEncoder.getPosition(), 
+      new Rotation2d(turnEncoder.getPosition() - config.ANGULAR_OFFSET));
+  }
 
-    driveController.setReference(optimizedState.speedMetersPerSecond, CANSparkMax.ControlType.kVelocity);
-    turnController.setReference(optimizedState.angle.getRadians(), CANSparkMax.ControlType.kPosition);
-    //if(Math.abs(desiredState.angle.minus(this.desiredState.angle).getRadians()) > SwerveConstants.ANGLE_THRESHOLD) {
-        
-    //}
+  public double getTurnRadians(){
+  return getPosition().angle.getRadians();
+  }
+
+
+
+
+  /**
+   * Sets the desired state for the module.
+   *
+   * @param desiredState Desired state with speed and angle.
+   */
+  public void setDesiredState(SwerveModuleState desiredState) {
+    // Apply chassis angular offset to the desired state.
+    SwerveModuleState correctedDesiredState = new SwerveModuleState();
+    correctedDesiredState.speedMetersPerSecond = desiredState.speedMetersPerSecond;
+    correctedDesiredState.angle = desiredState.angle.plus(Rotation2d.fromRadians(config.ANGULAR_OFFSET));
+
+    // Optimize the reference state to avoid spinning further than 90 degrees.
+    SwerveModuleState optimizedDesiredState = SwerveModuleState.optimize(correctedDesiredState,
+        new Rotation2d(turnEncoder.getPosition()));
+
+    // Command driving and turning SPARKS MAX towards their respective setpoints.
+    drivePIDController.setReference(optimizedDesiredState.speedMetersPerSecond, CANSparkMax.ControlType.kVelocity);
+    turnPIDController.setReference(optimizedDesiredState.angle.getRadians(), CANSparkMax.ControlType.kPosition);
 
     this.desiredState = desiredState;
-
-    // printout first value after setState() is run
-    if(count ==0){
-    endVal = getTurnRadians();
-    }
-    count++;
-    System.out.println(startVal + " ---> "+ endVal);
   }
 
-public void updateTelemetry() {
+  /** Zeroes all the SwerveModule encoders. */
+  public void resetEncoders() {
+    driveEncoder.setPosition(0);
+  }
+
+  public void updateTelemetry() {
     SmartDashboard.putNumber(config.NAME + " Angle Degrees", getPosition().angle.getDegrees());
     SmartDashboard.putNumber(config.NAME + " Angle Radians", getTurnRadians());
     SmartDashboard.putNumber(config.NAME + " Drive Position", getPosition().distanceMeters);
-}
-
-public void resetEncoder() {
-  driveEncoder.setPosition(0.0);
-}
-
-
-  @Override
-  public void periodic() {
-    // This method will be called once per scheduler run
   }
+
+
+
 }

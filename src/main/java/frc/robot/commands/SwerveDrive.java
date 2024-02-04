@@ -41,8 +41,12 @@ public class SwerveDrive extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    drivetrain.drive(MathUtil.applyDeadband(xSpeed.get(), 0.1), MathUtil.applyDeadband(ySpeed.get(), 0.1),
-      MathUtil.applyDeadband(rotSpeed.get(), 0.1), drivetrain.getFieldCentric());
+    drivetrain.drive(
+      MathUtil.applyDeadband(xSpeed.get(), 0.1), 
+      MathUtil.applyDeadband(ySpeed.get(), 0.1),
+      MathUtil.applyDeadband(rotSpeed.get(), 0.1), 
+      drivetrain.getFieldCentric(),
+      true);
   }
 
   // Called once the command ends or is interrupted.
