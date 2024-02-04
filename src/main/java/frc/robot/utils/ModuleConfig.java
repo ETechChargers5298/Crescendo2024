@@ -12,13 +12,13 @@ public class ModuleConfig {
     // name of module
     public final String NAME;
 
-    public ModuleConfig(String name, int deezPort, int teePort, double oofset) {
+    public ModuleConfig(String name, int drivePort, int turnPort, double sensorOffset, double angularOffset) {
 
         // initializing fields
         NAME = name;
-        DRIVE_PORT  = deezPort;
-        TURN_PORT = teePort;
-        OFFSET = oofset;
+        DRIVE_PORT  = drivePort;
+        TURN_PORT = turnPort;
+        OFFSET = sensorOffset + angularOffset;
 
     } 
 

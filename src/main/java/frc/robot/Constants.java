@@ -23,19 +23,28 @@ public final class Constants {
     // public static final ModuleConfig SWERVE_BL = new ModuleConfig("BL", Ports.SWERVE_DRIVE_BL, Ports.SWERVE_TURN_BL, 0.6873395);
     // public static final ModuleConfig SWERVE_BR = new ModuleConfig("BR", Ports.SWERVE_DRIVE_BR, Ports.SWERVE_TURN_BR, (1.9551601 + Math.PI/2) % (2 * Math.PI));
 
-    public static final ModuleConfig SWERVE_FL = new ModuleConfig("FL", Ports.SWERVE_DRIVE_FL, Ports.SWERVE_TURN_FL, 2.9483314);
-    public static final ModuleConfig SWERVE_FR = new ModuleConfig("FR", Ports.SWERVE_DRIVE_FR, Ports.SWERVE_TURN_FR, 5.6096436);
-    public static final ModuleConfig SWERVE_BL = new ModuleConfig("BL", Ports.SWERVE_DRIVE_BL, Ports.SWERVE_TURN_BL, 0.6873395);
-    public static final ModuleConfig SWERVE_BR = new ModuleConfig("BR", Ports.SWERVE_DRIVE_BR, Ports.SWERVE_TURN_BR, 1.9551601);
+    //Angular Offsets for the radian difference between the calibrated swerve and desired forward direction
+    public static final double FL_ANGULAR_OFFSET = 0.0; //Math.PI / 2; //-Math.PI / 2;
+    public static final double FR_ANGULAR_OFFSET = 0.0;
+    public static final double BL_ANGULAR_OFFSET = 0.0; //Math.PI;
+    public static final double BR_ANGULAR_OFFSET = 0.0; //Math.PI / 2;
 
-    public static final double FL_ANGULAR_OFFSET = -Math.PI / 2;
-    public static final double FR_ANGULAR_OFFSET = 0;
-    public static final double BL_ANGULAR_OFFSET = Math.PI;
-    public static final double BR_ANGULAR_OFFSET = Math.PI / 2;
+    //Sensor Offsets for the radian difference between the physical sensor orientation and the calibrated swerve direction
+    public static final double FL_SENSOR_OFFSET = 2.937;
+    public static final double FR_SENSOR_OFFSET = 5.609;
+    public static final double BL_SENSOR_OFFSET = 0.717;  //0.687
+    public static final double BR_SENSOR_OFFSET = 1.955;
 
+    //Constructor to hold all of the data to configure a SwerveModule
+    public static final ModuleConfig SWERVE_FL = new ModuleConfig("FL", Ports.SWERVE_DRIVE_FL, Ports.SWERVE_TURN_FL, FL_SENSOR_OFFSET, FL_ANGULAR_OFFSET);//2.9483314  +Math.PI /2);
+    public static final ModuleConfig SWERVE_FR = new ModuleConfig("FR", Ports.SWERVE_DRIVE_FR, Ports.SWERVE_TURN_FR, FR_SENSOR_OFFSET, FR_ANGULAR_OFFSET);
+    public static final ModuleConfig SWERVE_BL = new ModuleConfig("BL", Ports.SWERVE_DRIVE_BL, Ports.SWERVE_TURN_BL, BL_SENSOR_OFFSET, BL_ANGULAR_OFFSET); //0.6873395
+    public static final ModuleConfig SWERVE_BR = new ModuleConfig("BR", Ports.SWERVE_DRIVE_BR, Ports.SWERVE_TURN_BR, BR_SENSOR_OFFSET, BR_ANGULAR_OFFSET);
+
+    //TURN PID CONSTANTS
     public static final PIDF TURN_PID = new PIDF(0.16, 0, 2 * Math.PI, -1, 1, true);
-    public static final double ANGLE_THRESHOLD = Units.degreesToRadians(1);
-    public static final  boolean TURN_INVERSION = true;
+    public static final double ANGLE_THRESHOLD = Units.degreesToRadians(5);
+    public static final boolean TURN_INVERSION = true;
     public static final double TOP_ANGULAR_SPEED = 2 * 2 * Math.PI;
 
     public static final double TOP_SPEED = Units.feetToMeters(9.6);

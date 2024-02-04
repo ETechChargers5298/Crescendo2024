@@ -41,12 +41,13 @@ public class SwerveModule extends SubsystemBase {
   public final ModuleConfig config;
 
   /** Creates a new SwerveModule. */
-  public SwerveModule(ModuleConfig config, double angularOffset) {
+  public SwerveModule(ModuleConfig config) {
 
     // initialize drive & turn motors
     driveMotor = new CANSparkMax(config.DRIVE_PORT, MotorType.kBrushless);
     turnMotor= new CANSparkMax(config.TURN_PORT, MotorType.kBrushless);
 
+    //clear off the SparkMaxes to default values
     driveMotor.restoreFactoryDefaults();
     turnMotor.restoreFactoryDefaults();
 
@@ -54,42 +55,51 @@ public class SwerveModule extends SubsystemBase {
     driveEncoder = driveMotor.getEncoder();
     turnEncoder = turnMotor.getAbsoluteEncoder(Type.kDutyCycle);
 
+    /**** TEST**/
+    System.out.println("Initialized! " + turnEncoder.getPosition());
+
+    // setup PID controllers for drive & turn with appropriate sensors
     driveController = driveMotor.getPIDController();
-    turnController = SwerveConstants.TURN_PID.getConfiguredController(turnMotor, turnEncoder);
-
     driveController.setFeedbackDevice(driveEncoder);
+    turnController = SwerveConstants.TURN_PID.getConfiguredController(turnMotor, turnEncoder);
+    
     // converting the drive factors to meters and the turn factors to radians
-
     driveEncoder.setVelocityConversionFactor(((Math.PI * SwerveConstants.WHEEL_DIAMETER) / SwerveConstants.GEER_RATTIOLI) / 60); 
     driveEncoder.setPositionConversionFactor((Math.PI * SwerveConstants.WHEEL_DIAMETER) / SwerveConstants.GEER_RATTIOLI);
-
     turnEncoder.setVelocityConversionFactor((Math.PI * 2) / 60);
     turnEncoder.setPositionConversionFactor(Math.PI * 2);
 
-    driveMotor.setIdleMode(IdleMode.kBrake);
-    turnMotor.setIdleMode(IdleMode.kBrake);
+    // Set the motors to coast (instead of brake)
+    driveMotor.setIdleMode(IdleMode.kCoast);
+    turnMotor.setIdleMode(IdleMode.kCoast);
 
+    // Set the limit for the max amount of current each motor can pull
     driveMotor.setSmartCurrentLimit(50);
     turnMotor.setSmartCurrentLimit(20);
 
+    // Set the zero offset with code with saved value from the ModuleConfig
     turnEncoder.setZeroOffset(config.OFFSET);
+
+    //???  Goes crazy without this
     turnEncoder.setInverted(Constants.SwerveConstants.TURN_INVERSION);
 
+    // Burn the new Java data into the Sparkmaxes
     driveMotor.burnFlash();
     turnMotor.burnFlash();
 
-    
+    // Set starting angle of wheels
     desiredState = new SwerveModuleState();
     desiredState.angle = new Rotation2d(turnEncoder.getPosition());
     
-    this.angularOffset = angularOffset;
+    // 
+    //this.angularOffset = angularOffset;
     this.config = config;
 
     driveEncoder.setPosition(0);
   }
 
   public SwerveModuleState getState() {
-    return new SwerveModuleState(driveEncoder.getVelocity(), new Rotation2d(turnEncoder.getPosition() - angularOffset));
+    return new SwerveModuleState(driveEncoder.getVelocity(), new Rotation2d(turnEncoder.getPosition() + angularOffset));
 }
 
 /**
@@ -98,9 +108,17 @@ public class SwerveModule extends SubsystemBase {
  * @return the position
  */ 
 public SwerveModulePosition getPosition() {
-    return new SwerveModulePosition(driveEncoder.getPosition(), new Rotation2d(turnEncoder.getPosition() - angularOffset));
+    return new SwerveModulePosition(driveEncoder.getPosition(), new Rotation2d(turnEncoder.getPosition() + angularOffset));
 }
 
+public double getTurnRadians(){
+  return getPosition().angle.getRadians();
+}
+
+
+int count =0;
+double startVal = 0;
+double endVal = 0;
 /**
  * Moves the swerve module
  * @author Aiden Sing
@@ -108,12 +126,17 @@ public SwerveModulePosition getPosition() {
  */
 public void setState(SwerveModuleState desiredState) {
 
-  SwerveModuleState correctedDesiredState = new SwerveModuleState();
-    correctedDesiredState.speedMetersPerSecond = desiredState.speedMetersPerSecond;
-    correctedDesiredState.angle = desiredState.angle.plus(Rotation2d.fromRadians(angularOffset));
+  //printout of angle before setState() is run
+  if(config.NAME.equals("BL") && count ==0){
+  startVal = getTurnRadians();
+  }
+
+  //SwerveModuleState correctedDesiredState = new SwerveModuleState();
+    //correctedDesiredState.speedMetersPerSecond = desiredState.speedMetersPerSecond;
+    // correctedDesiredState.angle = desiredState.angle.minus(Rotation2d.fromRadians(angularOffset));
 
     // optimizing the state of the angle
-    SwerveModuleState optimizedState = SwerveModuleState.optimize(correctedDesiredState, new Rotation2d(turnEncoder.getPosition()));
+    SwerveModuleState optimizedState = SwerveModuleState.optimize(desiredState, new Rotation2d(getTurnRadians()));
     // running the optimized state
     driveMotor.set(optimizedState.speedMetersPerSecond / SwerveConstants.TOP_SPEED);
 
@@ -124,11 +147,18 @@ public void setState(SwerveModuleState desiredState) {
     //}
 
     this.desiredState = desiredState;
-}
+
+    // printout first value after setState() is run
+    if(count ==0){
+    endVal = getTurnRadians();
+    }
+    count++;
+    System.out.println(startVal + " ---> "+ endVal);
+  }
 
 public void updateTelemetry() {
     SmartDashboard.putNumber(config.NAME + " Angle Degrees", getPosition().angle.getDegrees());
-    SmartDashboard.putNumber(config.NAME + " Angle Radians", getPosition().angle.getRadians());
+    SmartDashboard.putNumber(config.NAME + " Angle Radians", getTurnRadians());
     SmartDashboard.putNumber(config.NAME + " Drive Position", getPosition().distanceMeters);
 }
 

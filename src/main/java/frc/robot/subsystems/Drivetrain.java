@@ -45,12 +45,13 @@ public class Drivetrain extends SubsystemBase {
 
   /** Creates a new Drivetrain. */
   private Drivetrain() {
+    
     modules = new SwerveModule[4];
 
-    modules[0] = new SwerveModule(SwerveConstants.SWERVE_FL, SwerveConstants.FL_ANGULAR_OFFSET);
-    modules[1] = new SwerveModule(SwerveConstants.SWERVE_FR, SwerveConstants.FR_ANGULAR_OFFSET);
-    modules[2] = new SwerveModule(SwerveConstants.SWERVE_BR, SwerveConstants.BR_ANGULAR_OFFSET);
-    modules[3] = new SwerveModule(SwerveConstants.SWERVE_BL, SwerveConstants.BL_ANGULAR_OFFSET);
+    modules[0] = new SwerveModule(SwerveConstants.SWERVE_FL);
+    modules[1] = new SwerveModule(SwerveConstants.SWERVE_FR);
+    modules[2] = new SwerveModule(SwerveConstants.SWERVE_BR);
+    modules[3] = new SwerveModule(SwerveConstants.SWERVE_BL);
 
     navX = new AHRS(SPI.Port.kMXP);
 
@@ -60,14 +61,14 @@ public class Drivetrain extends SubsystemBase {
       new Translation2d(-SwerveConstants.WHEEL_BASE / 2, -SwerveConstants.TRACK_WIDTH / 2),
       new Translation2d(-SwerveConstants.WHEEL_BASE / 2, SwerveConstants.TRACK_WIDTH / 2));
 
-      driveOdometry = new SwerveDriveOdometry(driveKinematics, getHeading(), swerveModulepos(), new Pose2d(0, 0, new Rotation2d()));
+    driveOdometry = new SwerveDriveOdometry(driveKinematics, getHeading(), swerveModulepos(), new Pose2d(0, 0, new Rotation2d()));
 
-      //pose = driveOdometry.getPoseMeters();
-      field = new Field2d();
+    //pose = driveOdometry.getPoseMeters();
+    field = new Field2d();
 
-      navX.reset();
+    navX.reset();
 
-      fieldCentric = true;
+    fieldCentric = true; //default to fieldcentric
   }
 
   /**
@@ -90,33 +91,41 @@ public class Drivetrain extends SubsystemBase {
    * @param rotSpeed speed of robot turning
    */
   public void drive(double xSpeed, double ySpeed, double rotSpeed) {
-    xSpeed *= SwerveConstants.TOP_SPEED;
-    ySpeed *= SwerveConstants.TOP_SPEED;
-    rotSpeed *= SwerveConstants.TOP_ANGULAR_SPEED;
-
-    ChassisSpeeds speeds = new ChassisSpeeds(xSpeed, ySpeed, rotSpeed);
-    
-    SwerveModuleState[] states = driveKinematics.toSwerveModuleStates(speeds);
-    SwerveDriveKinematics.desaturateWheelSpeeds(states, SwerveConstants.TOP_SPEED);
-
-    // setting the state for each module as an array
-    for(int i = 0; i < modules.length; i++) {
-      modules[i].setState(states[i]);
-    }
+    drive(xSpeed, ySpeed, rotSpeed, false);
   }
 
+
+  /**
+   * Making a drive function to make the speed for drive a fraction of total with option for field-centric driving
+   * @author Aiden Sing
+   * @param xSpeed speed of the robot front to back
+   * @param ySpeed speed of robot left to right
+   * @param rotSpeed speed of robot turning
+   * @param fieldCentric whether robot is forward from field's perspective or robot's perspective
+   */
   public void drive(double xSpeed, double ySpeed, double rotSpeed, boolean fieldCentric) {
+
+    //change the value of fieldcentric here
+    setFieldCentric(fieldCentric);
+
+    //multiply each -1.0 to 1.0 speed by the top speed
     xSpeed *= SwerveConstants.TOP_SPEED;
     ySpeed *= SwerveConstants.TOP_SPEED;
     rotSpeed *= SwerveConstants.TOP_ANGULAR_SPEED;
 
+    //Store an array of speeds for each wheel
+    //ChassisSpeeds speeds = new ChassisSpeeds(xSpeed, ySpeed, rotSpeed);
     ChassisSpeeds speeds = fieldCentric ? 
       ChassisSpeeds.fromFieldRelativeSpeeds(xSpeed, ySpeed, rotSpeed, getHeading()) : 
       new ChassisSpeeds(xSpeed, ySpeed, rotSpeed);
     
+    //Store the states of each module
     SwerveModuleState[] states = driveKinematics.toSwerveModuleStates(speeds);
+    
+    //cleans up any weird speeds that may be too high after kinematics equation
     SwerveDriveKinematics.desaturateWheelSpeeds(states, SwerveConstants.TOP_SPEED);
 
+    // setting the state for each module as an array
     for(int i = 0; i < modules.length; i++) {
       modules[i].setState(states[i]);
     }
@@ -159,12 +168,12 @@ public class Drivetrain extends SubsystemBase {
     }
   }
 
+  // method to return all the positions of the 4 modules
   public SwerveModulePosition[] swerveModulepos() {
     SwerveModulePosition[] modulePosition = new SwerveModulePosition[4];
     for(int i = 0; i < modules.length; i++) {
       modulePosition[i] = modules[i].getPosition();
     }
-
     return modulePosition;
   }
 
