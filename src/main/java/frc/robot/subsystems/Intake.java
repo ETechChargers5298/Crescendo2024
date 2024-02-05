@@ -22,7 +22,10 @@ public class Intake extends SubsystemBase {
     private final I2C.Port i2cPort = I2C.Port.kOnboard;
     private ColorSensorV3 noteFinder;
     private final ColorMatch colorMatcher = new ColorMatch();
+    private boolean isNoteFound = false;
     private final Color kOrangeTarget = new Color(1, 0.65, 0);
+    
+
 
     private Intake() {
         intakeMotor = new CANSparkMax(Constants.MechConstants.INTAKE_MOTOR_PORT, MotorType.kBrushless);
@@ -59,6 +62,12 @@ public class Intake extends SubsystemBase {
 
     public void noteFound(){
         colorMatcher.addColorMatch(kOrangeTarget);
+        if(noteFinder.getColor() == kOrangeTarget){
+            isNoteFound = true;
+        }
+        else{
+            isNoteFound = false;
+        }
     }
 
     @Override
@@ -71,6 +80,7 @@ public class Intake extends SubsystemBase {
         //ColorMatchResult match = m_colorMatcher.matchClosestColor(detectedColor);
         
         String colorString;
+        
         ColorMatchResult match = colorMatcher.matchClosestColor(detectedColor);
 
         if(match.color == kOrangeTarget){
@@ -84,6 +94,7 @@ public class Intake extends SubsystemBase {
         SmartDashboard.putNumber("Orange", detectedColor.red);
         SmartDashboard.putNumber("Confidence", match.confidence);
         SmartDashboard.putString("Detected Color ", colorString);
+        SmartDashboard.putBoolean("Have Note", isNoteFound);
         
 
         
