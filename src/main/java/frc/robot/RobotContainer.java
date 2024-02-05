@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.commands.SwerveDrive;
+import frc.robot.commands.MoveToTarget;
 import frc.robot.subsystems.Camera_old;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Camera;
@@ -23,8 +24,9 @@ import frc.robot.subsystems.Camera;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
 
+  public Command moveToTarget;
   Camera Careywashere = Camera.getInstance();
-
+  
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
   private final XboxController driverController =
@@ -32,6 +34,7 @@ public class RobotContainer {
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
+    moveToTarget = new MoveToTarget();
     // Configure the trigger bindings
     configureBindings();
   }
@@ -65,8 +68,8 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
 
-  // public Command getAutonomousCommand() {
-  //   // An example command will be run in autonomous
-  //   return Autos.exampleAuto(m_exampleSubsystem);
-  // }
+  public Command getAutonomousCommand() {
+    // An example command will be run in autonomous
+    return moveToTarget;
+  }
 }
