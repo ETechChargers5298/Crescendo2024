@@ -18,16 +18,17 @@ import edu.wpi.first.wpilibj.I2C;
 public class Intake extends SubsystemBase {
     
     private CANSparkMax intakeMotor;
-    private ColorSensorV3 noteFinder;
     private static Intake instance;
     private final I2C.Port i2cPort = I2C.Port.kOnboard;
+    private ColorSensorV3 noteFinder;
+    private final ColorMatch colorMatcher = new ColorMatch();
     private final Color kOrangeTarget = new Color(1, 0.65, 0);
 
     private Intake() {
         intakeMotor = new CANSparkMax(Constants.MechConstants.INTAKE_MOTOR_PORT, MotorType.kBrushless);
         noteFinder = new ColorSensorV3(i2cPort);
     }
-
+    
     public static Intake getInstance(){
         if(instance == null) {
             instance = new Intake();
@@ -56,16 +57,36 @@ public class Intake extends SubsystemBase {
         intakeMotor.set(0);
     }
 
+    public void noteFound(){
+        colorMatcher.addColorMatch(kOrangeTarget);
+    }
+
     @Override
+
+    //Color Sensor Code
     public void periodic() {
         // This method will be called once per scheduler run
         
-        Color detectedColor = getColor();
+        Color detectedColor = noteFinder.getColor();
         //ColorMatchResult match = m_colorMatcher.matchClosestColor(detectedColor);
         
-        SmartDashboard.putNumber("Red", detectedColor.red);
-        SmartDashboard.putNumber("Green", detectedColor.green);
-        SmartDashboard.putNumber("Blue", detectedColor.blue);
+        String colorString;
+        ColorMatchResult match = colorMatcher.matchClosestColor(detectedColor);
+
+        if(match.color == kOrangeTarget){
+            colorString = "Orange";
+        }
+        else{
+            colorString = "Unknown Color";
+        }
+
+        // For detected.Color I haven't been able to find any ways to set it to Orange
+        SmartDashboard.putNumber("Orange", detectedColor.red);
+        SmartDashboard.putNumber("Confidence", match.confidence);
+        SmartDashboard.putString("Detected Color ", colorString);
+        
+
+        
         //SmartDashboard.putNumber("Confidence", match.confidence);
         //SmartDashboard.putString("Detected Color", colorString);
     }
