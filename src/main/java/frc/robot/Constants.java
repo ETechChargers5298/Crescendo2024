@@ -67,8 +67,8 @@ public final class Constants {
     public static final boolean TURN_INVERSION = true;
 
     // Driving Parameters - max speeds allowed, not capable
-    public static final double TOP_SPEED = Units.feetToMeters(1* 4.8); //9.6
-    public static final double TOP_ANGULAR_SPEED = 1 * 2 * Math.PI;
+    public static final double TOP_SPEED = Units.feetToMeters(1.5* 4.8); //9.6
+    public static final double TOP_ANGULAR_SPEED = 2 * 2 * Math.PI;
     public static final double GEER_RATTIOLI = 5.08;
 
 

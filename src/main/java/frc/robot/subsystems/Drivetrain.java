@@ -209,10 +209,10 @@ public class Drivetrain extends SubsystemBase {
     // SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates, SwerveConstants.TOP_SPEED);
 
     //Store an array of speeds for each wheel
-    ChassisSpeeds speeds = new ChassisSpeeds(xSpeedDelivered, ySpeedDelivered, rotSpeedDelivered);
-    // ChassisSpeeds speeds = fieldCentric ? 
-    //   ChassisSpeeds.fromfieldcentricSpeeds(xSpeed, ySpeed, rotSpeed, getHeading()) : 
-    //   new ChassisSpeeds(xSpeed, ySpeed, rotSpeed);
+    //ChassisSpeeds speeds = new ChassisSpeeds(xSpeedDelivered, ySpeedDelivered, rotSpeedDelivered);
+    ChassisSpeeds speeds = fieldCentric ? 
+      ChassisSpeeds.fromFieldRelativeSpeeds(xSpeedDelivered, ySpeedDelivered, rotSpeedDelivered, getHeading()) : 
+      new ChassisSpeeds(xSpeedDelivered, ySpeedDelivered, rotSpeedDelivered);
 
 
     //Store the states of each module
@@ -385,6 +385,7 @@ public class Drivetrain extends SubsystemBase {
     // SmartDashboard.putNumber("pitch", getPitch());
     // SmartDashboard.putNumber("roll", getRoll());
     SmartDashboard.putNumber("turnRate", getTurnRate());
+    SmartDashboard.putData(field);
 
     //SmartDashboard.putData("Odometry Field", field);
   }

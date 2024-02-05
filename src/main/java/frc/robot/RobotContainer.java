@@ -59,8 +59,8 @@ public class RobotContainer {
     // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
     Drivetrain.getInstance().setDefaultCommand(new SwerveDrive(
       () -> -driverController.getRawAxis(1),
-      () -> driverController.getRawAxis(0),
-      () -> driverController.getRawAxis(4)
+      () -> -driverController.getRawAxis(0),
+      () -> -driverController.getRawAxis(4)
     ));
 
     // Schedule `exampleMethodCommand` when the Xbox controller's B button is pressed,
