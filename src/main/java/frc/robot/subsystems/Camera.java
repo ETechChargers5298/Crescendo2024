@@ -30,5 +30,6 @@ public class Camera extends SubsystemBase {
     SmartDashboard.putNumber("BestID", cam.getBestID());
     SmartDashboard.putNumber("X", cam.printX());
     SmartDashboard.putNumber("Y", cam.printY());
+    SmartDashboard.putNumber("Z", cam.printZ());
   }
 }

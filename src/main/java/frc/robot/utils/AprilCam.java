@@ -40,7 +40,7 @@ public class AprilCam {
         return tea.getX();
     }
     
-        public double printY(){
+    public double printY(){
         PhotonTrackedTarget target = result.getBestTarget();
         if(target == null) {
             return 500.0;
@@ -48,5 +48,12 @@ public class AprilCam {
         Transform3d tea = target.getBestCameraToTarget();   
         return tea.getY();
     }
-
+    public double printZ(){
+        PhotonTrackedTarget target = result.getBestTarget();
+        if(target == null) {
+            return 500.0;
+        }
+        Transform3d tea = target.getBestCameraToTarget();   
+        return tea.getZ();
+    }
 }
