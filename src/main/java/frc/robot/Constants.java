@@ -4,7 +4,11 @@
 
 package frc.robot;
 
+import java.util.Optional;
+
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import frc.robot.utils.ModuleConfig;
 import frc.robot.utils.PIDF;
 
@@ -17,6 +21,26 @@ import frc.robot.utils.PIDF;
  * constants are needed, to reduce verbosity.
  */
 public final class Constants {
+
+  public static class AllianceStuff{
+
+    //get the color
+Optional<Alliance> ally = DriverStation.getAlliance();
+if (ally.isPresent()) {
+    if (ally.get() == Alliance.Red) {
+        <RED ACTION>
+    }
+    if (ally.get() == Alliance.Blue) {
+        <BLUE ACTION>
+    }
+}
+else {
+    <NO COLOR YET ACTION>
+}
+
+
+  }
+
   public static class SwerveConstants {
     // public static final ModuleConfig SWERVE_FL = new ModuleConfig("FL", Ports.SWERVE_DRIVE_FL, Ports.SWERVE_TURN_FL, (2.9483314 + Math.PI/2) % (2 * Math.PI));
     // public static final ModuleConfig SWERVE_FR = new ModuleConfig("FR", Ports.SWERVE_DRIVE_FR, Ports.SWERVE_TURN_FR, 5.6096436);
