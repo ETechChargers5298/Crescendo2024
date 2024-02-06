@@ -59,8 +59,8 @@ public class RobotContainer {
     new JoystickButton(operatorController,Button.kX.value).whileTrue(new IntakeSpit());
 
     //launcher shoot/take
-    new JoystickButton(operatorController,Button.kA.value).whileTrue(new LauncherShoot());
-    new JoystickButton(operatorController,Button.kY.value).whileTrue(new LauncherTake());
+    new JoystickButton(operatorController,Button.kY.value).whileTrue(new LauncherShoot());
+    new JoystickButton(operatorController,Button.kA.value).whileTrue(new LauncherTake());
 
     //pivot up/down with joystick (RY or LY?)
     //new JoystickButton(operatorController,Button.kY.value).whileTrue(new LauncherTake());

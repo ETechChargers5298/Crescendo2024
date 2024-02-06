@@ -47,13 +47,13 @@ public class Intake extends SubsystemBase {
 
     //Elijah did this
     public void eat(){
-        intakeMotor.set(Constants.MotorSpeeds.INTAKE_SPEED);
+        intakeMotor.set(-Constants.MotorSpeeds.INTAKE_SPEED);
     }
 
     
     //Elijah did this
     public void spitt(){
-        intakeMotor.set(-Constants.MotorSpeeds.INTAKE_SPEED);
+        intakeMotor.set(Constants.MotorSpeeds.INTAKE_SPEED);
     }
  //Elijah did this
     public void stop(){
