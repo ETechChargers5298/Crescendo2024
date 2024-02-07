@@ -4,7 +4,10 @@
 
 package frc.robot;
 
+
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import frc.robot.utils.ModuleConfig;
 import frc.robot.utils.PIDF;
 import com.revrobotics.CANSparkBase.IdleMode;
@@ -84,6 +87,19 @@ public final class Constants {
 
   }
 
+  public static class CameraConstants {
+    public static final String GRID_APRIL_CAM_NAME = "Arducam_OV9782_USB_Camera";
+  }
+
+  public static class VisionConstants{
+    public static final double GREENZONE_MAX_X = 1.3;
+    public static final double GREENZONE_MIN_X = 0.8;
+    public static final double GREENZONE_MAX_Y = 0.3;
+    public static final double GREENZONE_MIN_Y = -0.3;
+    
+  }
+}
+
 
   public static final class ModuleConstants {
     // The MAXSwerve module can be configured with one of three pinion gears: 12T, 13T, or 14T.
@@ -159,3 +175,4 @@ public final class Constants {
     public static final double kFreeSpeedRpm = 5676;
   }
 }
+

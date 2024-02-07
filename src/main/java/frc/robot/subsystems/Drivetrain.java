@@ -28,6 +28,8 @@ import frc.robot.Constants.SwerveConstants;
 import frc.robot.utils.SwerveUtils;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
+
+
 public class Drivetrain extends SubsystemBase {
 
     //---------------FIELDS --------------//
@@ -370,8 +372,6 @@ public class Drivetrain extends SubsystemBase {
     return driveOdometry.getPoseMeters();
   }
 
-
-
  public void updateTelemetry() {
     for(int i = 0; i < modules.length; i++) {
       modules[i].updateTelemetry();
@@ -398,6 +398,7 @@ public class Drivetrain extends SubsystemBase {
   public void periodic() {
     updateOdometry();
     updateTelemetry();
+
   }
 
 

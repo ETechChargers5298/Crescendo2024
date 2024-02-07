@@ -24,17 +24,23 @@ import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.SwerveConstants;
 import frc.robot.commands.SwerveDrive;
+import frc.robot.commands.MoveToTarget;
+import frc.robot.subsystems.Camera_old;
 import frc.robot.subsystems.Drivetrain;
+import frc.robot.subsystems.Camera;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
- * "declarative" paradigm, very little robot logic should actually be handled in the {@link Robot}
+ * "declarative" paradigm, very little robot logic should actually be handled in the {@link Robot}d                            
  * periodic methods (other than the scheduler calls). Instead, the structure of the robot (including
  * subsystems, commands, and trigger mappings) should be declared here.
  */
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
 
+  public Command moveToTarget;
+  Camera Careywashere = Camera.getInstance();
+  
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
   private final XboxController driverController =
@@ -42,6 +48,7 @@ public class RobotContainer {
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
+    moveToTarget = new MoveToTarget();
     // Configure the trigger bindings
     configureBindings();
   }
@@ -77,49 +84,51 @@ public class RobotContainer {
 
   public Command getAutonomousCommand() {
     // An example command will be run in autonomous
+    return moveToTarget;
+
     //return Autos.exampleAuto(m_exampleSubsystem);
 
     /* //FROM REV EXAMPLE 
      *
     */
     // Create config for trajectory
-    TrajectoryConfig config = new TrajectoryConfig(
-        AutoConstants.kMaxSpeedMetersPerSecond,
-        AutoConstants.kMaxAccelerationMetersPerSecondSquared)
-        // Add kinematics to ensure max speed is actually obeyed
-        .setKinematics(SwerveConstants.DRIVE_KINEMATICS);
+//     TrajectoryConfig config = new TrajectoryConfig(
+//         AutoConstants.kMaxSpeedMetersPerSecond,
+//         AutoConstants.kMaxAccelerationMetersPerSecondSquared)
+//         // Add kinematics to ensure max speed is actually obeyed
+//         .setKinematics(SwerveConstants.DRIVE_KINEMATICS);
 
-    // An example trajectory to follow. All units in meters.
-    Trajectory exampleTrajectory = TrajectoryGenerator.generateTrajectory(
-        // Start at the origin facing the +X direction
-        new Pose2d(0, 0, new Rotation2d(0)),
-        // Pass through these two interior waypoints, making an 's' curve path
-        List.of(new Translation2d(1, 1), new Translation2d(2, -1)),
-        // End 3 meters straight ahead of where we started, facing forward
-        new Pose2d(3, 0, new Rotation2d(0)),
-        config);
+//     // An example trajectory to follow. All units in meters.
+//     Trajectory exampleTrajectory = TrajectoryGenerator.generateTrajectory(
+//         // Start at the origin facing the +X direction
+//         new Pose2d(0, 0, new Rotation2d(0)),
+//         // Pass through these two interior waypoints, making an 's' curve path
+//         List.of(new Translation2d(1, 1), new Translation2d(2, -1)),
+//         // End 3 meters straight ahead of where we started, facing forward
+//         new Pose2d(3, 0, new Rotation2d(0)),
+//         config);
 
-    var thetaController = new ProfiledPIDController(
-        AutoConstants.kPThetaController, 0, 0, AutoConstants.kThetaControllerConstraints);
-    thetaController.enableContinuousInput(-Math.PI, Math.PI);
+//     var thetaController = new ProfiledPIDController(
+//         AutoConstants.kPThetaController, 0, 0, AutoConstants.kThetaControllerConstraints);
+//     thetaController.enableContinuousInput(-Math.PI, Math.PI);
 
-    SwerveControllerCommand swerveControllerCommand = new SwerveControllerCommand(
-        exampleTrajectory,
-        Drivetrain.getInstance()::getPose, // Functional interface to feed supplier
-        SwerveConstants.DRIVE_KINEMATICS,
+//     SwerveControllerCommand swerveControllerCommand = new SwerveControllerCommand(
+//         exampleTrajectory,
+//         Drivetrain.getInstance()::getPose, // Functional interface to feed supplier
+//         SwerveConstants.DRIVE_KINEMATICS,
 
-        // Position controllers
-        new PIDController(AutoConstants.kPXController, 0, 0),
-        new PIDController(AutoConstants.kPYController, 0, 0),
-        thetaController,
-        Drivetrain.getInstance()::setModuleStates,
-        Drivetrain.getInstance());
+//         // Position controllers
+//         new PIDController(AutoConstants.kPXController, 0, 0),
+//         new PIDController(AutoConstants.kPYController, 0, 0),
+//         thetaController,
+//         Drivetrain.getInstance()::setModuleStates,
+//         Drivetrain.getInstance());
 
-    // Reset odometry to the starting pose of the trajectory.
-    Drivetrain.getInstance().resetOdometry(exampleTrajectory.getInitialPose());
+//     // Reset odometry to the starting pose of the trajectory.
+//     Drivetrain.getInstance().resetOdometry(exampleTrajectory.getInitialPose());
 
-    // Run path following command, then stop at the end.
-    return swerveControllerCommand.andThen(() -> Drivetrain.getInstance().drive(0, 0, 0, false, false));
+//     // Run path following command, then stop at the end.
+//     return swerveControllerCommand.andThen(() -> Drivetrain.getInstance().drive(0, 0, 0, false, false));
 
   //  */
 
