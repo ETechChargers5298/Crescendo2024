@@ -31,10 +31,13 @@ public class AprilCam {
         return result.hasTargets();
     }
 
-    public boolean hasDesiredTarget() {
-        //use the getDesiredTarget method to see if it returns null (not correct target) or not
-
-
+    public boolean hasDesiredTarget(int desiredID) {
+        ///use the getDesiredTarget method to see if it returns null (not correct target) or not
+        if (getDesiredTarget(desiredID)!= null)
+        {
+            return true;
+        }
+        return false;
     }
 
     public List<PhotonTrackedTarget> getTargets(){
@@ -44,25 +47,17 @@ public class AprilCam {
     public PhotonTrackedTarget getDesiredTarget(int desiredID){
         PhotonTrackedTarget target = result.getBestTarget();
         //get the arraylist of targets
-
-        //look throught the list for the one that has the desiredID
-
-
-        //return the desired target
-
-
-        //if you don't find the desired target, then return null
-        
-        // if(target == null) {
-        //     return -1;
-        // }
-
+        for (PhotonTrackedTarget t: getTargets())
+        {
+            if (t.getFiducialId() == desiredID)
+            {
+                return t;
+            }
+            /////
+        }
+        return null;
     }
 
-    // public int getDesiredID(){
-
-    //     return target.getFiducialId();   
-    // }
     
     public int getBestID(){
         PhotonTrackedTarget target = result.getBestTarget();

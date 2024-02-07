@@ -14,6 +14,7 @@ import frc.robot.utils.AprilCam;
 import frc.robot.Constants;
 import frc.robot.Robot;
 import frc.robot.RobotContainer;
+import frc.robot.Constants.VisionConstants;
 
 public class MoveToTarget extends Command{
 
@@ -27,7 +28,7 @@ public class MoveToTarget extends Command{
 
     //speed variables
     double xSpeed = 0.0;
-    double zSpeed = 0.0;
+    double ySpeed = 0.0;
     double rot = 0.0;
 
     /** Rotates the robot and drives to the best (nearest) tracked target, can be used for either 
@@ -40,7 +41,20 @@ public class MoveToTarget extends Command{
     addRequirements(drivetrain);
 
     //add code to change the desiredTargetID based on the alliance color
-    //camera.getAllianceColor()
+    //
+    String color = camera.getAllianceColor();
+    if (color.equals("RED") )
+    {
+        desiredTargetID = 4;
+    }
+    else if (color.equals("BLUE"))
+    {
+        desiredTargetID = 7;
+    }
+    else
+    {
+        desiredTargetID = 7;
+    }
 
   }
 
@@ -54,28 +68,29 @@ public class MoveToTarget extends Command{
     public void execute(){
         
         //check if we see the desired target on the screen
-        if(camera.hasDesiredTarget()){
-
+        if(camera.hasDesiredTarget(desiredTargetID)){
+            ///X stands for distance forward and backward from target (+ looks forward)(Meters)
             X = camera.getX();
-            Z = camera.getZ();
+            ///Y stands for distance left and right from target(+ look right)(- look left)(Meters)
+            Y = camera.getY();
 
             //if we're far from target, the move forward                        
-            if(X>1.3 && X < 100){
+            if(X> VisionConstants.GREENZONE_MAX_X ){   ///X = 1.3
                 xSpeed = 0.5;
             }
             //if we're too close to the target, move backward
-            else if(X<0.8){
+            else if(X<VisionConstants.GREENZONE_MIN_X){    ///X = 0.8
                 xSpeed = -0.5;
             }
 
             //if target is to the left of our robot, strafe right
-            if(Z>0.3){
-                zSpeed = - 0.5;
+            if(Y>VisionConstants.GREENZONE_MAX_Y){   ///Y = 0.3
+                ySpeed = - 0.5;
             } 
             
             //if target is to the right of our robot, strafe left
-            else if (Z< -0.3) {
-                zSpeed = 0.5;
+            else if (Y< VisionConstants.GREENZONE_MIN_Y) {   ///Y = -0.3
+                ySpeed = 0.5;
             }
 
         }
@@ -84,7 +99,7 @@ public class MoveToTarget extends Command{
         else{
 
         }
-
+        drivetrain.drive(xSpeed, ySpeed, rot);
     }
 
 

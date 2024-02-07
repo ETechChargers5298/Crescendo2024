@@ -4,7 +4,6 @@
 
 package frc.robot;
 
-import java.util.Optional;
 
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DriverStation;
@@ -22,24 +21,7 @@ import frc.robot.utils.PIDF;
  */
 public final class Constants {
 
-  public static class AllianceStuff{
-
-    //get the color
-Optional<Alliance> ally = DriverStation.getAlliance();
-if (ally.isPresent()) {
-    if (ally.get() == Alliance.Red) {
-        <RED ACTION>
-    }
-    if (ally.get() == Alliance.Blue) {
-        <BLUE ACTION>
-    }
-}
-else {
-    <NO COLOR YET ACTION>
-}
-
-
-  }
+  
 
   public static class SwerveConstants {
     // public static final ModuleConfig SWERVE_FL = new ModuleConfig("FL", Ports.SWERVE_DRIVE_FL, Ports.SWERVE_TURN_FL, (2.9483314 + Math.PI/2) % (2 * Math.PI));
@@ -77,5 +59,12 @@ else {
   public static class CameraConstants {
     public static final String GRID_APRIL_CAM_NAME = "Arducam_OV9782_USB_Camera";
   }
-  
+
+  public static class VisionConstants{
+    public static final double GREENZONE_MAX_X = 1.3;
+    public static final double GREENZONE_MIN_X = 0.8;
+    public static final double GREENZONE_MAX_Y = 0.3;
+    public static final double GREENZONE_MIN_Y = -0.3;
+    
+  }
 }
