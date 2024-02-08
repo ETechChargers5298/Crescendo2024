@@ -7,6 +7,8 @@ package frc.robot;
 import edu.wpi.first.math.util.Units;
 import frc.robot.utils.ModuleConfig;
 import frc.robot.utils.PIDF;
+import frc.robot.Ports;
+
 
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
@@ -17,16 +19,17 @@ import frc.robot.utils.PIDF;
  * constants are needed, to reduce verbosity.
  */
 public final class Constants {
+
   public static class SwerveConstants {
     // public static final ModuleConfig SWERVE_FL = new ModuleConfig("FL", Ports.SWERVE_DRIVE_FL, Ports.SWERVE_TURN_FL, (2.9483314 + Math.PI/2) % (2 * Math.PI));
     // public static final ModuleConfig SWERVE_FR = new ModuleConfig("FR", Ports.SWERVE_DRIVE_FR, Ports.SWERVE_TURN_FR, 5.6096436);
     // public static final ModuleConfig SWERVE_BL = new ModuleConfig("BL", Ports.SWERVE_DRIVE_BL, Ports.SWERVE_TURN_BL, 0.6873395);
     // public static final ModuleConfig SWERVE_BR = new ModuleConfig("BR", Ports.SWERVE_DRIVE_BR, Ports.SWERVE_TURN_BR, (1.9551601 + Math.PI/2) % (2 * Math.PI));
 
-    public static final ModuleConfig SWERVE_FL = new ModuleConfig("FL", Ports.SWERVE_DRIVE_FL, Ports.SWERVE_TURN_FL, 2.9483314);
-    public static final ModuleConfig SWERVE_FR = new ModuleConfig("FR", Ports.SWERVE_DRIVE_FR, Ports.SWERVE_TURN_FR, 5.6096436);
-    public static final ModuleConfig SWERVE_BL = new ModuleConfig("BL", Ports.SWERVE_DRIVE_BL, Ports.SWERVE_TURN_BL, 0.6873395);
-    public static final ModuleConfig SWERVE_BR = new ModuleConfig("BR", Ports.SWERVE_DRIVE_BR, Ports.SWERVE_TURN_BR, 1.9551601);
+    public static final ModuleConfig SWERVE_FL = new ModuleConfig("FL", 1,2, 2.9483314);
+    public static final ModuleConfig SWERVE_FR = new ModuleConfig("FR", 3,4, 5.6096436);
+    public static final ModuleConfig SWERVE_BL = new ModuleConfig("BL", 5,6,0.6873395);
+    public static final ModuleConfig SWERVE_BR = new ModuleConfig("BR", 7, 8, 1.9551601);
 
     public static final double FL_ANGULAR_OFFSET = -Math.PI / 2;
     public static final double FR_ANGULAR_OFFSET = 0;
@@ -80,5 +83,5 @@ public final class Constants {
     
   }
 }  
-}
+
 

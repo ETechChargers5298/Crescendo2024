@@ -4,12 +4,12 @@
 
 package frc.robot;
 
-import frc.robot.Constants.OperatorConstants;
+// import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.ArmPivot;
 import frc.robot.commands.ArmPivotReverse;
-import frc.robot.commands.Autos;
-import frc.robot.commands.ExampleCommand;
-import frc.robot.subsystems.ExampleSubsystem;
+// import frc.robot.commands.Autos;
+// import frc.robot.commands.ExampleCommand;
+// import frc.robot.subsystems.ExampleSubsystem;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.XboxController.Button;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -47,8 +47,7 @@ public class RobotContainer {
 
   private static final XboxController driverController = new XboxController(Ports.DRIVER);
   private static final XboxController operatorController = new XboxController(Ports.OPERATOR);
-  private final XboxController driverController =
-      new XboxController(Ports.DRIVER_CONTROLLER);
+
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
