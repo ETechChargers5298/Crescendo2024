@@ -4,7 +4,21 @@
 
 package frc.robot;
 
-
+import frc.robot.Constants.OperatorConstants;
+import frc.robot.commands.Autos;
+import frc.robot.commands.ExampleCommand;
+import frc.robot.subsystems.ExampleSubsystem;
+import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.XboxController.Button;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
+import frc.robot.commands.IntakeEat;
+import frc.robot.commands.IntakeSpit;
+import frc.robot.commands.LauncherShoot;
+import frc.robot.commands.LauncherTake;
+import frc.robot.Constants.Ports;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
@@ -27,11 +41,16 @@ public class RobotContainer {
 
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
+  //private final CommandXboxController m_driverController = new CommandXboxController(OperatorConstants.kDriverControllerPort);
+
+  private static final XboxController driverController = new XboxController(Ports.DRIVER);
+  private static final XboxController operatorController = new XboxController(Ports.OPERATOR);
   private final XboxController driverController =
       new XboxController(Ports.DRIVER_CONTROLLER);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
+
     // Configure the trigger bindings
     configureBindings();
   }
@@ -46,6 +65,18 @@ public class RobotContainer {
    * joysticks}.
    */
   private void configureBindings() {
+
+    //intake eat/spit
+    new JoystickButton(operatorController,Button.kB.value).whileTrue(new IntakeEat());
+    new JoystickButton(operatorController,Button.kX.value).whileTrue(new IntakeSpit());
+
+    //launcher shoot/take
+    new JoystickButton(operatorController,Button.kY.value).whileTrue(new LauncherShoot());
+    new JoystickButton(operatorController,Button.kA.value).whileTrue(new LauncherTake());
+
+    //pivot up/down with joystick (RY or LY?)
+    //new JoystickButton(operatorController,Button.kY.value).whileTrue(new LauncherTake());
+
     // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
     Drivetrain.getInstance().setDefaultCommand(new SwerveDrive(
       () -> -driverController.getRawAxis(1),
@@ -56,7 +87,6 @@ public class RobotContainer {
     // Schedule `exampleMethodCommand` when the Xbox controller's B button is pressed,
     // cancelling on release.
 
-    // m_driverController.b().whileTrue(m_exampleSubsystem.exampleMethodCommand());
   }
 
   /**
