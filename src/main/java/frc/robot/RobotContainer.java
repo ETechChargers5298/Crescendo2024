@@ -5,6 +5,8 @@
 package frc.robot;
 
 import frc.robot.Constants.OperatorConstants;
+import frc.robot.commands.ArmPivot;
+import frc.robot.commands.ArmPivotReverse;
 import frc.robot.commands.Autos;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.subsystems.ExampleSubsystem;
@@ -68,12 +70,15 @@ public class RobotContainer {
 
     //intake eat/spit
     new JoystickButton(operatorController,Button.kB.value).whileTrue(new IntakeEat());
+  
     new JoystickButton(operatorController,Button.kX.value).whileTrue(new IntakeSpit());
 
     //launcher shoot/take
     new JoystickButton(operatorController,Button.kY.value).whileTrue(new LauncherShoot());
     new JoystickButton(operatorController,Button.kA.value).whileTrue(new LauncherTake());
 
+    new JoystickButton(operatorController,Button.kLeftBumper.value).whileTrue(new ArmPivotReverse());
+    new JoystickButton(operatorController,Button.kRightBumper.value).whileTrue(new ArmPivot());
     //pivot up/down with joystick (RY or LY?)
     //new JoystickButton(operatorController,Button.kY.value).whileTrue(new LauncherTake());
 
