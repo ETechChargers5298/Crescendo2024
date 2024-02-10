@@ -61,44 +61,46 @@ public class MoveToTarget extends Command{
 
     @Override
     public void initialize(){
-        //drivetrain.stop();
+        drivetrain.drive(0, 0, 0);
+        //X stands for distance forward and backward from target (+ looks forward)(Meters)
+        X = camera.getX();
+
+        //Y stands for distance left and right from target(+ look right)(- look left)(Meters)
+        Y = camera.getY();
     }
 
     @Override
     public void execute(){
-        
-        //check if we see the desired target on the screen
         if(camera.hasDesiredTarget(desiredTargetID)){
-            ///X stands for distance forward and backward from target (+ looks forward)(Meters)
-            X = camera.getX();
-            ///Y stands for distance left and right from target(+ look right)(- look left)(Meters)
-            Y = camera.getY();
+            
+            //SmartDashboard.putNumber("x in meth",X);
+            //SmartDashboard.putNumber("y in meth", Y);
 
             //if we're far from target, the move forward                        
-            if(X> VisionConstants.GREENZONE_MAX_X ){   ///X = 1.3
+            if(X > VisionConstants.GREENZONE_MAX_X ){   ///X = 1.3
                 xSpeed = 0.5;
             }
-            //if we're too close to the target, move backward
-            else if(X<VisionConstants.GREENZONE_MIN_X){    ///X = 0.8
-                xSpeed = -0.5;
-            }
+            // //if we're too close to the target, move backward
+            // else if(X < VisionConstants.GREENZONE_MIN_X){    ///X = 0.8
+            //     xSpeed = -0.5;
+            // }
 
-            //if target is to the left of our robot, strafe right
-            if(Y>VisionConstants.GREENZONE_MAX_Y){   ///Y = 0.3
-                ySpeed = - 0.5;
-            } 
+            // //if target is to the left of our robot, strafe right
+            // if(Y>VisionConstants.GREENZONE_MAX_Y){   ///Y = 0.3
+            //     ySpeed = - 0.5;
+            // } 
             
-            //if target is to the right of our robot, strafe left
-            else if (Y< VisionConstants.GREENZONE_MIN_Y) {   ///Y = -0.3
-                ySpeed = 0.5;
-            }
+            // //if target is to the right of our robot, strafe left
+            // else if (Y< VisionConstants.GREENZONE_MIN_Y) {   ///Y = -0.3
+            //     ySpeed = 0.5;
+            // }
 
         }
 
         //add some feedback (lights?) if we dont' see the target when we THINK we see the target
-        else{
+        // else{
 
-        }
+        // }
         drivetrain.drive(xSpeed, ySpeed, rot);
     }
 
