@@ -4,10 +4,12 @@
 
 package frc.robot;
 
-import frc.robot.Constants.OperatorConstants;
-import frc.robot.commands.Autos;
-import frc.robot.commands.ExampleCommand;
-import frc.robot.subsystems.ExampleSubsystem;
+// import frc.robot.Constants.OperatorConstants;
+import frc.robot.commands.ArmPivot;
+import frc.robot.commands.ArmPivotReverse;
+// import frc.robot.commands.Autos;
+// import frc.robot.commands.ExampleCommand;
+// import frc.robot.subsystems.ExampleSubsystem;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.XboxController.Button;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -60,8 +62,7 @@ public class RobotContainer {
 
   private static final XboxController driverController = new XboxController(Ports.DRIVER);
   private static final XboxController operatorController = new XboxController(Ports.OPERATOR);
-  private final XboxController driverController =
-      new XboxController(Ports.DRIVER_CONTROLLER);
+
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
 
@@ -84,12 +85,15 @@ public class RobotContainer {
 
     //intake eat/spit
     new JoystickButton(operatorController,Button.kB.value).whileTrue(new IntakeEat());
+  
     new JoystickButton(operatorController,Button.kX.value).whileTrue(new IntakeSpit());
 
     //launcher shoot/take
     new JoystickButton(operatorController,Button.kY.value).whileTrue(new LauncherShoot());
     new JoystickButton(operatorController,Button.kA.value).whileTrue(new LauncherTake());
 
+    new JoystickButton(operatorController,Button.kLeftBumper.value).whileTrue(new ArmPivotReverse());
+    new JoystickButton(operatorController,Button.kRightBumper.value).whileTrue(new ArmPivot());
     //pivot up/down with joystick (RY or LY?)
     //new JoystickButton(operatorController,Button.kY.value).whileTrue(new LauncherTake());
 
