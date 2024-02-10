@@ -58,6 +58,9 @@ public class SwerveModule {
     driveMotor.restoreFactoryDefaults();
     turnMotor.restoreFactoryDefaults();
 
+    // Inverts the drive motors
+    driveMotor.setInverted(config.DRIVE_INVERSION);
+
     // Setup encoders and PID controllers for the driving and turning SPARKS MAX.
     driveEncoder = driveMotor.getEncoder();
     turnEncoder = turnMotor.getAbsoluteEncoder(Type.kDutyCycle);

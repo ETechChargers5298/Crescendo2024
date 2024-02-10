@@ -41,8 +41,8 @@ public class Drivetrain extends SubsystemBase {
   private final SwerveDriveKinematics driveKinematics;
   private final SwerveDriveOdometry driveOdometry;
    //private Pose2d pose;
-   private Field2d field;
-   private boolean fieldCentric;
+  private Field2d field;
+  private boolean fieldCentric;
 
 
   // Create SwerveModules
@@ -53,7 +53,6 @@ public class Drivetrain extends SubsystemBase {
 
   // The gyro sensor
   private AHRS navX;
-  // private final ADIS16470_IMU m_gyro = new ADIS16470_IMU();
 
   // Slew rate filter variables for controlling lateral acceleration
   private double m_currentRotation = 0.0;
@@ -95,7 +94,7 @@ public class Drivetrain extends SubsystemBase {
 
     navX.reset();
 
-    fieldCentric = true; //default to fieldcentric
+    fieldCentric = false; //default to fieldcentric
 
   } //end constructor
 
@@ -292,10 +291,9 @@ public class Drivetrain extends SubsystemBase {
 
   // Resets the drive encoders to currently read a position of 0.
   public void resetEncoders() {
-    frontLeft.resetEncoders();
-    frontRight.resetEncoders();
-    backRight.resetEncoders();
-    backLeft.resetEncoders();
+    for(int i = 0; i < modules.length; i++) {
+      modules[i].resetEncoders();
+    }
   }
 
   // Zeroes the heading of the robot
@@ -339,14 +337,14 @@ public class Drivetrain extends SubsystemBase {
   public void resetOdometry(Pose2d newPose) {
     //driveOdometry.resetPosition(getHeading(), getSwerveModulePos(), newPose);
     driveOdometry.resetPosition(
-        Rotation2d.fromDegrees(getHeadingRadians()),
+        getHeading(),
         getSwerveModulePos(),
         newPose);
   }
 
   public void updateOdometry() {
       driveOdometry.update(
-        Rotation2d.fromDegrees(getHeadingRadians()),
+        getHeading(),
         getSwerveModulePos()
     );
   }
@@ -382,11 +380,6 @@ public class Drivetrain extends SubsystemBase {
     SmartDashboard.putNumber("xOdometry", getPose2d().getX());
     SmartDashboard.putNumber("yOdometry", getPose2d().getY());
     SmartDashboard.putNumber("rotOdometry", getPose2d().getRotation().getDegrees());
-    // SmartDashboard.putNumber("pitch", getPitch());
-    // SmartDashboard.putNumber("roll", getRoll());
-    SmartDashboard.putNumber("turnRate", getTurnRate());
-    SmartDashboard.putData(field);
-
     //SmartDashboard.putData("Odometry Field", field);
   }
 

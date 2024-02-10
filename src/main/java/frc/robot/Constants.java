@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import frc.robot.utils.ModuleConfig;
 import frc.robot.utils.PIDF;
+import frc.robot.Ports;
 import com.revrobotics.CANSparkBase.IdleMode;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
@@ -35,16 +36,16 @@ public final class Constants {
     public static final double BL_SENSOR_OFFSET = 0.717; //from REV Hardware Client
 
     //Angular Offsets for the radian difference between the calibrated swerve and desired forward direction
-    public static final double FL_ANGULAR_OFFSET = -Math.PI/2; //Math.PI / 2; //-Math.PI / 2;
-    public static final double FR_ANGULAR_OFFSET = 0.0;
-    public static final double BR_ANGULAR_OFFSET = Math.PI/2; //Math.PI / 2;
-    public static final double BL_ANGULAR_OFFSET = Math.PI; //Math.PI;
+        public static final double FL_ANGULAR_OFFSET = -Math.PI/2; //Math.PI / 2; //-Math.PI / 2;
+    public static final double FR_ANGULAR_OFFSET = -Math.PI/2;
+    public static final double BR_ANGULAR_OFFSET = 3 * Math.PI/4; //Math.PI / 2;
+    public static final double BL_ANGULAR_OFFSET = Math.PI/2; //Math.PI;
 
     //Constructor to hold all of the data to configure a SwerveModule
-    public static final ModuleConfig SWERVE_FL = new ModuleConfig("FL", Ports.SWERVE_DRIVE_FL, Ports.SWERVE_TURN_FL, FL_SENSOR_OFFSET, FL_ANGULAR_OFFSET);//2.9483314  +Math.PI /2);
-    public static final ModuleConfig SWERVE_FR = new ModuleConfig("FR", Ports.SWERVE_DRIVE_FR, Ports.SWERVE_TURN_FR, FR_SENSOR_OFFSET, FR_ANGULAR_OFFSET);
-    public static final ModuleConfig SWERVE_BL = new ModuleConfig("BL", Ports.SWERVE_DRIVE_BL, Ports.SWERVE_TURN_BL, BL_SENSOR_OFFSET, BL_ANGULAR_OFFSET); //0.6873395
-    public static final ModuleConfig SWERVE_BR = new ModuleConfig("BR", Ports.SWERVE_DRIVE_BR, Ports.SWERVE_TURN_BR, BR_SENSOR_OFFSET, BR_ANGULAR_OFFSET);
+    public static final ModuleConfig SWERVE_FL = new ModuleConfig("FL", Ports.SWERVE_DRIVE_FL, Ports.SWERVE_TURN_FL, FL_SENSOR_OFFSET, FL_ANGULAR_OFFSET, false);//2.9483314  +Math.PI /2);
+    public static final ModuleConfig SWERVE_FR = new ModuleConfig("FR", Ports.SWERVE_DRIVE_FR, Ports.SWERVE_TURN_FR, FR_SENSOR_OFFSET, FR_ANGULAR_OFFSET, false);
+    public static final ModuleConfig SWERVE_BL = new ModuleConfig("BL", Ports.SWERVE_DRIVE_BL, Ports.SWERVE_TURN_BL, BL_SENSOR_OFFSET, BL_ANGULAR_OFFSET, true); //0.6873395
+    public static final ModuleConfig SWERVE_BR = new ModuleConfig("BR", Ports.SWERVE_DRIVE_BR, Ports.SWERVE_TURN_BR, BR_SENSOR_OFFSET, BR_ANGULAR_OFFSET, true);
 
     // Chassis configuration
     public static final double TRACK_WIDTH = Units.inchesToMeters(25);
@@ -174,5 +175,39 @@ public final class Constants {
   public static final class NeoMotorConstants {
     public static final double kFreeSpeedRpm = 5676;
   }
-}
+
+  public static class MechConstants{
+
+    public static final int INTAKE_MOTOR_PORT = 9;
+    public static final int TOP_LAUNCHER_MOTOR_PORT = 10;
+    public static final int BOTTOM_LAUNCHER_MOTOR_PORT = 11;
+
+    public static final int DOWN_PIVOT_MOTOR_PORT = 10;
+    public static final int UP_PIVOT_MOTOR_PORT = 13;
+    
+    public static final int CLIMB_REACH_MOTOR_PORT = 14;
+    public static final int CLIMB_RETRACT_MOTOR_PORT = 15;
+  }
+    
+  public static class Ports{
+     //USB Ports
+    public static final int DRIVER = 0;
+    public static final int OPERATOR = 1;
+  }
+
+  public static class MotorSpeeds {
+    public static final double LAUNCHER_SPEED = 1.0;
+    public static final double INTAKE_SPEED = 1.0;
+    public static final double ARM_PIVOT_SPEED = 1.0;
+    
+  }
+
+  public static final class ArmConstants {
+    
+    public static final double START_ANGLE = 80.0;
+    public static final double FLOOR_ANGLE = -10.0;
+    public static final double LAUNCH_ANGLE = 40.0;
+    public static final double AMP_ANGLE = 120.0;
+  }
+}  
 
