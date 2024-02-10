@@ -94,7 +94,7 @@ public class Drivetrain extends SubsystemBase {
 
     navX.reset();
 
-    fieldCentric = true; //default to fieldcentric
+    fieldCentric = false; //default to fieldcentric
 
   } //end constructor
 

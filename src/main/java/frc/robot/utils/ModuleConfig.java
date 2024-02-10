@@ -6,6 +6,9 @@ public class ModuleConfig {
     public final int DRIVE_PORT;
     public final int TURN_PORT;
 
+    // setting inversion for drive motors
+    public final boolean DRIVE_INVERSION;
+
     // field for angle offset for turn motor to through-bore encoder
     public final double SENSOR_OFFSET;
 
@@ -15,7 +18,7 @@ public class ModuleConfig {
     // name of module
     public final String NAME;
 
-    public ModuleConfig(String name, int drivePort, int turnPort, double sensorOffset, double angularOffset) {
+    public ModuleConfig(String name, int drivePort, int turnPort, double sensorOffset, double angularOffset, boolean driveInversion) {
 
         // initializing fields
         NAME = name;
@@ -23,6 +26,7 @@ public class ModuleConfig {
         TURN_PORT = turnPort;
         SENSOR_OFFSET = sensorOffset;
         ANGULAR_OFFSET = angularOffset;
+        DRIVE_INVERSION = driveInversion;
 
     } 
 
