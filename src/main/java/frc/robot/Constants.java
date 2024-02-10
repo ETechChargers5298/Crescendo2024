@@ -175,4 +175,30 @@ public final class Constants {
     public static final double kFreeSpeedRpm = 5676;
   }
 
+  public static class MechConstants{
+
+    public static final int INTAKE_MOTOR_PORT = 9;
+    public static final int TOP_LAUNCHER_MOTOR_PORT = 10;
+    public static final int BOTTOM_LAUNCHER_MOTOR_PORT = 11;
+
+    public static final int DOWN_PIVOT_MOTOR_PORT = 10;
+    public static final int UP_PIVOT_MOTOR_PORT = 13;
+    
+    public static final int CLIMB_REACH_MOTOR_PORT = 14;
+    public static final int CLIMB_RETRACT_MOTOR_PORT = 15;
+  }
+    
+  public static class Ports{
+     //USB Ports
+    public static final int DRIVER = 0;
+    public static final int OPERATOR = 1;
+  }
+
+  public static class MotorSpeeds {
+    public static final double LAUNCHER_SPEED = 1.0;
+    public static final double INTAKE_SPEED = 1.0;
+    public static final double ARM_PIVOT_SPEED = 1.0;
+    
+  }
+}  
 }
