@@ -4,10 +4,6 @@
 
 package frc.robot;
 
-import frc.robot.Constants.OperatorConstants;
-import frc.robot.commands.Autos;
-import frc.robot.commands.ExampleCommand;
-import frc.robot.subsystems.ExampleSubsystem;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.XboxController.Button;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -18,7 +14,6 @@ import frc.robot.commands.IntakeEat;
 import frc.robot.commands.IntakeSpit;
 import frc.robot.commands.LauncherShoot;
 import frc.robot.commands.LauncherTake;
-import frc.robot.Constants.Ports;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
@@ -58,13 +53,11 @@ public class RobotContainer {
   // Replace with CommandPS4Controller or CommandJoystick if needed
   //private final CommandXboxController m_driverController = new CommandXboxController(OperatorConstants.kDriverControllerPort);
 
-  private static final XboxController driverController = new XboxController(Ports.DRIVER);
-  private static final XboxController operatorController = new XboxController(Ports.OPERATOR);
-  private final XboxController driverController =
-      new XboxController(Ports.DRIVER_CONTROLLER);
+  private static final XboxController driverController = new XboxController(Ports.DRIVER_CONTROLLER);
+  private static final XboxController operatorController = new XboxController(Ports.OPERATOR_CONTROLLER);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
-
+  public RobotContainer() {
     moveToTarget = new MoveToTarget();
 
     // Configure the trigger bindings
