@@ -188,12 +188,6 @@ public final class Constants {
     public static final int CLIMB_REACH_MOTOR_PORT = 14;
     public static final int CLIMB_RETRACT_MOTOR_PORT = 15;
   }
-    
-  public static class Ports{
-     //USB Ports
-    public static final int DRIVER = 0;
-    public static final int OPERATOR = 1;
-  }
 
   public static class MotorSpeeds {
     public static final double LAUNCHER_SPEED = 1.0;
