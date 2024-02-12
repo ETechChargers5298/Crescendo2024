@@ -62,14 +62,12 @@ public class Intake extends SubsystemBase {
         return detectedColor;
     }
 
-    public void noteFound(){
-        colorMatcher.addColorMatch(kOrangeTarget);
-        if(noteFinder.getColor() == kOrangeTarget){
+    public boolean noteFound(){
+        Color detectedColor = noteFinder.getColor();
+        if (detectedColor.red > 0.4){
             isNoteFound = true;
         }
-        else{
-            isNoteFound = false;
-        }
+        return isNoteFound;
     }
 
     
@@ -96,7 +94,6 @@ public class Intake extends SubsystemBase {
         if (detectedColor.red > 0.4){
             colorString = "Orange";
             isNoteFound = true;
-            stop();
         }
 
         else {
