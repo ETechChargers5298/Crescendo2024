@@ -59,6 +59,7 @@ public class Intake extends SubsystemBase {
     public Color getColor() {
 
         Color detectedColor = noteFinder.getColor();
+
         return detectedColor;
     }
 
@@ -66,6 +67,8 @@ public class Intake extends SubsystemBase {
         Color detectedColor = noteFinder.getColor();
         if (detectedColor.red > 0.4){
             isNoteFound = true;
+        } else{
+            isNoteFound = false;
         }
         return isNoteFound;
     }
@@ -80,25 +83,11 @@ public class Intake extends SubsystemBase {
         Color detectedColor = noteFinder.getColor();
         //ColorMatchResult match = m_colorMatcher.matchClosestColor(detectedColor);
         
-        String colorString;
         
         ColorMatchResult match = colorMatcher.matchClosestColor(detectedColor);
+        String colorString = match.color.toString();
 
-        // if(match.color == kOrangeTarget){
-        //     colorString = "Orange";
-        // }
-        // else{
-        //     colorString = "Unknown Color";
-        // }
-
-        if (detectedColor.red > 0.4){
-            colorString = "Orange";
-            isNoteFound = true;
-        }
-
-        else {
-            colorString = "Unknown Color";
-        }
+        this.noteFound();
         
         SmartDashboard.putNumber("R", detectedColor.red);
         SmartDashboard.putNumber("G", detectedColor.green);
