@@ -10,7 +10,7 @@ import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Drivetrain;
-import frc.robot.utils.AprilCam;
+import frc.robot.subsystems.AprilCam;
 import frc.robot.Constants;
 import frc.robot.Robot;
 import frc.robot.RobotContainer;
@@ -36,25 +36,28 @@ public class MoveToTarget extends Command{
    */
   public MoveToTarget() {
     drivetrain = Drivetrain.getInstance();
-    camera = new AprilCam("aprilCam");
+    camera = AprilCam.getInstance();
     //desiredDistanceToTarget = distanceToTarget;
-    addRequirements(drivetrain);
+    addRequirements(
+        drivetrain,
+        camera
+    );
 
     //add code to change the desiredTargetID based on the alliance color
     //
-    String color = camera.getAllianceColor();
-    if (color.equals("RED") )
-    {
-        desiredTargetID = 4;
-    }
-    else if (color.equals("BLUE"))
-    {
-        desiredTargetID = 7;
-    }
-    else
-    {
-        desiredTargetID = 7;
-    }
+    // String color = camera.getAllianceColor();
+    // if (color.equals("RED") )
+    // {
+    //     desiredTargetID = 4;
+    // }
+    // else if (color.equals("BLUE"))
+    // {
+    //     desiredTargetID = 7;
+    // }
+    // else
+    // {
+    //     desiredTargetID = 7;
+    // }
 
   }
 
@@ -71,7 +74,7 @@ public class MoveToTarget extends Command{
 
     @Override
     public void execute(){
-        if(camera.hasDesiredTarget(desiredTargetID)){
+        if(camera.hasDesiredTarget()){
             
             //SmartDashboard.putNumber("x in meth",X);
             //SmartDashboard.putNumber("y in meth", Y);
@@ -80,10 +83,10 @@ public class MoveToTarget extends Command{
             if(X > VisionConstants.GREENZONE_MAX_X ){   ///X = 1.3
                 xSpeed = 0.5;
             }
-            // //if we're too close to the target, move backward
-            // else if(X < VisionConstants.GREENZONE_MIN_X){    ///X = 0.8
-            //     xSpeed = -0.5;
-            // }
+            //if we're too close to the target, move backward
+            else if(X < VisionConstants.GREENZONE_MIN_X){    ///X = 0.8
+                xSpeed = -0.5;
+            }
 
             // //if target is to the left of our robot, strafe right
             // if(Y>VisionConstants.GREENZONE_MAX_Y){   ///Y = 0.3

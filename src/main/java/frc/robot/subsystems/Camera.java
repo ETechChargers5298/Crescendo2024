@@ -3,7 +3,7 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.CameraConstants;
-import frc.robot.utils.AprilCam;
+import frc.robot.subsystems.AprilCam;
 
 
 public class Camera extends SubsystemBase {
@@ -13,7 +13,7 @@ public class Camera extends SubsystemBase {
 
   private Camera() {
     this.cam = new AprilCam(CameraConstants.GRID_APRIL_CAM_NAME);
-
+    cam.update();
   }
 
   public static Camera getInstance() {
@@ -21,6 +21,10 @@ public class Camera extends SubsystemBase {
       instance = new Camera();
     }
     return instance;
+  }
+
+  public AprilCam getCam() {
+    return cam;
   }
 
   @Override
