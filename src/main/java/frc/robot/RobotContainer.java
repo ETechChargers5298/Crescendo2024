@@ -4,6 +4,7 @@
 
 package frc.robot;
 
+import frc.robot.commands.ArmJoystick;
 // import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.ArmPivot;
 import frc.robot.commands.ArmPivotReverse;
@@ -42,6 +43,7 @@ import frc.robot.Constants.SwerveConstants;
 import frc.robot.commands.SwerveDrive;
 import frc.robot.commands.MoveToTarget;
 import frc.robot.subsystems.Drivetrain;
+import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Camera;
 
 /**
@@ -53,8 +55,9 @@ import frc.robot.subsystems.Camera;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
 
-  public Command moveToTarget;
-  Camera Careywashere = Camera.getInstance();
+  private final Command moveToTarget;
+  private final Camera Careywashere = Camera.getInstance();
+  private final ArmJoystick armJoystick = new ArmJoystick( () -> operatorController.getLeftX());
   
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
@@ -65,7 +68,7 @@ public class RobotContainer {
 
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
-public RobotContainer () {
+public RobotContainer () { 
 
 
     moveToTarget = new MoveToTarget();
@@ -98,6 +101,11 @@ public RobotContainer () {
     new JoystickButton(operatorController,Button.kRightBumper.value).whileTrue(new ArmPivot());
     //pivot up/down with joystick (RY or LY?)
     //new JoystickButton(operatorController,Button.kY.value).whileTrue(new LauncherTake());
+
+    Arm.getInstance().setDefaultCommand(armJoystick);
+
+    // new TurretScanMove(turret, () -> operatorController.getRightX());
+
 
     // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
     Drivetrain.getInstance().setDefaultCommand(new SwerveDrive(
