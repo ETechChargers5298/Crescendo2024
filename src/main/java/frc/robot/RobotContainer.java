@@ -40,7 +40,6 @@ import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.SwerveConstants;
 import frc.robot.commands.SwerveDrive;
 import frc.robot.commands.MoveToTarget;
-import frc.robot.commands.Forward;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Camera;
 
@@ -117,7 +116,7 @@ public class RobotContainer {
 
   public Command m_autonomousCommand() {
     // An example command will be run in autonomous
-    return new Forward();
+    return new MoveToTarget();
     //return null;
     //return Autos.exampleAuto(m_exampleSubsystem);
 

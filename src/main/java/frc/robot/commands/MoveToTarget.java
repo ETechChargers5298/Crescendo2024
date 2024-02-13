@@ -9,8 +9,9 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.subsystems.Camera;
 import frc.robot.subsystems.Drivetrain;
-import frc.robot.subsystems.AprilCam;
+import frc.robot.utils.AprilCam;
 import frc.robot.Constants;
 import frc.robot.Robot;
 import frc.robot.RobotContainer;
@@ -19,7 +20,7 @@ import frc.robot.Constants.VisionConstants;
 public class MoveToTarget extends Command{
 
     private Drivetrain drivetrain;
-    private AprilCam camera;
+    private Camera cam;
 
     int desiredTargetID = 7;
     double X;
@@ -36,28 +37,28 @@ public class MoveToTarget extends Command{
    */
   public MoveToTarget() {
     drivetrain = Drivetrain.getInstance();
-    camera = AprilCam.getInstance();
-    //desiredDistanceToTarget = distanceToTarget;
+    cam = Camera.getInstance();
+    // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(
-        drivetrain,
-        camera
-    );
+      drivetrain,
+      cam
+      );
 
-    //add code to change the desiredTargetID based on the alliance color
-    //
-    // String color = camera.getAllianceColor();
-    // if (color.equals("RED") )
-    // {
-    //     desiredTargetID = 4;
-    // }
-    // else if (color.equals("BLUE"))
-    // {
-    //     desiredTargetID = 7;
-    // }
-    // else
-    // {
-    //     desiredTargetID = 7;
-    // }
+    // add code to change the desiredTargetID based on the alliance color
+    
+    String color = cam.getCam().getAllianceColor();
+    if (color.equals("RED") )
+    {
+        desiredTargetID = 4;
+    }
+    else if (color.equals("BLUE"))
+    {
+        desiredTargetID = 7;
+    }
+    else
+    {
+        desiredTargetID = 7;
+    }
 
   }
 
@@ -65,19 +66,17 @@ public class MoveToTarget extends Command{
     @Override
     public void initialize(){
         drivetrain.drive(0, 0, 0);
-        //X stands for distance forward and backward from target (+ looks forward)(Meters)
-        X = camera.getX();
+        drivetrain.resetIMU();
 
+        //X stands for distance forward and backward from target (+ looks forward)(Meters)
         //Y stands for distance left and right from target(+ look right)(- look left)(Meters)
-        Y = camera.getY();
+        X = cam.getCam().getX();
+        Y = cam.getCam().getY();
     }
 
     @Override
     public void execute(){
-        if(camera.hasDesiredTarget()){
-            
-            //SmartDashboard.putNumber("x in meth",X);
-            //SmartDashboard.putNumber("y in meth", Y);
+        if(cam.getCam().hasDesiredTarget()){
 
             //if we're far from target, the move forward                        
             if(X > VisionConstants.GREENZONE_MAX_X ){   ///X = 1.3
@@ -88,15 +87,15 @@ public class MoveToTarget extends Command{
                 xSpeed = -0.5;
             }
 
-            // //if target is to the left of our robot, strafe right
-            // if(Y>VisionConstants.GREENZONE_MAX_Y){   ///Y = 0.3
-            //     ySpeed = - 0.5;
-            // } 
+            //if target is to the left of our robot, strafe right
+            if(Y>VisionConstants.GREENZONE_MAX_Y){   ///Y = 0.3
+                ySpeed = - 0.5;
+            } 
             
-            // //if target is to the right of our robot, strafe left
-            // else if (Y< VisionConstants.GREENZONE_MIN_Y) {   ///Y = -0.3
-            //     ySpeed = 0.5;
-            // }
+            //if target is to the right of our robot, strafe left
+            else if (Y< VisionConstants.GREENZONE_MIN_Y) {   ///Y = -0.3
+                ySpeed = 0.5;
+            }
 
         }
 
@@ -110,7 +109,7 @@ public class MoveToTarget extends Command{
 
     @Override
     public void end(boolean interrupted){
-        //drivetrain.stop();
+        drivetrain.drive(0, 0, 0);
     }
 
     @Override
