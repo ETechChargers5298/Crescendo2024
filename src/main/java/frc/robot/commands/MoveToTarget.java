@@ -66,7 +66,7 @@ public class MoveToTarget extends Command{
     @Override
     public void initialize(){
         drivetrain.drive(0, 0, 0);
-        drivetrain.resetIMU();
+        //drivetrain.resetIMU();
 
         //X stands for distance forward and backward from target (+ looks forward)(Meters)
         //Y stands for distance left and right from target(+ look right)(- look left)(Meters)
