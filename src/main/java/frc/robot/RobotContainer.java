@@ -8,6 +8,7 @@ import frc.robot.commands.ArmJoystick;
 // import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.ArmPivot;
 import frc.robot.commands.ArmPivotReverse;
+import frc.robot.commands.ArmSetAngle;
 // import frc.robot.commands.Autos;
 // import frc.robot.commands.ExampleCommand;
 // import frc.robot.subsystems.ExampleSubsystem;
@@ -38,11 +39,13 @@ import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.trajectory.TrajectoryConfig;
 import edu.wpi.first.math.trajectory.TrajectoryGenerator;
 import edu.wpi.first.wpilibj.XboxController;
+import frc.robot.Constants.ArmConstants;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.SwerveConstants;
 import frc.robot.commands.SwerveDrive;
 import frc.robot.commands.MoveToTarget;
 import frc.robot.subsystems.Drivetrain;
+import frc.robot.utils.DPad;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Camera;
 
@@ -56,6 +59,7 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
 
   private final Command moveToTarget;
+  private final Command armSetLaunch;
   private final Camera Careywashere = Camera.getInstance();
   private final ArmJoystick armJoystick = new ArmJoystick( () -> operatorController.getLeftX());
   
@@ -72,6 +76,7 @@ public RobotContainer () {
 
 
     moveToTarget = new MoveToTarget();
+    armSetLaunch = new ArmSetAngle(ArmConstants.LAUNCH_ANGLE);
 
     // Configure the trigger bindings
     configureBindings();
@@ -99,6 +104,8 @@ public RobotContainer () {
 
     new JoystickButton(operatorController,Button.kLeftBumper.value).whileTrue(new ArmPivotReverse());
     new JoystickButton(operatorController,Button.kRightBumper.value).whileTrue(new ArmPivot());
+
+    new DPad(operatorController, 270).whileTrue(new ArmSetAngle(ArmConstants.LAUNCH_ANGLE));
     //pivot up/down with joystick (RY or LY?)
     //new JoystickButton(operatorController,Button.kY.value).whileTrue(new LauncherTake());
 

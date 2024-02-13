@@ -202,6 +202,7 @@ public final class Constants {
     public static final double FLOOR_ANGLE = -10.0;
     public static final double LAUNCH_ANGLE = 40.0;
     public static final double AMP_ANGLE = 120.0;
+    public static final double ARM_POSITION_TOLERANCE = 5.0;
   }
 }  
 
