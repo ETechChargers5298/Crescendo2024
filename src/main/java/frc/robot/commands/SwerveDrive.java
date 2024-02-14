@@ -46,7 +46,7 @@ public class SwerveDrive extends Command {
       MathUtil.applyDeadband(ySpeed.get(), 0.1),
       MathUtil.applyDeadband(rotSpeed.get(), 0.1), 
       drivetrain.getFieldCentric(),
-      true);
+      false);
   }
 
   // Called once the command ends or is interrupted.

@@ -94,7 +94,7 @@ public class Drivetrain extends SubsystemBase {
 
     navX.reset();
 
-    fieldCentric = false; //default to fieldcentric
+    fieldCentric = true; //default to fieldcentric
 
   } //end constructor
 
@@ -281,7 +281,8 @@ public class Drivetrain extends SubsystemBase {
    * @return the robot's heading in degrees, from -180 to 180
    */
   public Rotation2d getHeading() {
-    return Rotation2d.fromDegrees(navX.getAngle());
+    //return Rotation2d.fromDegrees(navX.getAngle());
+    return navX.getRotation2d();
     //return Rotation2d.fromDegrees(m_gyro.getAngle(IMUAxis.kZ)).getDegrees();
   }
 

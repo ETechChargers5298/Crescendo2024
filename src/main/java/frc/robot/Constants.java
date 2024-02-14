@@ -70,15 +70,15 @@ public final class Constants {
     public static final boolean TURN_INVERSION = true;
 
     // Driving Parameters - max speeds allowed, not capable
-    public static final double TOP_SPEED = Units.feetToMeters(1.5* 4.8); //9.6
+    public static final double TOP_SPEED = Units.feetToMeters(2* 4.8); //9.6
     public static final double TOP_ANGULAR_SPEED = 2 * 2 * Math.PI;
     public static final double GEER_RATTIOLI = 5.08;
 
 
     //Slew stuff from Rev
-    public static final double kDirectionSlewRate = 1.2; // radians per second
-    public static final double kMagnitudeSlewRate = 1.8; // percent per second (1 = 100%)
-    public static final double kRotationalSlewRate = 2.0; // percent per second (1 = 100%)
+    public static final double kDirectionSlewRate = 1; // radians per second
+    public static final double kMagnitudeSlewRate = 1.4; // percent per second (1 = 100%)
+    public static final double kRotationalSlewRate = 1; // percent per second (1 = 100%)
 
     public static final boolean kGyroReversed = false;
 
