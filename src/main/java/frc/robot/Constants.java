@@ -95,7 +95,7 @@ public final class Constants {
   public static class VisionConstants{
     public static final double GREENZONE_MAX_X = 1.3;
     public static final double GREENZONE_MIN_X = 0.8;
-    public static final double GREENZONE_MAX_Y = 0.3;
+    public static final double GREENZONE_MAX_Y = 0.1;
     public static final double GREENZONE_MIN_Y = -0.3;
     
   }

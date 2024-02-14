@@ -123,7 +123,7 @@ public class AprilCam {
     public double getX(){
         PhotonTrackedTarget target = result.getBestTarget();
         if(target == null) {
-            return 500.0;
+            return Float.NaN;
         }
         Transform3d tea = target.getBestCameraToTarget();   
         return tea.getX();
@@ -132,7 +132,7 @@ public class AprilCam {
     public double getY(){
         PhotonTrackedTarget target = result.getBestTarget();
         if(target == null) {
-            return 500.0;
+            return Float.NaN;
         }
         Transform3d tea = target.getBestCameraToTarget();   
         return tea.getY();
