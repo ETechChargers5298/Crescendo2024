@@ -105,7 +105,17 @@ public RobotContainer () {
     new JoystickButton(operatorController,Button.kLeftBumper.value).whileTrue(new ArmPivotReverse());
     new JoystickButton(operatorController,Button.kRightBumper.value).whileTrue(new ArmPivot());
 
+    new DPad(operatorController, 0).whileTrue(new ArmSetAngle(ArmConstants.START_ANGLE));
+    new DPad(operatorController, 90).whileTrue(new ArmSetAngle(ArmConstants.AMP_ANGLE));
+    new DPad(operatorController, 180).whileTrue(new ArmSetAngle(ArmConstants.FLOOR_ANGLE));
     new DPad(operatorController, 270).whileTrue(new ArmSetAngle(ArmConstants.LAUNCH_ANGLE));
+
+    
+
+
+
+
+
     //pivot up/down with joystick (RY or LY?)
     //new JoystickButton(operatorController,Button.kY.value).whileTrue(new LauncherTake());
 
