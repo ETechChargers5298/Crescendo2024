@@ -1,14 +1,15 @@
 package frc.robot.subsystems;
 
 import frc.robot.Constants;
+import frc.robot.Ports;
+import frc.robot.Constants.MechConstants;
+
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.ColorSensorV3;
 import com.revrobotics.CANSparkLowLevel.MotorType;
-
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-
-import com.revrobotics.ColorSensorV3;
+//import com.revrobotics.ColorSensorV3;
 import com.revrobotics.ColorMatchResult;
 import com.revrobotics.ColorMatch;
 import edu.wpi.first.wpilibj.util.Color;
@@ -24,11 +25,10 @@ public class Intake extends SubsystemBase {
     private final ColorMatch colorMatcher = new ColorMatch();
     private boolean isNoteFound = false;
     private final Color kOrangeTarget = new Color(0.5, 0.4, 0.1);
-    
 
 
     private Intake() {
-        intakeMotor = new CANSparkMax(Constants.MechConstants.INTAKE_MOTOR_PORT, MotorType.kBrushless);
+        intakeMotor = new CANSparkMax(Ports.INTAKE_MOTOR_PORT, MotorType.kBrushless);
         noteFinder = new ColorSensorV3(i2cPort);
     }
     
@@ -41,29 +41,25 @@ public class Intake extends SubsystemBase {
 
     //Elijah did this
     public void eat(){
-        intakeMotor.set(-Constants.MotorSpeeds.INTAKE_SPEED);
+        intakeMotor.set(-MechConstants.INTAKE_SPEED);
     }
 
-    
     //Elijah did this
     public void spitt(){
-        intakeMotor.set(Constants.MotorSpeeds.INTAKE_SPEED);
+        intakeMotor.set(MechConstants.INTAKE_SPEED);
     }
 
-
- //Elijah did this
+    //Elijah did this
     public void stop(){
         intakeMotor.set(0);
     }
 
     public Color getColor() {
-
         Color detectedColor = noteFinder.getColor();
-
         return detectedColor;
     }
 
-    public boolean noteFound(){
+    public boolean checkNoteFound(){
         Color detectedColor = noteFinder.getColor();
         if (detectedColor.red > 0.4){
             isNoteFound = true;
@@ -72,22 +68,18 @@ public class Intake extends SubsystemBase {
         }
         return isNoteFound;
     }
-
-    
+  
     @Override
-
-    //Color Sensor Code
     public void periodic() {
         // This method will be called once per scheduler run
         
         Color detectedColor = noteFinder.getColor();
         //ColorMatchResult match = m_colorMatcher.matchClosestColor(detectedColor);
         
-        
         ColorMatchResult match = colorMatcher.matchClosestColor(detectedColor);
         String colorString = match.color.toString();
 
-        this.noteFound();
+        this.checkNoteFound();
         
         SmartDashboard.putNumber("R", detectedColor.red);
         SmartDashboard.putNumber("G", detectedColor.green);
@@ -95,82 +87,6 @@ public class Intake extends SubsystemBase {
         SmartDashboard.putNumber("Confidence", match.confidence);
         SmartDashboard.putString("Detected Color ", colorString);
         SmartDashboard.putBoolean("Have Note", isNoteFound);
-        
-
-        
-        //SmartDashboard.putNumber("Confidence", match.confidence);
-        //SmartDashboard.putString("Detected Color", colorString);
     }
-
-    // public boolean haveNote() {
-  
-    //  ColorMatchResult match = noteFinder.matchClosestColor(getColor());
-
-    //     if (match.color == kOrangeTarget) {
-    //     return true;
-    //     }
-    // }
-
-
-//     /**
-//    * Note: Any example colors should be calibrated as the user needs, these
-//    * are here as a basic example.
-//    */
-//   private final Color kBlueTarget = new Color(0.143, 0.427, 0.429);
-//   private final Color kGreenTarget = new Color(0.197, 0.561, 0.240);
-//   private final Color kRedTarget = new Color(0.561, 0.232, 0.114);
-//   private final Color kYellowTarget = new Color(0.361, 0.524, 0.113);
-
-//   @Override
-//   public void robotInit() {
-//     m_colorMatcher.addColorMatch(kBlueTarget);
-//     m_colorMatcher.addColorMatch(kGreenTarget);
-//     m_colorMatcher.addColorMatch(kRedTarget);
-//     m_colorMatcher.addColorMatch(kYellowTarget);    
-//   }
-
-//   @Override
-//   public void robotPeriodic() {
-//     /**
-//      * The method GetColor() returns a normalized color value from the sensor and can be
-//      * useful if outputting the color to an RGB LED or similar. To
-//      * read the raw color, use GetRawColor().
-//      * 
-//      * The color sensor works best when within a few inches from an object in
-//      * well lit conditions (the built in LED is a big help here!). The farther
-//      * an object is the more light from the surroundings will bleed into the 
-//      * measurements and make it difficult to accurately determine its color.
-//      */
-//     Color detectedColor = m_colorSensor.getColor();
-
-//     /**
-//      * Run the color match algorithm on our detected color
-//      */
-//     String colorString;
-//     ColorMatchResult match = m_colorMatcher.matchClosestColor(detectedColor);
-
-//     if (match.color == kBlueTarget) {
-//       colorString = "Blue";
-//     } else if (match.color == kRedTarget) {
-//       colorString = "Red";
-//     } else if (match.color == kGreenTarget) {
-//       colorString = "Green";
-//     } else if (match.color == kYellowTarget) {
-//       colorString = "Yellow";
-//     } else {
-//       colorString = "Unknown";
-//     }
-
-//     /**
-//      * Open Smart Dashboard or Shuffleboard to see the color detected by the 
-//      * sensor.
-//      */
-//     SmartDashboard.putNumber("Red", detectedColor.red);
-//     SmartDashboard.putNumber("Green", detectedColor.green);
-//     SmartDashboard.putNumber("Blue", detectedColor.blue);
-//     SmartDashboard.putNumber("Confidence", match.confidence);
-//     SmartDashboard.putString("Detected Color", colorString);
-//   }
-// }
 
 }

@@ -4,7 +4,6 @@
 
 package frc.robot;
 
-/** Add your docs here. */
 public class Ports {
 
     public static final int SWERVE_DRIVE_FL = 1;
@@ -19,8 +18,15 @@ public class Ports {
     public static final int SWERVE_DRIVE_BL = 7;
     public static final int SWERVE_TURN_BL = 8;
 
+    public static final int INTAKE_MOTOR_PORT = 9;
+    public static final int TOP_LAUNCHER_MOTOR_PORT = 10;
+    public static final int BOTTOM_LAUNCHER_MOTOR_PORT = 11;
+
     public static final int ARM_RIGHT = 12;
     public static final int ARM_LEFT = 13;
+    
+    public static final int CLIMB_REACH_MOTOR_PORT = 14;
+    public static final int CLIMB_RETRACT_MOTOR_PORT = 15;
 
     public static final int DRIVER_CONTROLLER = 0;
     public static final int OPERATOR_CONTROLLER = 1;

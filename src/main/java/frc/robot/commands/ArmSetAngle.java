@@ -6,7 +6,7 @@ package frc.robot.commands;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.PIDCommand;
-import frc.robot.Constants.ArmConstants;
+import frc.robot.Constants.MechConstants;
 import frc.robot.subsystems.Arm;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
@@ -29,7 +29,7 @@ public class ArmSetAngle extends PIDCommand {
           // Use the output here
           arm.pivot(output);
         });
-    getController().setTolerance(ArmConstants.ARM_POSITION_TOLERANCE);
+    getController().setTolerance(MechConstants.ARM_POSITION_TOLERANCE);
     arm = Arm.getInstance();
     addRequirements(arm);
         // Use addRequirements() here to declare subsystem dependencies.

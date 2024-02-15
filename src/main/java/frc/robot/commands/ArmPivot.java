@@ -2,7 +2,7 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.subsystems.Arm;
-import frc.robot.Constants.MotorSpeeds;
+import frc.robot.Constants.MechConstants;
 
 public class ArmPivot extends InstantCommand{
 
@@ -22,7 +22,7 @@ public class ArmPivot extends InstantCommand{
 
     @Override
     public void execute(){
-        arm.pivot(MotorSpeeds.ARM_PIVOT_SPEED);
+        arm.pivot(MechConstants.ARM_PIVOT_SPEED);
     }
 
     @Override

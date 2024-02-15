@@ -5,12 +5,14 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.Constants;
+import frc.robot.Constants.MechConstants;
 import frc.robot.subsystems.Launcher;
 
 public class LauncherTake extends Command {
+
   private Launcher launcher;
-  /** Creates a new IntakeEat. */
+  
+  /** Creates a new IntakeEat object */
   public LauncherTake() {
     launcher = Launcher.getInstance();
     // Use addRequirements() here to declare subsystem dependencies.
@@ -26,7 +28,7 @@ public class LauncherTake extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    launcher.take(Constants.MotorSpeeds.LAUNCHER_SPEED);
+    launcher.take(MechConstants.LAUNCHER_SPEED);
   }
 
   // Called once the command ends or is interrupted.

@@ -36,7 +36,7 @@ public final class Constants {
     public static final double BL_SENSOR_OFFSET = 0.717; //from REV Hardware Client
 
     //Angular Offsets for the radian difference between the calibrated swerve and desired forward direction
-        public static final double FL_ANGULAR_OFFSET = -Math.PI/2; //Math.PI / 2; //-Math.PI / 2;
+    public static final double FL_ANGULAR_OFFSET = -Math.PI/2; //Math.PI / 2; //-Math.PI / 2;
     public static final double FR_ANGULAR_OFFSET = -Math.PI/2;
     public static final double BR_ANGULAR_OFFSET = 3 * Math.PI/4; //Math.PI / 2;
     public static final double BL_ANGULAR_OFFSET = Math.PI/2; //Math.PI;
@@ -88,19 +88,16 @@ public final class Constants {
 
   }
 
-  public static class CameraConstants {
-    public static final String GRID_APRIL_CAM_NAME = "Arducam_OV9782_USB_Camera";
-  }
-
   public static class VisionConstants{
+
+    public static final String APRIL_CAM_NAME = "Arducam_OV9782_USB_Camera";
+    
     public static final double GREENZONE_MAX_X = 1.3;
     public static final double GREENZONE_MIN_X = 0.8;
     public static final double GREENZONE_MAX_Y = 0.3;
     public static final double GREENZONE_MIN_Y = -0.3;
     
   }
-
-
 
   public static final class ModuleConstants {
     // The MAXSwerve module can be configured with one of three pinion gears: 12T, 13T, or 14T.
@@ -113,7 +110,7 @@ public final class Constants {
     public static final boolean kTurningEncoderInverted = true;
 
     // Calculations required for driving motor conversion factors and feed forward
-    public static final double kDrivingMotorFreeSpeedRps = NeoMotorConstants.kFreeSpeedRpm / 60;
+    public static final double kDrivingMotorFreeSpeedRps = MechConstants.kFreeSpeedRpm / 60;
     public static final double kWheelDiameterMeters = 0.0762;
     public static final double kWheelCircumferenceMeters = kWheelDiameterMeters * Math.PI;
     // 45 teeth on the wheel's bevel gear, 22 teeth on the first-stage spur gear, 15 teeth on the bevel pinion
@@ -154,7 +151,7 @@ public final class Constants {
   }
 
   public static final class OIConstants {
-    public static final double kDriveDeadband = 0.05;
+    //public static final double kDriveDeadband = 0.05;
   }
 
   public static final class AutoConstants {
@@ -172,37 +169,26 @@ public final class Constants {
         kMaxAngularSpeedRadiansPerSecond, kMaxAngularSpeedRadiansPerSecondSquared);
   }
 
-  public static final class NeoMotorConstants {
-    public static final double kFreeSpeedRpm = 5676;
-  }
 
   public static class MechConstants{
 
-    public static final int INTAKE_MOTOR_PORT = 9;
-    public static final int TOP_LAUNCHER_MOTOR_PORT = 10;
-    public static final int BOTTOM_LAUNCHER_MOTOR_PORT = 11;
+    //Neo Motor Constants
+    public static final double kFreeSpeedRpm = 5676;
 
-    public static final int DOWN_PIVOT_MOTOR_PORT = 10;
-    public static final int UP_PIVOT_MOTOR_PORT = 13;
-    
-    public static final int CLIMB_REACH_MOTOR_PORT = 14;
-    public static final int CLIMB_RETRACT_MOTOR_PORT = 15;
-  }
-
-  public static class MotorSpeeds {
+    //Mech Motor Speeds
     public static final double LAUNCHER_SPEED = 1.0;
     public static final double INTAKE_SPEED = 1.0;
     public static final double ARM_PIVOT_SPEED = 1.0;
-    
-  }
 
-  public static final class ArmConstants {
-    
+    //Arm Angles
     public static final double START_ANGLE = 80.0;
     public static final double FLOOR_ANGLE = -10.0;
     public static final double LAUNCH_ANGLE = 40.0;
     public static final double AMP_ANGLE = 120.0;
     public static final double ARM_POSITION_TOLERANCE = 5.0;
+
   }
+
+
 }  
 
