@@ -3,6 +3,7 @@ package frc.robot.subsystems;
 import frc.robot.Constants;
 import frc.robot.Ports;
 import frc.robot.Constants.MechConstants;
+import frc.robot.Constants.MotorSpeeds;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.ColorSensorV3;
@@ -41,12 +42,12 @@ public class Intake extends SubsystemBase {
 
     //Elijah did this
     public void eat(){
-        intakeMotor.set(-MechConstants.INTAKE_SPEED);
+        intakeMotor.set(-MotorSpeeds.INTAKE_SPEED);
     }
 
     //Elijah did this
     public void spitt(){
-        intakeMotor.set(MechConstants.INTAKE_SPEED);
+        intakeMotor.set(MotorSpeeds.INTAKE_SPEED);
     }
 
     //Elijah did this

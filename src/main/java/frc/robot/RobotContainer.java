@@ -39,6 +39,7 @@ import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.trajectory.TrajectoryConfig;
 import edu.wpi.first.math.trajectory.TrajectoryGenerator;
 import edu.wpi.first.wpilibj.XboxController;
+import frc.robot.Constants.ArmConstants;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.MechConstants;
 import frc.robot.Constants.SwerveConstants;
@@ -129,10 +130,10 @@ public RobotContainer () {
     new JoystickButton(operatorController,Button.kRightBumper.value).whileTrue(new ArmPivot());
 
     //arm autoPivot with DPAD
-    new DPad(operatorController, 0).whileTrue(new ArmSetAngle(MechConstants.START_ANGLE));
-    new DPad(operatorController, 90).whileTrue(new ArmSetAngle(MechConstants.AMP_ANGLE));
-    new DPad(operatorController, 180).whileTrue(new ArmSetAngle(MechConstants.FLOOR_ANGLE));
-    new DPad(operatorController, 270).whileTrue(new ArmSetAngle(MechConstants.LAUNCH_ANGLE));
+    new DPad(operatorController, 0).whileTrue(new ArmSetAngle(ArmConstants.START_ANGLE));
+    new DPad(operatorController, 90).whileTrue(new ArmSetAngle(ArmConstants.AMP_ANGLE));
+    new DPad(operatorController, 180).whileTrue(new ArmSetAngle(ArmConstants.FLOOR_ANGLE));
+    new DPad(operatorController, 270).whileTrue(new ArmSetAngle(ArmConstants.LAUNCH_ANGLE));
 
     //arm pivot up/down with joystick (LX)
     Arm.getInstance().setDefaultCommand(new ArmJoystick( () -> operatorController.getLeftX()));

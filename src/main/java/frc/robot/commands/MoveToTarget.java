@@ -92,7 +92,6 @@ public class MoveToTarget extends Command{
             else if (Y< VisionConstants.GREENZONE_MIN_Y) {   ///Y = -0.3
                 ySpeed = 0.5;
             }
-
         }
 
         //add some feedback (lights?) if we dont' see the target when we THINK we see the target
