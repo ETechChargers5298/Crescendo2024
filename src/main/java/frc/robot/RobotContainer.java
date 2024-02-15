@@ -32,9 +32,12 @@ import edu.wpi.first.math.trajectory.TrajectoryGenerator;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.SwerveConstants;
-import frc.robot.commands.SwerveDrive;
 import frc.robot.commands.MoveToTarget;
+import frc.robot.commands.drive.SwerveDrive;
+import frc.robot.commands.drive.TurnToAngle;
+import frc.robot.commands.drive.TurnToAngle.DriveAngle;
 import frc.robot.subsystems.Drivetrain;
+import frc.robot.utils.DPad;
 import frc.robot.subsystems.Camera;
 
 /**
@@ -82,6 +85,11 @@ public class RobotContainer {
     //launcher shoot/take
     new JoystickButton(operatorController,Button.kY.value).whileTrue(new LauncherShoot());
     new JoystickButton(operatorController,Button.kA.value).whileTrue(new LauncherTake());
+
+    new DPad(driverController, 0).whileTrue(new TurnToAngle(DriveAngle.FRONT));
+    new DPad(driverController, 90).whileTrue(new TurnToAngle(DriveAngle.LEFT));
+    new DPad(driverController, 180).whileTrue(new TurnToAngle(DriveAngle.BACK));
+    new DPad(driverController, 270).whileTrue(new TurnToAngle(DriveAngle.RIGHT));
 
     //pivot up/down with joystick (RY or LY?)
     //new JoystickButton(operatorController,Button.kY.value).whileTrue(new LauncherTake());
