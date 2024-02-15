@@ -24,7 +24,7 @@ public class Intake extends SubsystemBase {
     private final I2C.Port i2cPort = I2C.Port.kOnboard;
     private ColorSensorV3 noteFinder;
     private final ColorMatch colorMatcher = new ColorMatch();
-    private boolean isNoteFound = false;
+    public static boolean isNoteFound = false;
     private final Color kOrangeTarget = new Color(0.5, 0.4, 0.1);
 
 
