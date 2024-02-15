@@ -50,6 +50,10 @@ public class Intake extends SubsystemBase {
         intakeMotor.set(MotorSpeeds.INTAKE_SPEED);
     }
 
+    // public void timedSpitt(double time){
+    //     intake
+    // }
+
     //Elijah did this
     public void stop(){
         intakeMotor.set(0);

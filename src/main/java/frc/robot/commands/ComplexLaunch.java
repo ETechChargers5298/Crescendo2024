@@ -13,8 +13,11 @@ public class ComplexLaunch extends SequentialCommandGroup {
     public ComplexLaunch(){
         if(Intake.isNoteFound){
         addCommands(
+            //put these together in a sequential race command
             new LauncherShoot(),
             new WaitCommand(0.5),
+
+            //then do thise command -- with a sequential race
             new IntakeEat()
         );
         }

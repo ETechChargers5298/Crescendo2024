@@ -26,6 +26,7 @@ public class IntakeEat extends Command {
   @Override
   public void execute() {
     intake.eat();
+    //if sees the note it spitts for 0.1 second
   }
 
   // Called once the command ends or is interrupted.
