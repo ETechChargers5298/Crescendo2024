@@ -13,33 +13,33 @@ import frc.robot.Constants.MechConstants;
 
 public class Climber extends SubsystemBase{
 
-    private CANSparkMax right_motor;
-    private CANSparkMax left_motor;
-    private AbsoluteEncoder l_encoder;
-    private AbsoluteEncoder r_encoder;
+    private CANSparkMax rightMotor;
+    private CANSparkMax leftMotor;
+    private AbsoluteEncoder leftEncoder;
+    private AbsoluteEncoder rightEncoder;
 
     private Climber(){
-        this.right_motor = new CANSparkMax(Ports.CLIMB_REACH_MOTOR_PORT, MotorType.kBrushless);
-        this.left_motor = new CANSparkMax(Ports.CLIMB_RETRACT_MOTOR_PORT, MotorType.kBrushless);
-        l_encoder = left_motor.getAbsoluteEncoder(Type.kDutyCycle);
-        r_encoder = right_motor.getAbsoluteEncoder(Type.kDutyCycle);
+        this.rightMotor = new CANSparkMax(Ports.CLIMB_REACH_MOTOR_PORT, MotorType.kBrushless);
+        this.leftMotor = new CANSparkMax(Ports.CLIMB_RETRACT_MOTOR_PORT, MotorType.kBrushless);
+        leftEncoder = leftMotor.getAbsoluteEncoder(Type.kDutyCycle);
+        rightEncoder = rightMotor.getAbsoluteEncoder(Type.kDutyCycle);
 
     }
 
     public void climberReach(double speed){
 
-        if(r_encoder.getPosition() >= MechConstants.MAX_CLIMB_RIGHT){
-            right_motor.set(0.0);
+        if(rightEncoder.getPosition() >= MechConstants.MAX_CLIMB_RIGHT){
+            rightMotor.set(0.0);
         } 
         else {
-            right_motor.set(speed);
+            rightMotor.set(speed);
         }
         
-        if(l_encoder.getPosition() >= MechConstants.BASE_CLIMB_RIGHT){
-            left_motor.set(0.0);
+        if(leftEncoder.getPosition() >= MechConstants.BASE_CLIMB_RIGHT){
+            leftMotor.set(0.0);
         }
         else {
-            left_motor.set(speed);
+            leftMotor.set(speed);
         }
         
     }

@@ -185,16 +185,8 @@ public final class Constants {
   }
 
   public static class MechConstants{
-
-    public static final int INTAKE_MOTOR_PORT = 9;
-    public static final int TOP_LAUNCHER_MOTOR_PORT = 10;
-    public static final int BOTTOM_LAUNCHER_MOTOR_PORT = 11;
-
-    public static final int DOWN_PIVOT_MOTOR_PORT = 10;
-    public static final int UP_PIVOT_MOTOR_PORT = 13;
-    
-    public static final int CLIMB_REACH_MOTOR_PORT = 14;
-    public static final int CLIMB_RETRACT_MOTOR_PORT = 15;
+    public static final double MAX_CLIMB_RIGHT = 900.0;
+    public static final double BASE_CLIMB_RIGHT = 0.0;
   }
 
   public static class MotorSpeeds {
