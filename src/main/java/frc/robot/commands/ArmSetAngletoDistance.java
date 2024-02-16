@@ -1,15 +1,17 @@
-import java.util.Optional;
+package frc.robot.commands;
 
+import java.util.Optional;
 import org.photonvision.PhotonUtils;
 import org.photonvision.targeting.PhotonTrackedTarget;
+import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.utils.AprilCam;
-
 import frc.robot.Constants.VisionConstants;
+import frc.robot.commands.closed.MoveToTarget;
 import frc.robot.subsystems.Arm;
+import frc.robot.subsystems.Camera;
 
 
-public class ArmSetAngletoDistance extends Command
-{
+public class ArmSetAngletoDistance extends Command {
     private Camera camera;
     private static Arm arm;
     double desiredAnglefromDistance;
@@ -23,7 +25,7 @@ public class ArmSetAngletoDistance extends Command
         addRequirements(arm, camera);
         double distanceInGreenZone = camera.getCam().getX();
 
-        desiredAnglefromDistance = VisionConstants*distanceInGreenZone - 2; ///Y = mx+b
+        desiredAnglefromDistance = VisionConstants.GREENZONE_ANGLE *distanceInGreenZone - 2; ///Y = mx+b
 
     }
     //Make a constant inside VIsionConstant
@@ -35,10 +37,10 @@ public class ArmSetAngletoDistance extends Command
 
     @Override
     public void execute(){
-        if (MoveToTarget.isFinished() == false)
-        {
-            arm.pivot(desiredAnglefromDistance);
-        }
+        // if (MoveToTarget.isFinished() == false)
+        // {
+        //     arm.pivot(desiredAnglefromDistance);
+        // }
         
     }
 

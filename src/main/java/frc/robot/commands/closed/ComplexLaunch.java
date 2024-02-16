@@ -1,6 +1,8 @@
-package frc.robot.commands;
+package frc.robot.commands.closed;
 import frc.robot.subsystems.Intake;
 import frc.robot.Constants.MechConstants;
+import frc.robot.commands.basic.IntakeEat;
+import frc.robot.commands.basic.LauncherShoot;
 import frc.robot.subsystems.Launcher;
 import frc.robot.Ports;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
