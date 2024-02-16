@@ -50,7 +50,7 @@ import frc.robot.subsystems.Camera;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
 
-  public Command moveToTarget;
+  //public Command moveToTarget;
   Camera Careywashere = Camera.getInstance();
   
 
@@ -63,7 +63,6 @@ public class RobotContainer {
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
-    moveToTarget = new MoveToTarget();
 
     // Configure the trigger bindings
     configureBindings();
@@ -117,10 +116,11 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
 
-  public Command getAutonomousCommand() {
+  public Command m_autonomousCommand() {
     // An example command will be run in autonomous
-    return moveToTarget;
 
+    return new MoveToTarget();
+    
 
   }
 }

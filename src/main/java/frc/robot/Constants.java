@@ -95,7 +95,7 @@ public final class Constants {
   public static class VisionConstants{
     public static final double GREENZONE_MAX_X = 1.3;
     public static final double GREENZONE_MIN_X = 0.8;
-    public static final double GREENZONE_MAX_Y = 0.3;
+    public static final double GREENZONE_MAX_Y = 0.1;
     public static final double GREENZONE_MIN_Y = -0.3;
     
   }
@@ -188,7 +188,7 @@ public final class Constants {
     public static final int CLIMB_REACH_MOTOR_PORT = 14;
     public static final int CLIMB_RETRACT_MOTOR_PORT = 15;
   }
-    
+  
   public static class MotorSpeeds {
     public static final double LAUNCHER_SPEED = 1.0;
     public static final double INTAKE_SPEED = 1.0;
