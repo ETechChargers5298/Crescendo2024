@@ -14,7 +14,7 @@ public class Camera extends SubsystemBase {
 
   private Camera() {
     this.cam = new AprilCam(CameraConstants.GRID_APRIL_CAM_NAME);
-
+    cam.update();
   }
 
   public static Camera getInstance() {

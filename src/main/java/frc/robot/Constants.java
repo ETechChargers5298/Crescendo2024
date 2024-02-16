@@ -78,15 +78,15 @@ public final class Constants {
     public static final boolean TURN_INVERSION = true;
 
     // Driving Parameters - max speeds allowed, not capable
-    public static final double TOP_SPEED = Units.feetToMeters(1.5* 4.8); //9.6
+    public static final double TOP_SPEED = Units.feetToMeters(2* 4.8); //9.6
     public static final double TOP_ANGULAR_SPEED = 2 * 2 * Math.PI;
     public static final double GEER_RATTIOLI = 5.08;
 
 
     //Slew stuff from Rev
-    public static final double kDirectionSlewRate = 1.2; // radians per second
-    public static final double kMagnitudeSlewRate = 1.8; // percent per second (1 = 100%)
-    public static final double kRotationalSlewRate = 2.0; // percent per second (1 = 100%)
+    public static final double kDirectionSlewRate = 1; // radians per second
+    public static final double kMagnitudeSlewRate = 1.4; // percent per second (1 = 100%)
+    public static final double kRotationalSlewRate = 1; // percent per second (1 = 100%)
 
     public static final boolean kGyroReversed = false;
 
@@ -102,7 +102,7 @@ public final class Constants {
   public static class VisionConstants{
     public static final double GREENZONE_MAX_X = 1.3;
     public static final double GREENZONE_MIN_X = 0.8;
-    public static final double GREENZONE_MAX_Y = 0.3;
+    public static final double GREENZONE_MAX_Y = 0.1;
     public static final double GREENZONE_MIN_Y = -0.3;
     public static final double GREENZONE_ANGLE = 10.0;
     
@@ -137,8 +137,8 @@ public final class Constants {
     public static final double kTurningEncoderPositionFactor = (2 * Math.PI); // radians
     public static final double kTurningEncoderVelocityFactor = (2 * Math.PI) / 60.0; // radians per second
 
-    public static final double kTurningEncoderPositionPIDMinInput = 0; // radians
-    public static final double kTurningEncoderPositionPIDMaxInput = kTurningEncoderPositionFactor; // radians
+    public static final double kTurningEncoderPositionPIDMinInput = -Math.PI; // radians
+    public static final double kTurningEncoderPositionPIDMaxInput = Math.PI; // radians
 
     public static final double kDrivingP = 0.04;
     public static final double kDrivingI = 0;

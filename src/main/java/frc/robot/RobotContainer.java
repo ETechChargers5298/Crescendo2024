@@ -5,13 +5,11 @@
 package frc.robot;
 
 import frc.robot.commands.ArmJoystick;
-// import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.ArmPivot;
 import frc.robot.commands.ArmPivotReverse;
 import frc.robot.commands.ArmSetAngle;
-// import frc.robot.commands.Autos;
-// import frc.robot.commands.ExampleCommand;
-// import frc.robot.subsystems.ExampleSubsystem;
+import frc.robot.commands.ArmPivot;
+import frc.robot.commands.ArmPivotReverse;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.XboxController.Button;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -27,9 +25,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
-
 import java.util.List;
-
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.geometry.Pose2d;
@@ -43,8 +39,10 @@ import frc.robot.Constants.ArmConstants;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.MechConstants;
 import frc.robot.Constants.SwerveConstants;
-import frc.robot.commands.SwerveDrive;
 import frc.robot.commands.MoveToTarget;
+import frc.robot.commands.drive.SwerveDrive;
+import frc.robot.commands.drive.TurnToAngle;
+import frc.robot.commands.drive.TurnToAngle.DriveAngle;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.utils.DPad;
 import frc.robot.subsystems.Arm;
@@ -59,20 +57,13 @@ import frc.robot.subsystems.Camera;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
 
-  //Auto Command Fields
-  private final Command moveToTarget;
-  //private final Camera Careywashere = Camera.getInstance();
-  
-  //XBox Controller Fields
   private static final XboxController driverController = new XboxController(Ports.DRIVER_CONTROLLER);
   private static final XboxController operatorController = new XboxController(Ports.OPERATOR_CONTROLLER);
 
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
-public RobotContainer () { 
 
-    //Instantiate Auto Commands here
-    moveToTarget = new MoveToTarget();
+  public RobotContainer() {
 
     // Configure the trigger bindings
     configureBindings();
@@ -100,6 +91,13 @@ public RobotContainer () {
       () -> -driverController.getRawAxis(4)
     ));
 
+    new DPad(driverController, 0).whileTrue(new TurnToAngle(DriveAngle.FRONT));
+    new DPad(driverController, 90).whileTrue(new TurnToAngle(DriveAngle.LEFT));
+    new DPad(driverController, 180).whileTrue(new TurnToAngle(DriveAngle.BACK));
+    new DPad(driverController, 270).whileTrue(new TurnToAngle(DriveAngle.RIGHT));
+    
+    new JoystickButton(driverController,Button.kLeftBumper.value).whileTrue(new IntakeSpit());
+    new JoystickButton(driverController,Button.kRightBumper.value).whileTrue(new IntakeEat());
     //TODO
     //lock & unlock wheels with X/Y
 
@@ -108,8 +106,7 @@ public RobotContainer () {
 
 
     //intake eat/spit with LB/RB
-    new JoystickButton(operatorController,Button.kLeftBumper.value).whileTrue(new IntakeSpit());
-    new JoystickButton(operatorController,Button.kRightBumper.value).whileTrue(new IntakeEat());
+    
 
 
     //----- OPERATOR CONTROLS -----//
@@ -128,6 +125,8 @@ public RobotContainer () {
     //arm Pivot with LB/RB
     new JoystickButton(operatorController,Button.kLeftBumper.value).whileTrue(new ArmPivotReverse());
     new JoystickButton(operatorController,Button.kRightBumper.value).whileTrue(new ArmPivot());
+
+    //pivot up/down with joystick (RY or LY?)
 
     //arm autoPivot with DPAD
     new DPad(operatorController, 0).whileTrue(new ArmSetAngle(ArmConstants.START_ANGLE));
@@ -153,58 +152,12 @@ public RobotContainer () {
    * @return the command to run in autonomous
    */
 
-  public Command getAutonomousCommand() {
-    
-    //TODO
-    //Setup "Sendable Chooser" for different commands to be run based on SmartDashboard
-    
-    return moveToTarget;
 
+  public Command m_autonomousCommand() {
+    // An example command will be run in autonomous
 
+    return new MoveToTarget();
 
-    /* //FROM REV EXAMPLE 
-     *
-    */
-    // Create config for trajectory
-//     TrajectoryConfig config = new TrajectoryConfig(
-//         AutoConstants.kMaxSpeedMetersPerSecond,
-//         AutoConstants.kMaxAccelerationMetersPerSecondSquared)
-//         // Add kinematics to ensure max speed is actually obeyed
-//         .setKinematics(SwerveConstants.DRIVE_KINEMATICS);
-
-//     // An example trajectory to follow. All units in meters.
-//     Trajectory exampleTrajectory = TrajectoryGenerator.generateTrajectory(
-//         // Start at the origin facing the +X direction
-//         new Pose2d(0, 0, new Rotation2d(0)),
-//         // Pass through these two interior waypoints, making an 's' curve path
-//         List.of(new Translation2d(1, 1), new Translation2d(2, -1)),
-//         // End 3 meters straight ahead of where we started, facing forward
-//         new Pose2d(3, 0, new Rotation2d(0)),
-//         config);
-
-//     var thetaController = new ProfiledPIDController(
-//         AutoConstants.kPThetaController, 0, 0, AutoConstants.kThetaControllerConstraints);
-//     thetaController.enableContinuousInput(-Math.PI, Math.PI);
-
-//     SwerveControllerCommand swerveControllerCommand = new SwerveControllerCommand(
-//         exampleTrajectory,
-//         Drivetrain.getInstance()::getPose, // Functional interface to feed supplier
-//         SwerveConstants.DRIVE_KINEMATICS,
-
-//         // Position controllers
-//         new PIDController(AutoConstants.kPXController, 0, 0),
-//         new PIDController(AutoConstants.kPYController, 0, 0),
-//         thetaController,
-//         Drivetrain.getInstance()::setModuleStates,
-//         Drivetrain.getInstance());
-
-//     // Reset odometry to the starting pose of the trajectory.
-//     Drivetrain.getInstance().resetOdometry(exampleTrajectory.getInitialPose());
-
-//     // Run path following command, then stop at the end.
-//     return swerveControllerCommand.andThen(() -> Drivetrain.getInstance().drive(0, 0, 0, false, false));
-
-  //  */
 
   }
 }
