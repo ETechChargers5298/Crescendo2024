@@ -28,12 +28,19 @@ import edu.wpi.first.math.util.Units;
 public final class Constants {
 
   public static class SwerveConstants {
-
+    ///(Old Robot)
     //Sensor Offsets for the radian difference between the physical sensor orientation and the calibrated swerve direction
     public static final double FL_SENSOR_OFFSET = 2.949; //from REV Hardware Client
     public static final double FR_SENSOR_OFFSET = 5.610; //from REV Hardware Client
     public static final double BR_SENSOR_OFFSET = 1.894; //from REV Hardware Client
     public static final double BL_SENSOR_OFFSET = 0.717; //from REV Hardware Client
+
+    ///(New Robot)(Put new numbers)
+    // public static final double FL_SENSOR_OFFSET = 2.949; //from REV Hardware Client
+    // public static final double FR_SENSOR_OFFSET = 5.610; //from REV Hardware Client
+    // public static final double BR_SENSOR_OFFSET = 1.894; //from REV Hardware Client
+    // public static final double BL_SENSOR_OFFSET = 0.717; //from REV Hardware Client
+
 
     //Angular Offsets for the radian difference between the calibrated swerve and desired forward direction
         public static final double FL_ANGULAR_OFFSET = -Math.PI/2; //Math.PI / 2; //-Math.PI / 2;
@@ -97,6 +104,7 @@ public final class Constants {
     public static final double GREENZONE_MIN_X = 0.8;
     public static final double GREENZONE_MAX_Y = 0.1;
     public static final double GREENZONE_MIN_Y = -0.3;
+    public static final double GREENZONE_ANGLE = 10.0;
     
   }
 
@@ -177,18 +185,12 @@ public final class Constants {
   }
 
   public static class MechConstants{
-
-    public static final int INTAKE_MOTOR_PORT = 9;
-    public static final int TOP_LAUNCHER_MOTOR_PORT = 10;
-    public static final int BOTTOM_LAUNCHER_MOTOR_PORT = 11;
-
-    public static final int DOWN_PIVOT_MOTOR_PORT = 10;
-    public static final int UP_PIVOT_MOTOR_PORT = 13;
-    
-    public static final int CLIMB_REACH_MOTOR_PORT = 14;
-    public static final int CLIMB_RETRACT_MOTOR_PORT = 15;
+    public static final double MAX_CLIMB_RIGHT = 900.0;
+    public static final double BASE_CLIMB_RIGHT = 0.0;
+    public static final double MAX_CLIMB_LEFT = 900.0;
+    public static final double BASE_CLIMB_LEFT = 0.0;
   }
-  
+
   public static class MotorSpeeds {
     public static final double LAUNCHER_SPEED = 1.0;
     public static final double INTAKE_SPEED = 1.0;
@@ -202,6 +204,7 @@ public final class Constants {
     public static final double FLOOR_ANGLE = -10.0;
     public static final double LAUNCH_ANGLE = 40.0;
     public static final double AMP_ANGLE = 120.0;
+    public static final double ARM_POSITION_TOLERANCE = 3.0;
   }
 }  
 

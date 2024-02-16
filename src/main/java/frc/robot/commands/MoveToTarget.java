@@ -33,6 +33,7 @@ public class MoveToTarget extends Command {
     drivetrain.resetIMU();
   }
 
+
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
@@ -46,14 +47,6 @@ public class MoveToTarget extends Command {
         drivetrain.drive(0, 0, 0);
     }
 
-    // else if(cam.getCam().getY()>Constants.VisionConstants.GREENZONE_MAX_Y){   ///Y = 0.3
-    //     drivetrain.drive(-0.1, 0, 0);
-    // } 
-    
-    // //if target is to the right of our robot, strafe left
-    // else if (cam.getCam().getY() < Constants.VisionConstants.GREENZONE_MIN_Y) {   ///Y = -0.3
-    //     drivetrain.drive(-0.1, 0, 0);
-    // }
 
   }
 

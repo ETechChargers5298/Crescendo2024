@@ -5,35 +5,24 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.Intake;
 
-public class IntakeEat extends Command {
-  private Intake intake;
-  /** Creates a new IntakeEat. */
-  public IntakeEat() {
-    intake = Intake.getInstance();
+public class ClimberJoystick extends Command {
+  /** Creates a new ClimberJoystick. */
+  public ClimberJoystick() {
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(intake);
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {
-    intake.stop();
-  }
+  public void initialize() {}
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {
-    intake.eat();
-    //if sees the note it spitts for 0.1 second
-  }
+  public void execute() {}
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {
-    intake.stop();
-  }
+  public void end(boolean interrupted) {}
 
   // Returns true when the command should end.
   @Override

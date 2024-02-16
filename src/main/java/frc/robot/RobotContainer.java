@@ -4,7 +4,10 @@
 
 package frc.robot;
 
-
+import frc.robot.commands.ArmJoystick;
+import frc.robot.commands.ArmPivot;
+import frc.robot.commands.ArmPivotReverse;
+import frc.robot.commands.ArmSetAngle;
 import frc.robot.commands.ArmPivot;
 import frc.robot.commands.ArmPivotReverse;
 import edu.wpi.first.wpilibj.XboxController;
@@ -17,6 +20,7 @@ import frc.robot.commands.IntakeEat;
 import frc.robot.commands.IntakeSpit;
 import frc.robot.commands.LauncherShoot;
 import frc.robot.commands.LauncherTake;
+import frc.robot.Ports;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
@@ -31,7 +35,9 @@ import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.trajectory.TrajectoryConfig;
 import edu.wpi.first.math.trajectory.TrajectoryGenerator;
 import edu.wpi.first.wpilibj.XboxController;
+import frc.robot.Constants.ArmConstants;
 import frc.robot.Constants.AutoConstants;
+import frc.robot.Constants.MechConstants;
 import frc.robot.Constants.SwerveConstants;
 import frc.robot.commands.MoveToTarget;
 import frc.robot.commands.drive.SwerveDrive;
@@ -39,6 +45,7 @@ import frc.robot.commands.drive.TurnToAngle;
 import frc.robot.commands.drive.TurnToAngle.DriveAngle;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.utils.DPad;
+import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Camera;
 
 /**
@@ -50,18 +57,12 @@ import frc.robot.subsystems.Camera;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
 
-  //public Command moveToTarget;
-  Camera Careywashere = Camera.getInstance();
-  
-
-  // Replace with CommandPS4Controller or CommandJoystick if needed
-  //private final CommandXboxController m_driverController = new CommandXboxController(OperatorConstants.kDriverControllerPort);
-
   private static final XboxController driverController = new XboxController(Ports.DRIVER_CONTROLLER);
   private static final XboxController operatorController = new XboxController(Ports.OPERATOR_CONTROLLER);
 
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
+
   public RobotContainer() {
 
     // Configure the trigger bindings
@@ -79,34 +80,69 @@ public class RobotContainer {
    */
   private void configureBindings() {
 
-    new DPad(driverController, 0).whileTrue(new TurnToAngle(DriveAngle.FRONT));
-    new DPad(driverController, 90).whileTrue(new TurnToAngle(DriveAngle.LEFT));
-    new DPad(driverController, 180).whileTrue(new TurnToAngle(DriveAngle.BACK));
-    new DPad(driverController, 270).whileTrue(new TurnToAngle(DriveAngle.RIGHT));
-    
-    //intake eat/spit
-    new JoystickButton(operatorController,Button.kB.value).whileTrue(new IntakeEat());
-    new JoystickButton(operatorController,Button.kX.value).whileTrue(new IntakeSpit());
+    //See button mappings on team Google Drive file:
+    // https://docs.google.com/presentation/d/1RsC4LT027S3UziIJyp8OQ5cZ9MOVuiTcsnDxlTtHj_I/edit#slide=id.g18d2b75b637cb431_3
 
-    //launcher shoot/take
-    new JoystickButton(operatorController,Button.kY.value).whileTrue(new LauncherShoot());
-    new JoystickButton(operatorController,Button.kA.value).whileTrue(new LauncherTake());
-
-    new JoystickButton(operatorController,Button.kLeftBumper.value).whileTrue(new ArmPivotReverse());
-    new JoystickButton(operatorController,Button.kRightBumper.value).whileTrue(new ArmPivot());
-
-    //pivot up/down with joystick (RY or LY?)
-    //new JoystickButton(operatorController,Button.kY.value).whileTrue(new LauncherTake());
-
-    // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
+    //----- DRIVER CONTROLS -----//
+    //Drive robot with forward (LY), strafe (LX), and turn (RX)
     Drivetrain.getInstance().setDefaultCommand(new SwerveDrive(
       () -> -driverController.getRawAxis(1),
       () -> -driverController.getRawAxis(0),
       () -> -driverController.getRawAxis(4)
     ));
 
-    // Schedule `exampleMethodCommand` when the Xbox controller's B button is pressed,
-    // cancelling on release.
+    new DPad(driverController, 0).whileTrue(new TurnToAngle(DriveAngle.FRONT));
+    new DPad(driverController, 90).whileTrue(new TurnToAngle(DriveAngle.LEFT));
+    new DPad(driverController, 180).whileTrue(new TurnToAngle(DriveAngle.BACK));
+    new DPad(driverController, 270).whileTrue(new TurnToAngle(DriveAngle.RIGHT));
+    
+    new JoystickButton(driverController,Button.kLeftBumper.value).whileTrue(new IntakeSpit());
+    new JoystickButton(driverController,Button.kRightBumper.value).whileTrue(new IntakeEat());
+    //TODO
+    //lock & unlock wheels with X/Y
+
+    //TODO
+    //auto-align drivetrain to speaker target/greenzone with A
+
+
+    //intake eat/spit with LB/RB
+    
+
+
+    //----- OPERATOR CONTROLS -----//
+
+    //intake eat/spit with B/X
+    new JoystickButton(operatorController,Button.kB.value).whileTrue(new IntakeEat());
+    new JoystickButton(operatorController,Button.kX.value).whileTrue(new IntakeSpit());
+
+    //launcher shoot/take with A/Y
+    new JoystickButton(operatorController,Button.kY.value).whileTrue(new LauncherShoot());
+    new JoystickButton(operatorController,Button.kA.value).whileTrue(new LauncherTake());
+
+    //TODO
+    //auto launch sequence with RB
+
+    //arm Pivot with LB/RB
+    new JoystickButton(operatorController,Button.kLeftBumper.value).whileTrue(new ArmPivotReverse());
+    new JoystickButton(operatorController,Button.kRightBumper.value).whileTrue(new ArmPivot());
+
+    //pivot up/down with joystick (RY or LY?)
+
+    //arm autoPivot with DPAD
+    new DPad(operatorController, 0).whileTrue(new ArmSetAngle(ArmConstants.START_ANGLE));
+    new DPad(operatorController, 90).whileTrue(new ArmSetAngle(ArmConstants.AMP_ANGLE));
+    new DPad(operatorController, 180).whileTrue(new ArmSetAngle(ArmConstants.FLOOR_ANGLE));
+    new DPad(operatorController, 270).whileTrue(new ArmSetAngle(ArmConstants.LAUNCH_ANGLE));
+
+    //arm pivot up/down with joystick (LX)
+    Arm.getInstance().setDefaultCommand(new ArmJoystick( () -> operatorController.getLeftX()));
+
+    //TODO
+    //auto arm pivot based on apriltags with LB
+
+    //TODO
+    //climber up & down with joystick (RY)
+  
 
   }
 
@@ -116,11 +152,12 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
 
+
   public Command m_autonomousCommand() {
     // An example command will be run in autonomous
 
     return new MoveToTarget();
-    
+
 
   }
 }
