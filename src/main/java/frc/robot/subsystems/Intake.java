@@ -23,7 +23,7 @@ public class Intake extends SubsystemBase {
     private ColorSensorV3 noteFinder;
     private final ColorMatch colorMatcher = new ColorMatch();
     private boolean isNoteFound = false;
-    private final Color kOrangeTarget = new Color(1, 0.65, 0);
+    private final Color kOrangeTarget = new Color(0.5, 0.4, 0.1);
     
 
 
@@ -39,12 +39,6 @@ public class Intake extends SubsystemBase {
         return instance;
     }
 
-    public Color getColor() {
-
-        Color detectedColor = noteFinder.getColor();
-        return detectedColor;
-    }
-
     //Elijah did this
     public void eat(){
         intakeMotor.set(-Constants.MotorSpeeds.INTAKE_SPEED);
@@ -55,9 +49,17 @@ public class Intake extends SubsystemBase {
     public void spitt(){
         intakeMotor.set(Constants.MotorSpeeds.INTAKE_SPEED);
     }
+
+
  //Elijah did this
     public void stop(){
         intakeMotor.set(0);
+    }
+
+    public Color getColor() {
+
+        Color detectedColor = noteFinder.getColor();
+        return detectedColor;
     }
 
     public void noteFound(){
@@ -70,6 +72,7 @@ public class Intake extends SubsystemBase {
         }
     }
 
+    
     @Override
 
     //Color Sensor Code
@@ -83,15 +86,26 @@ public class Intake extends SubsystemBase {
         
         ColorMatchResult match = colorMatcher.matchClosestColor(detectedColor);
 
-        if(match.color == kOrangeTarget){
+        // if(match.color == kOrangeTarget){
+        //     colorString = "Orange";
+        // }
+        // else{
+        //     colorString = "Unknown Color";
+        // }
+
+        if (detectedColor.red > 0.4){
             colorString = "Orange";
-        }
-        else{
-            colorString = "Unknown Color";
+            isNoteFound = true;
+            stop();
         }
 
-        // For detected.Color I haven't been able to find any ways to set it to Orange
-        SmartDashboard.putNumber("Orange", detectedColor.red);
+        else {
+            colorString = "Unknown Color";
+        }
+        
+        SmartDashboard.putNumber("R", detectedColor.red);
+        SmartDashboard.putNumber("G", detectedColor.green);
+        SmartDashboard.putNumber("B", detectedColor.blue);
         SmartDashboard.putNumber("Confidence", match.confidence);
         SmartDashboard.putString("Detected Color ", colorString);
         SmartDashboard.putBoolean("Have Note", isNoteFound);

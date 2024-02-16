@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import frc.robot.utils.ModuleConfig;
 import frc.robot.utils.PIDF;
+import frc.robot.Ports;
 import com.revrobotics.CANSparkBase.IdleMode;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
@@ -193,6 +194,14 @@ public final class Constants {
     public static final double INTAKE_SPEED = 1.0;
     public static final double ARM_PIVOT_SPEED = 1.0;
     
+  }
+
+  public static final class ArmConstants {
+    
+    public static final double START_ANGLE = 80.0;
+    public static final double FLOOR_ANGLE = -10.0;
+    public static final double LAUNCH_ANGLE = 40.0;
+    public static final double AMP_ANGLE = 120.0;
   }
 }  
 

@@ -19,6 +19,9 @@ public class Ports {
     public static final int SWERVE_DRIVE_BL = 7;
     public static final int SWERVE_TURN_BL = 8;
 
+    public static final int ARM_RIGHT = 12;
+    public static final int ARM_LEFT = 13;
+
     public static final int DRIVER_CONTROLLER = 0;
     public static final int OPERATOR_CONTROLLER = 1;
 }
