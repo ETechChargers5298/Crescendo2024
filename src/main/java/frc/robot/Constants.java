@@ -187,6 +187,8 @@ public final class Constants {
   public static class MechConstants{
     public static final double MAX_CLIMB_RIGHT = 900.0;
     public static final double BASE_CLIMB_RIGHT = 0.0;
+    public static final double MAX_CLIMB_LEFT = 900.0;
+    public static final double BASE_CLIMB_LEFT = 0.0;
   }
 
   public static class MotorSpeeds {
