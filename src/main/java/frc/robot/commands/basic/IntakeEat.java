@@ -4,11 +4,15 @@
 
 package frc.robot.commands.basic;
 
+
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Intake;
 
+
 public class IntakeEat extends Command {
+
   private Intake intake;
+
   /** Creates a new IntakeEat. */
   public IntakeEat() {
     intake = Intake.getInstance();

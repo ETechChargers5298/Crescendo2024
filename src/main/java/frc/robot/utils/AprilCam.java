@@ -4,15 +4,8 @@
 
 package frc.robot.utils;
 
-import java.util.List;
-import java.util.Optional;
 
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-
+import frc.robot.Constants.VisionConstants;
 import org.photonvision.EstimatedRobotPose;
 import org.photonvision.PhotonCamera;
 import org.photonvision.PhotonPoseEstimator;
@@ -27,12 +20,15 @@ import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
+import java.util.List;
+import java.util.Optional;
+
 
 public class AprilCam {
-  /** Creates a new AprilCam. */
-  private PhotonCamera camera;
+
+    private PhotonCamera camera;
     private PhotonPipelineResult result;
-    PhotonTrackedTarget desiredTarget;
+    private PhotonTrackedTarget desiredTarget;
     private int desiredTargetID;
     private AprilTagFieldLayout fieldLayout;
     private Transform3d camOffset;
@@ -40,19 +36,31 @@ public class AprilCam {
     private static AprilCam instance;
     
 
-    public AprilCam(String name) {
-        this.camera = new PhotonCamera(name);
-        this.fieldLayout = AprilTagFields.k2024Crescendo.loadAprilTagLayoutField();
-        this.camOffset = new Transform3d(new Translation3d(), new Rotation3d());
-        this.photonPoseEstimator = new PhotonPoseEstimator(fieldLayout, PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR, camera, camOffset);
-    }
-
+    //Primary Constructor
     public AprilCam(String name, Translation3d position, Rotation3d angle) {
         this.camera = new PhotonCamera(name);
         this.fieldLayout = AprilTagFields.k2024Crescendo.loadAprilTagLayoutField();
         this.camOffset = new Transform3d(position, angle);
         this.photonPoseEstimator = new PhotonPoseEstimator(fieldLayout, PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR, camera, camOffset);
     }
+
+    //Simpler Constructor
+    public AprilCam(String name) {
+        this(name,new Translation3d(), new Rotation3d());
+    }
+
+
+    public static AprilCam getInstance() {
+        if (instance == null) {
+          instance = new AprilCam(VisionConstants.APRIL_CAM_NAME);
+        }
+        return instance;
+      }
+
+    public void update() {
+        this.result = camera.getLatestResult();
+    }
+
     
     public Optional<EstimatedRobotPose> getEstimatedGlobalPose() {
 
@@ -65,17 +73,6 @@ public class AprilCam {
         photonPoseEstimator.setReferencePose(prevEstimatedRobotPose);
 
         return photonPoseEstimator.update();
-    }
-
-    public static AprilCam getInstance() {
-        if (instance == null) {
-          instance = new AprilCam(Constants.CameraConstants.GRID_APRIL_CAM_NAME);
-        }
-        return instance;
-      }
-
-    public void update() {
-        this.result = camera.getLatestResult();
     }
 
     public boolean hasTarget() {
@@ -91,25 +88,31 @@ public class AprilCam {
         return false;
     }
 
+    //method to get all the AprilTag targets the camera can see
     public List<PhotonTrackedTarget> getTargets(){
         return result.getTargets();
     }
 
+    //method that returns a PhotonTrackedTarget object for the desired target
     public PhotonTrackedTarget getDesiredTarget(){
-       // PhotonTrackedTarget target = result.getBestTarget();
-        //get the arraylist of targets
+
+        //look at each target in the arraylist of targets
         for (PhotonTrackedTarget t: getTargets())
         {
+            //look for the target with the desired ID
             if (t.getFiducialId() == this.desiredTargetID)
             {
                 return t;
             }
-            /////
+            
         }
+
+        //return null if you can't find the desiredTarget
         return null;
     }
 
     
+    //method that gets the ID of the "best" target, generally not used by our robot
     public int getBestID(){
         PhotonTrackedTarget target = result.getBestTarget();
         if(target == null) {

@@ -4,28 +4,24 @@
 
 package frc.robot;
 
-import frc.robot.commands.ArmJoystick;
-import frc.robot.commands.ArmPivot;
-import frc.robot.commands.ArmPivotReverse;
-import frc.robot.commands.ArmSetAngle;
-import frc.robot.commands.ArmPivot;
-import frc.robot.commands.ArmPivotReverse;
+
+import frc.robot.commands.basic.*;
+import frc.robot.commands.closed.*;
+import frc.robot.commands.closed.TurnToAngle.DriveAngle;
+import frc.robot.commands.complex.*;
+import frc.robot.commands.auto.*;
+import frc.robot.Constants.*;
+import frc.robot.subsystems.*;
+import frc.robot.utils.*;
+
+import java.util.List;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.XboxController.Button;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
-import frc.robot.commands.IntakeEat;
-import frc.robot.commands.IntakeSpit;
-import frc.robot.commands.LauncherShoot;
-import frc.robot.commands.LauncherTake;
-import frc.robot.Ports;
-import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
-import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
-import edu.wpi.first.wpilibj2.command.button.Trigger;
-import java.util.List;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.geometry.Pose2d;
@@ -34,19 +30,7 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.trajectory.TrajectoryConfig;
 import edu.wpi.first.math.trajectory.TrajectoryGenerator;
-import edu.wpi.first.wpilibj.XboxController;
-import frc.robot.Constants.ArmConstants;
-import frc.robot.Constants.AutoConstants;
-import frc.robot.Constants.MechConstants;
-import frc.robot.Constants.SwerveConstants;
-import frc.robot.commands.MoveToTarget;
-import frc.robot.commands.drive.SwerveDrive;
-import frc.robot.commands.drive.TurnToAngle;
-import frc.robot.commands.drive.TurnToAngle.DriveAngle;
-import frc.robot.subsystems.Drivetrain;
-import frc.robot.utils.DPad;
-import frc.robot.subsystems.Arm;
-import frc.robot.subsystems.Camera;
+
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -91,22 +75,22 @@ public class RobotContainer {
       () -> -driverController.getRawAxis(4)
     ));
 
+    //Snap robot to specific angle
     new DPad(driverController, 0).whileTrue(new TurnToAngle(DriveAngle.FRONT));
     new DPad(driverController, 90).whileTrue(new TurnToAngle(DriveAngle.LEFT));
     new DPad(driverController, 180).whileTrue(new TurnToAngle(DriveAngle.BACK));
     new DPad(driverController, 270).whileTrue(new TurnToAngle(DriveAngle.RIGHT));
     
+    //Driver control of intake of notes with LB/RB
     new JoystickButton(driverController,Button.kLeftBumper.value).whileTrue(new IntakeSpit());
     new JoystickButton(driverController,Button.kRightBumper.value).whileTrue(new IntakeEat());
+    
     //TODO
     //lock & unlock wheels with X/Y
 
-    //TODO
     //auto-align drivetrain to speaker target/greenzone with A
+    new JoystickButton(driverController,Button.kA.value).whileTrue(new MoveToTarget());
 
-
-    //intake eat/spit with LB/RB
-    
 
 
     //----- OPERATOR CONTROLS -----//
@@ -119,23 +103,21 @@ public class RobotContainer {
     new JoystickButton(operatorController,Button.kY.value).whileTrue(new LauncherShoot());
     new JoystickButton(operatorController,Button.kA.value).whileTrue(new LauncherTake());
 
-    //TODO
     //auto launch sequence with RB
+    new JoystickButton(operatorController,Button.kRightBumper.value).whileTrue(new ComplexLaunch());
 
-    //arm Pivot with LB/RB
-    new JoystickButton(operatorController,Button.kLeftBumper.value).whileTrue(new ArmPivotReverse());
-    new JoystickButton(operatorController,Button.kRightBumper.value).whileTrue(new ArmPivot());
-
-    //pivot up/down with joystick (RY or LY?)
+    // arm Pivot with LB/RB
+    // new JoystickButton(operatorController,Button.kLeftBumper.value).whileTrue(new ArmPivotReverse());
+    // new JoystickButton(operatorController,Button.kRightBumper.value).whileTrue(new ArmPivot());
 
     //arm autoPivot with DPAD
-    new DPad(operatorController, 0).whileTrue(new ArmSetAngle(ArmConstants.START_ANGLE));
-    new DPad(operatorController, 90).whileTrue(new ArmSetAngle(ArmConstants.AMP_ANGLE));
-    new DPad(operatorController, 180).whileTrue(new ArmSetAngle(ArmConstants.FLOOR_ANGLE));
-    new DPad(operatorController, 270).whileTrue(new ArmSetAngle(ArmConstants.LAUNCH_ANGLE));
+    new DPad(operatorController, 0).whileTrue(new ArmSetAngle(MechConstants.START_ANGLE));
+    new DPad(operatorController, 90).whileTrue(new ArmSetAngle(MechConstants.AMP_ANGLE));
+    new DPad(operatorController, 180).whileTrue(new ArmSetAngle(MechConstants.FLOOR_ANGLE));
+    new DPad(operatorController, 270).whileTrue(new ArmSetAngle(MechConstants.LAUNCH_ANGLE));
 
-    //arm pivot up/down with joystick (LX)
-    Arm.getInstance().setDefaultCommand(new ArmJoystick( () -> operatorController.getLeftX()));
+    //arm pivot up/down with joystick (LY)
+    Arm.getInstance().setDefaultCommand(new ArmJoystick( () -> operatorController.getLeftY()));
 
     //TODO
     //auto arm pivot based on apriltags with LB

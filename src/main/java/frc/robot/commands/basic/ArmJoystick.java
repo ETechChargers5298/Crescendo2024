@@ -2,17 +2,17 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands;
+package frc.robot.commands.basic;
 
-import java.util.function.Supplier;
 
-import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Arm;
+import java.util.function.Supplier;
+import edu.wpi.first.wpilibj2.command.Command;
+
 
 public class ArmJoystick extends Command {
 
   private Arm arm;
-
   private Supplier<Double> speedX;
   
   /** Creates a new LauncherJoystick. */
@@ -50,4 +50,5 @@ public class ArmJoystick extends Command {
   public boolean isFinished() {
     return false;
   }
+  
 }

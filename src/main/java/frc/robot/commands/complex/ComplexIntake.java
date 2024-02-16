@@ -1,8 +1,6 @@
 //make changes to this
 
-
-
-package frc.robot.commands.closed;
+package frc.robot.commands.complex;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Intake;
@@ -26,9 +24,9 @@ public class ComplexIntake extends Command {
   @Override
   public void execute() {
     intake.eat();
-    if(intake.checkNoteFound()){
-        intake.spitt();
-    }
+    // if(intake.checkNoteFound()){
+    //     intake.spitt();
+    // }
     //if sees the note it spitts for 0.1 second
   }
 

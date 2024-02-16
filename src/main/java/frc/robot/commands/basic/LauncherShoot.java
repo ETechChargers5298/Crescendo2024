@@ -4,10 +4,11 @@
 
 package frc.robot.commands.basic;
 
+
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.MechConstants;
-import frc.robot.Constants.MotorSpeeds;
 import frc.robot.subsystems.Launcher;
+
 
 public class LauncherShoot extends Command {
   private Launcher launch;
@@ -27,7 +28,7 @@ public class LauncherShoot extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    launch.launch(MotorSpeeds.LAUNCHER_SPEED);
+    launch.launch(MechConstants.LAUNCHER_SPEED);
   }
 
   // Called once the command ends or is interrupted.
