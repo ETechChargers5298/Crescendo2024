@@ -36,7 +36,7 @@ public final class Constants {
     // public static final double BL_SENSOR_OFFSET = 0.717; //from REV Hardware Client
 
     ///(New Robot)(Put new numbers)
-    public static final double FL_SENSOR_OFFSET = 0.2234277; //from REV Hardware Client
+    public static final double FL_SENSOR_OFFSET = 0.7848113; //from REV Hardware Client
     public static final double FR_SENSOR_OFFSET = 4.7082246; //from REV Hardware Client
     public static final double BR_SENSOR_OFFSET = 1.9979531; //from REV Hardware Client
     public static final double BL_SENSOR_OFFSET = 1.6861502; //from REV Hardware Client
