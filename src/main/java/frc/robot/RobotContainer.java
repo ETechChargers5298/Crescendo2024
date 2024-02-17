@@ -104,7 +104,7 @@ public class RobotContainer {
     new JoystickButton(operatorController,Button.kA.value).whileTrue(new LauncherTake());
 
     //auto launch sequence with RB
-    new JoystickButton(operatorController,Button.kRightBumper.value).whileTrue(new ComplexLaunch());
+    new JoystickButton(operatorController,Button.kRightBumper.value).onTrue(new ComplexLaunch());
 
     // arm Pivot with LB/RB
     // new JoystickButton(operatorController,Button.kLeftBumper.value).whileTrue(new ArmPivotReverse());

@@ -12,8 +12,11 @@ import edu.wpi.first.wpilibj2.command.WaitCommand;
 
 public class ComplexLaunch extends SequentialCommandGroup {
 
+    private Intake intake;
+
     public ComplexLaunch(){
-        if(Intake.isNoteFound){
+        intake = Intake.getInstance();
+        
             addCommands(
 
                 //little spit
@@ -36,7 +39,7 @@ public class ComplexLaunch extends SequentialCommandGroup {
                 )
                 
             );
-        }
+        
     }
 
 }
