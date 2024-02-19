@@ -28,7 +28,7 @@ public class ComplexLaunch extends SequentialCommandGroup {
                 //rev the wheels
                 new ParallelRaceGroup(
                     new LauncherShoot(),
-                    new WaitCommand(0.5)
+                    new WaitCommand(1.3)
                 ),
 
                 //push note into spinning wheels for a launch

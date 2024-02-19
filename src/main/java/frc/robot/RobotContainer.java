@@ -72,7 +72,7 @@ public class RobotContainer {
     Drivetrain.getInstance().setDefaultCommand(new SwerveDrive(
       () -> -driverController.getRawAxis(1),
       () -> -driverController.getRawAxis(0),
-      () -> -driverController.getRawAxis(4)
+      () -> -driverController.getRawAxis(2)
     ));
 
     //Snap robot to specific angle
@@ -119,12 +119,14 @@ public class RobotContainer {
     //arm pivot up/down with joystick (LY)
     Arm.getInstance().setDefaultCommand(new ArmJoystick( () -> operatorController.getLeftY()));
 
+
     //TODO
     //auto arm pivot based on apriltags with LB
 
     //TODO
     //climber up & down with joystick (RY)
-  
+    Climber.getInstance().setDefaultCommand(new ClimberJoystick( () ->-operatorController.getRightY()));
+
 
   }
 

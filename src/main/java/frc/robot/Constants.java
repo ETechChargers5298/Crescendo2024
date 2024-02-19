@@ -176,6 +176,19 @@ public final class Constants {
 
   public static class MechConstants{
 
+    //climber encoders
+    public static final double RIGHT_CLIMB_OFFSET = 0.340;
+    public static final double LEFT_CLIMB_OFFSET = 0.30926;
+
+    //Climber tops
+    public static final double RIGHT_CLIMBER_TOP = 0.14*11;  //1.54
+    public static final double RIGHT_CLIMBER_BOTTOM = 0.0;
+
+    public static final double LEFT_CLIMBER_TOP = 0.0;
+    public static final double LEFT_CLIMBER_BOTTOM = 0.0;
+
+
+
     //Climber Heights
     public static final double MAX_CLIMB_RIGHT = 900.0;
     public static final double BASE_CLIMB_RIGHT = 0.0;

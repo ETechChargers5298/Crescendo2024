@@ -5,6 +5,8 @@
 package frc.robot.commands.basic;
 
 
+import java.util.function.Supplier;
+
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Climber;
 
@@ -12,25 +14,36 @@ import frc.robot.subsystems.Climber;
 public class ClimberJoystick extends Command {
 
   private Climber climber;
+  private Supplier<Double> speed;
+  
 
   /** Creates a new ClimberJoystick. */
-  public ClimberJoystick() {
+  public ClimberJoystick( Supplier<Double> speed) {
+    this.speed = speed;
     climber = Climber.getInstance();
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(climber);
   }
 
-  // Called when the command is initially scheduled.
+
+// Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+    climber.stop();
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {}
+  public void execute() {
+    climber.move(speed.get());
+  }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+
+    climber.stop();
+  }
 
   // Returns true when the command should end.
   @Override

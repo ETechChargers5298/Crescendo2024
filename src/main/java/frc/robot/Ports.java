@@ -22,8 +22,8 @@ public class Ports {
     public static final int TOP_LAUNCHER_MOTOR_PORT = 10;
     public static final int BOTTOM_LAUNCHER_MOTOR_PORT = 11;
 
-    public static final int ARM_RIGHT = 12;
-    public static final int ARM_LEFT = 13;
+    public static final int ARM_RIGHT = 13;
+    public static final int ARM_LEFT = 12;
     
     public static final int CLIMB_RIGHT_MOTOR_PORT = 14;
     public static final int CLIMB_LEFT_MOTOR_PORT = 15;
