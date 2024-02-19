@@ -63,6 +63,11 @@ public class Drivetrain extends SubsystemBase {
   private SlewRateLimiter m_rotLimiter = new SlewRateLimiter(SwerveConstants.kRotationalSlewRate);
   private double m_prevTime = WPIUtilJNI.now() * 1e-6;
 
+  //Fields that control 3 dimensions of drive motion
+  private double xSpeed = 0.0;
+  private double ySpeed = 0.0;
+  private double rotSpeed = 0.0;
+
   //---------------DRIVETRAIN SUBSYSTEM CONSTRUCTOR --------------//
   public Drivetrain() {
 
@@ -110,16 +115,40 @@ public class Drivetrain extends SubsystemBase {
     return instance;
   }
 
+
+    
+  //---------------DRIVE METHODS --------------//
+
+  //Drive based on Drivetrain class fields
+  public void drive() {
+    drive(this.xSpeed, this.ySpeed, this.rotSpeed, this.fieldCentric);
+  }
+
+  //sets forward/backward motion of robot
+  public void setXSpeed(double xSpeed){
+    this.xSpeed = xSpeed;
+  }
+
+  //sets strafing right/left speed of robot
+  public void setYSpeed(double ySpeed){
+    this.ySpeed = ySpeed;
+  }
+
+  //sets rotation right/left speed of robot
+  public void setRotSpeed(double rotSpeed){
+    this.rotSpeed = rotSpeed;
+  }
+
+  //sets whether driving is fieldcentric or not
+  public void setFieldCentric(boolean fieldCentric) {
+    this.fieldCentric = fieldCentric;
+  }  
   public boolean getFieldCentric() {
     return fieldCentric;
   }
 
-  public void setFieldCentric(boolean fieldCentric) {
-    this.fieldCentric = fieldCentric;
-  }
 
-    
-  //---------------DRIVE METHODS --------------//
+
 
   /**
    * Making a drive function to make the speed for drive a fraction of total
@@ -131,8 +160,6 @@ public class Drivetrain extends SubsystemBase {
   public void drive(double xSpeed, double ySpeed, double rotSpeed) {
     drive(xSpeed, ySpeed, rotSpeed, false);
   }
-
-
 
   /**
    * Method to drive the robot using joystick info.

@@ -12,7 +12,13 @@ import frc.robot.utils.ModuleConfig;
 import frc.robot.utils.PIDF;
 import frc.robot.Ports;
 import com.revrobotics.CANSparkBase.IdleMode;
+
+//import edu.wpi.first.apriltag.AprilTag;
+import frc.robot.utils.AprilTag;
+import edu.wpi.first.math.geometry.Pose3d;
+import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.util.Units;
@@ -169,6 +175,9 @@ public final class Constants {
 
   public static class MechConstants{
 
+    
+    public static final int ENCODER_TICKS = 8192; //Counts per Revolution
+
     //Climber Heights
     public static final double MAX_CLIMB_RIGHT = 900.0;
     public static final double BASE_CLIMB_RIGHT = 0.0;
@@ -189,6 +198,7 @@ public final class Constants {
     public static final double ARM_POSITION_TOLERANCE = 2.0;
   }
 
+
   public static class VisionConstants{
 
     //GreenZone boundaries
@@ -204,9 +214,66 @@ public final class Constants {
 
     //Camera Name
     public static final String APRIL_CAM_NAME = "Arducam_OV9782_USB_Camera";
-
   }
 
+
+  public class FieldConstants{
+    
+    //AprilTag constants
+    public static final AprilTag APRILTAGS[] = {
+      new AprilTag(1,  new Pose3d(new Translation3d(Units.inchesToMeters(593.68), Units.inchesToMeters(9.68), Units.inchesToMeters(53.38)), new Rotation3d(Units.degreesToRadians(0), Units.degreesToRadians(0), Units.degreesToRadians(120)))),
+      new AprilTag(2,  new Pose3d(new Translation3d(Units.inchesToMeters(637.21), Units.inchesToMeters(34.79), Units.inchesToMeters(53.38)), new Rotation3d(Units.degreesToRadians(0), Units.degreesToRadians(0), Units.degreesToRadians(120)))),
+      new AprilTag(3,  new Pose3d(new Translation3d(Units.inchesToMeters(652.73), Units.inchesToMeters(196.17), Units.inchesToMeters(57.13)), new Rotation3d(Units.degreesToRadians(0), Units.degreesToRadians(0), Units.degreesToRadians(180)))),
+      new AprilTag(4,  new Pose3d(new Translation3d(Units.inchesToMeters(652.73), Units.inchesToMeters(218.42), Units.inchesToMeters(57.13)), new Rotation3d(Units.degreesToRadians(0), Units.degreesToRadians(0), Units.degreesToRadians(180)))),
+      new AprilTag(5,  new Pose3d(new Translation3d(Units.inchesToMeters(578.77), Units.inchesToMeters(323.0), Units.inchesToMeters(53.38)), new Rotation3d(Units.degreesToRadians(0), Units.degreesToRadians(0), Units.degreesToRadians(270)))),
+      new AprilTag(6,  new Pose3d(new Translation3d(Units.inchesToMeters(72.5), Units.inchesToMeters(323.0), Units.inchesToMeters(53.38)), new Rotation3d(Units.degreesToRadians(0), Units.degreesToRadians(0), Units.degreesToRadians(270)))),
+      new AprilTag(7,  new Pose3d(new Translation3d(Units.inchesToMeters(-1.5), Units.inchesToMeters(218.42), Units.inchesToMeters(57.13)), new Rotation3d(Units.degreesToRadians(0), Units.degreesToRadians(0), Units.degreesToRadians(0)))),
+      new AprilTag(8,  new Pose3d(new Translation3d(Units.inchesToMeters(-1.5), Units.inchesToMeters(196.17), Units.inchesToMeters(57.13)), new Rotation3d(Units.degreesToRadians(0), Units.degreesToRadians(0), Units.degreesToRadians(0)))),
+      new AprilTag(9,  new Pose3d(new Translation3d(Units.inchesToMeters(14.02), Units.inchesToMeters(34.79), Units.inchesToMeters(53.38)), new Rotation3d(Units.degreesToRadians(0), Units.degreesToRadians(0), Units.degreesToRadians(60)))),
+      new AprilTag(10, new Pose3d(new Translation3d(Units.inchesToMeters(57.54), Units.inchesToMeters(9.68), Units.inchesToMeters(53.38)), new Rotation3d(Units.degreesToRadians(0), Units.degreesToRadians(0), Units.degreesToRadians(60)))),
+      new AprilTag(11, new Pose3d(new Translation3d(Units.inchesToMeters(468.69), Units.inchesToMeters(146.19), Units.inchesToMeters(52.0)), new Rotation3d(Units.degreesToRadians(0), Units.degreesToRadians(0), Units.degreesToRadians(300)))),
+      new AprilTag(12, new Pose3d(new Translation3d(Units.inchesToMeters(468.69), Units.inchesToMeters(177.10), Units.inchesToMeters(52.0)), new Rotation3d(Units.degreesToRadians(0), Units.degreesToRadians(0), Units.degreesToRadians(60)))),
+      new AprilTag(13, new Pose3d(new Translation3d(Units.inchesToMeters(441.74), Units.inchesToMeters(161.62), Units.inchesToMeters(52.0)), new Rotation3d(Units.degreesToRadians(0), Units.degreesToRadians(0), Units.degreesToRadians(180)))),
+      new AprilTag(14, new Pose3d(new Translation3d(Units.inchesToMeters(209.48), Units.inchesToMeters(161.62), Units.inchesToMeters(52.0)), new Rotation3d(Units.degreesToRadians(0), Units.degreesToRadians(0), Units.degreesToRadians(0)))),
+      new AprilTag(15, new Pose3d(new Translation3d(Units.inchesToMeters(182.73), Units.inchesToMeters(177.10), Units.inchesToMeters(52.0)), new Rotation3d(Units.degreesToRadians(0), Units.degreesToRadians(0), Units.degreesToRadians(120)))),
+      new AprilTag(16, new Pose3d(new Translation3d(Units.inchesToMeters(182.73), Units.inchesToMeters(146.19), Units.inchesToMeters(52.0)), new Rotation3d(Units.degreesToRadians(0), Units.degreesToRadians(0), Units.degreesToRadians(240)))),
+    };
+
+    //enumerations for each AprilTag
+    enum NamedTags {
+      BLUE_SOURCE_RIGHT,
+      BLUE_SOURCE_LEFT,
+      RED_SPEAKER_OFFSET,
+      RED_SPEAKER,
+      RED_AMP,
+      BLUE_AMP,
+      BLUE_SPEAKER,
+      BLUE_SPEAKER_OFFSET,
+      RED_SOURCE_RIGHT,
+      RED_SOURCE_LEFT,
+      RED_STAGE_LEFT,
+      RED_STAGE_RIGHT,
+      RED_STAGE_FAR,
+      BLUE_STAGE_FAR,
+      BLUE_STAGE_LEFT,
+      BLUE_STAGE_RIGHT;
+
+      public final AprilTag tag;
+
+      public int getID() {
+          return tag.getID();
+      }
+
+      public Pose3d getLocation() {
+          return tag.getLocation();
+      }
+
+      private NamedTags() {
+          tag = APRILTAGS[ordinal()];
+      }
+    }
+  
+  }
 
 }  
 

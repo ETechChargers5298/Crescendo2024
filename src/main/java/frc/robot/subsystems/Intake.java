@@ -1,6 +1,6 @@
 package frc.robot.subsystems;
 
-import frc.robot.Constants;
+
 import frc.robot.Ports;
 import frc.robot.Constants.MechConstants;
 import com.revrobotics.CANSparkMax;
@@ -47,10 +47,6 @@ public class Intake extends SubsystemBase {
     public void spitt(){
         intakeMotor.set(MechConstants.INTAKE_SPEED);
     }
-
-    // public void timedSpitt(double time){
-    //     intake
-    // }
 
     //Elijah did this
     public void stop(){

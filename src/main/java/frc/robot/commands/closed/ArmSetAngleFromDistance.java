@@ -7,13 +7,14 @@ import frc.robot.subsystems.Camera;
 import edu.wpi.first.wpilibj2.command.Command;
 
 
-public class ArmSetAngletoDistance extends Command {
+public class ArmSetAngleFromDistance extends Command {
+  
     private Camera camera;
     private static Arm arm;
     double desiredAnglefromDistance;
 
     ///Set everything up
-    public ArmSetAngletoDistance()
+    public ArmSetAngleFromDistance()
     {
         camera = Camera.getInstance();
         arm = Arm.getInstance();

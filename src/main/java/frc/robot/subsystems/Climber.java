@@ -1,10 +1,9 @@
 package frc.robot.subsystems;
 
 
-import com.revrobotics.AbsoluteEncoder;
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkLowLevel.MotorType;
-import com.revrobotics.SparkAbsoluteEncoder.Type;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Ports;
@@ -15,15 +14,15 @@ public class Climber extends SubsystemBase{
 
     private CANSparkMax rightMotor;
     private CANSparkMax leftMotor;
-    private AbsoluteEncoder leftEncoder;
-    private AbsoluteEncoder rightEncoder;
+    private RelativeEncoder leftEncoder;
+    private RelativeEncoder rightEncoder;
     private static Climber instance;
 
     private Climber(){
         this.rightMotor = new CANSparkMax(Ports.CLIMB_RIGHT_MOTOR_PORT, MotorType.kBrushless);
         this.leftMotor = new CANSparkMax(Ports.CLIMB_LEFT_MOTOR_PORT, MotorType.kBrushless);
-        leftEncoder = leftMotor.getAbsoluteEncoder(Type.kDutyCycle);
-        rightEncoder = rightMotor.getAbsoluteEncoder(Type.kDutyCycle);
+        leftEncoder = leftMotor.getAlternateEncoder(MechConstants.ENCODER_TICKS);
+        rightEncoder = rightMotor.getAlternateEncoder(MechConstants.ENCODER_TICKS);
     }
 
     public static Climber getInstance(){
@@ -36,7 +35,7 @@ public class Climber extends SubsystemBase{
     public void climberReach(double speed){
 
         //Reach up only if not at the max height of right climber
-        if(rightEncoder.getPosition() >= MechConstants.MAX_CLIMB_RIGHT){
+        if(getRightHeight() >= MechConstants.MAX_CLIMB_RIGHT){
             rightMotor.set(0.0);
         } 
         else {
@@ -44,7 +43,7 @@ public class Climber extends SubsystemBase{
         }
 
         //Reach up only if not at the max height of left climber
-        if(leftEncoder.getPosition() >= MechConstants.MAX_CLIMB_LEFT){
+        if(getLeftHeight() >= MechConstants.MAX_CLIMB_LEFT){
             leftMotor.set(0.0);
         } 
         else {
@@ -77,7 +76,7 @@ public class Climber extends SubsystemBase{
     }
 
     public double getLeftHeight(){
-        return this.leftEncoder.getPosition();
+        return -this.leftEncoder.getPosition();
     }
 
     @Override

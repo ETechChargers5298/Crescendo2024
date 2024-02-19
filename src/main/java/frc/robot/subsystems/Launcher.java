@@ -52,6 +52,14 @@ public class Launcher extends SubsystemBase {
         return topPosition;
     }
 
+    public double getBottomSpeed(){
+        return bottomEncoder.getVelocity();
+    }
+
+    public double getTopSpeed(){
+        return topEncoder.getVelocity();
+    }
+
     public void stop(){
         topMotor.set(0);
         bottomMotor.set(0);
@@ -60,7 +68,9 @@ public class Launcher extends SubsystemBase {
     
     @Override
     public void periodic() {
-        //code to update SmartDashboard?
+        //code to update SmartDashboard
+        SmartDashboard.putNumber("LaunchTopSpeed", getTopSpeed());
+        SmartDashboard.putNumber("LaunchBotSpeed", getBottomSpeed());
 
     }
 
