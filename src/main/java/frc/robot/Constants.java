@@ -207,6 +207,7 @@ public final class Constants {
     public static final double LAUNCH_ANGLE = 40.0;
     public static final double AMP_ANGLE = 120.0;
     public static final double ARM_POSITION_TOLERANCE = 2.0;
+    public static final double ARM_OFFSET = 134.1315007;
   }
 
   public static class VisionConstants{
