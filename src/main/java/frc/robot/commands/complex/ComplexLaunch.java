@@ -12,8 +12,11 @@ import edu.wpi.first.wpilibj2.command.WaitCommand;
 
 public class ComplexLaunch extends SequentialCommandGroup {
 
+    private Intake intake;
+
     public ComplexLaunch(){
-        if(Intake.isNoteFound){
+        intake = Intake.getInstance();
+        
             addCommands(
 
                 //little spit
@@ -25,7 +28,7 @@ public class ComplexLaunch extends SequentialCommandGroup {
                 //rev the wheels
                 new ParallelRaceGroup(
                     new LauncherShoot(),
-                    new WaitCommand(0.5)
+                    new WaitCommand(1.3)
                 ),
 
                 //push note into spinning wheels for a launch
@@ -36,7 +39,7 @@ public class ComplexLaunch extends SequentialCommandGroup {
                 )
                 
             );
-        }
+        
     }
 
 }

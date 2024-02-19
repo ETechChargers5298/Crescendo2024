@@ -36,23 +36,30 @@ public final class Constants {
   public static class SwerveConstants {
     ///(Old Robot)
     //Sensor Offsets for the radian difference between the physical sensor orientation and the calibrated swerve direction
-    public static final double FL_SENSOR_OFFSET = 2.949; //from REV Hardware Client
-    public static final double FR_SENSOR_OFFSET = 5.610; //from REV Hardware Client
-    public static final double BR_SENSOR_OFFSET = 1.894; //from REV Hardware Client
-    public static final double BL_SENSOR_OFFSET = 0.717; //from REV Hardware Client
-
-    ///(New Robot)(Put new numbers)
     // public static final double FL_SENSOR_OFFSET = 2.949; //from REV Hardware Client
     // public static final double FR_SENSOR_OFFSET = 5.610; //from REV Hardware Client
     // public static final double BR_SENSOR_OFFSET = 1.894; //from REV Hardware Client
     // public static final double BL_SENSOR_OFFSET = 0.717; //from REV Hardware Client
 
+    ///(New Robot)(Put new numbers)
+    public static final double FL_SENSOR_OFFSET = 0.7848113; //from REV Hardware Client
+    public static final double FR_SENSOR_OFFSET = 4.7082246; //from REV Hardware Client
+    public static final double BR_SENSOR_OFFSET = 1.9979531; //from REV Hardware Client
+    public static final double BL_SENSOR_OFFSET = 1.6861502; //from REV Hardware Client
+
 
     //Angular Offsets for the radian difference between the calibrated swerve and desired forward direction
+    // public static final double FL_ANGULAR_OFFSET = -Math.PI/2; //Math.PI / 2; //-Math.PI / 2;
+    // public static final double FR_ANGULAR_OFFSET = -Math.PI/2;
+    // public static final double BR_ANGULAR_OFFSET = 3 * Math.PI/4; //Math.PI / 2;
+    // public static final double BL_ANGULAR_OFFSET = Math.PI/2; //Math.PI;
+
+    ///(New Robot)(Put new numbers)
+    //Angular Offsets for the radian difference between the calibrated swerve and desired forward direction
     public static final double FL_ANGULAR_OFFSET = -Math.PI/2; //Math.PI / 2; //-Math.PI / 2;
-    public static final double FR_ANGULAR_OFFSET = -Math.PI/2;
-    public static final double BR_ANGULAR_OFFSET = 3 * Math.PI/4; //Math.PI / 2;
-    public static final double BL_ANGULAR_OFFSET = Math.PI/2; //Math.PI;
+    public static final double FR_ANGULAR_OFFSET = 0;
+    public static final double BR_ANGULAR_OFFSET = -Math.PI / 2; //Math.PI / 2;
+    public static final double BL_ANGULAR_OFFSET = 0; //Math.PI;
 
     //Constructor to hold all of the data to configure a SwerveModule
     public static final ModuleConfig SWERVE_FL = new ModuleConfig("FL", Ports.SWERVE_DRIVE_FL, Ports.SWERVE_TURN_FL, FL_SENSOR_OFFSET, FL_ANGULAR_OFFSET, false);//2.9483314  +Math.PI /2);
@@ -178,6 +185,11 @@ public final class Constants {
     
     public static final int ENCODER_TICKS = 8192; //Counts per Revolution
 
+    //climber encoders
+    // public static final double RIGHT_CLIMB_OFFSET = 0.340;
+    // public static final double LEFT_CLIMB_OFFSET = 0.30926;
+
+
     //Climber Heights
     public static final double MAX_CLIMB_RIGHT = 900.0;
     public static final double BASE_CLIMB_RIGHT = 0.0;
@@ -196,6 +208,7 @@ public final class Constants {
     public static final double LAUNCH_ANGLE = 40.0;
     public static final double AMP_ANGLE = 120.0;
     public static final double ARM_POSITION_TOLERANCE = 2.0;
+    public static final double ARM_OFFSET = 134.1315007;
   }
 
 

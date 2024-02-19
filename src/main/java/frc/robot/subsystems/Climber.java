@@ -71,12 +71,30 @@ public class Climber extends SubsystemBase{
         }
     }
 
+    public void move(double speed){
+
+        speed /= 2;
+        if(speed > 0.1){
+            climberRetract(speed);
+        }
+        else if(speed < -0.1){
+            climberReach(speed);
+        }
+        else{
+            stop();
+        }
+    }
+
     public double getRightHeight(){
         return this.rightEncoder.getPosition();
     }
 
     public double getLeftHeight(){
         return -this.leftEncoder.getPosition();
+    }
+    public void stop(){
+        rightMotor.set(0);
+        leftMotor.set(0);
     }
 
     @Override

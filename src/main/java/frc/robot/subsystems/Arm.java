@@ -8,6 +8,7 @@ import com.revrobotics.SparkAbsoluteEncoder.Type;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Ports;
+import frc.robot.Constants.MechConstants;
 
 public class Arm extends SubsystemBase{
 
@@ -20,6 +21,9 @@ public class Arm extends SubsystemBase{
             this.leftMotor = new CANSparkMax(Ports.ARM_LEFT, MotorType.kBrushless);
             this.rightMotor = new CANSparkMax(Ports.ARM_RIGHT, MotorType.kBrushless);
             encoder = leftMotor.getAbsoluteEncoder(Type.kDutyCycle);
+            encoder.setPositionConversionFactor(360);
+            encoder.setZeroOffset(MechConstants.ARM_OFFSET);
+            leftMotor.burnFlash();
 
           
         }
