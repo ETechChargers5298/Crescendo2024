@@ -23,6 +23,7 @@ public class Arm extends SubsystemBase{
             encoder = leftMotor.getAbsoluteEncoder(Type.kDutyCycle);
             encoder.setPositionConversionFactor(360);
             encoder.setZeroOffset(MechConstants.ARM_OFFSET);
+            encoder.setInverted(true);
             leftMotor.burnFlash();
 
           
@@ -41,8 +42,13 @@ public class Arm extends SubsystemBase{
 
           public void resetValue(double offsetVal) {
             encoder.setZeroOffset(offsetVal);
+            leftMotor.burnFlash();
           }
-            
+          
+          public void zeroEncoder() {
+            resetValue(encoder.getZeroOffset() + getPosition());
+
+          }
           
 
           public void pivot(double speed) {

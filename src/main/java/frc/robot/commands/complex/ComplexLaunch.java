@@ -22,7 +22,7 @@ public class ComplexLaunch extends SequentialCommandGroup {
                 //little spit
                 new ParallelRaceGroup(
                     new IntakeSpit(),
-                    new WaitCommand(0.1)
+                    new WaitCommand(0.05)
                 ),
 
                 //rev the wheels

@@ -19,7 +19,7 @@ public class ArmSetAngle extends PIDCommand {
   public ArmSetAngle(double desiredAngle) {
     super(
         // The controller that the command will use
-        new PIDController(1.0, 0, 0),
+        new PIDController(0.01, 0, 0),
         // This should return the measurement
         () -> arm.getPosition(),
         // This should return the setpoint (can also be a constant)

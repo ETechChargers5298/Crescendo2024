@@ -85,6 +85,9 @@ public class RobotContainer {
     new JoystickButton(driverController,Button.kLeftBumper.value).whileTrue(new IntakeSpit());
     new JoystickButton(driverController,Button.kRightBumper.value).whileTrue(new IntakeEat());
     
+
+    new JoystickButton(driverController,Button.kA.value).whileTrue(new ArmReset());
+    
     //TODO
     //lock & unlock wheels with X/Y
 
@@ -127,6 +130,9 @@ public class RobotContainer {
     //climber up & down with joystick (RY)
     Climber.getInstance().setDefaultCommand(new ClimberJoystick( () ->-operatorController.getRightY()));
 
+     new JoystickButton(driverController,Button.kX.value).onTrue(new ClimberResetLeft());
+     new JoystickButton(driverController,Button.kB.value).onTrue(new ClimberResetRight());
+
 
   }
 
@@ -140,8 +146,8 @@ public class RobotContainer {
   public Command m_autonomousCommand() {
     // An example command will be run in autonomous
 
-    return new MoveToTarget();
-
+   // return new MoveToTarget();
+    return new DrivePID(1.0, 0, 0);
 
   }
 }

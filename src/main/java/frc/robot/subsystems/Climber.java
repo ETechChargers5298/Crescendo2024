@@ -21,8 +21,12 @@ public class Climber extends SubsystemBase{
     private Climber(){
         this.rightMotor = new CANSparkMax(Ports.CLIMB_RIGHT_MOTOR_PORT, MotorType.kBrushless);
         this.leftMotor = new CANSparkMax(Ports.CLIMB_LEFT_MOTOR_PORT, MotorType.kBrushless);
-        leftEncoder = leftMotor.getAlternateEncoder(MechConstants.ENCODER_TICKS);
-        rightEncoder = rightMotor.getAlternateEncoder(MechConstants.ENCODER_TICKS);
+        // leftEncoder = leftMotor.getAlternateEncoder(MechConstants.ENCODER_TICKS);
+        // rightEncoder = rightMotor.getAlternateEncoder(MechConstants.ENCODER_TICKS);
+        leftEncoder = leftMotor.getEncoder();
+        rightEncoder = rightMotor.getEncoder();
+        // this.resetLeftEncoder();
+        // this.resetRightEncoder();
     }
 
     public static Climber getInstance(){
@@ -33,6 +37,8 @@ public class Climber extends SubsystemBase{
     }
 
     public void climberReach(double speed){
+        SmartDashboard.putString("climbCommand", "Reach");
+
 
         //Reach up only if not at the max height of right climber
         if(getRightHeight() >= MechConstants.MAX_CLIMB_RIGHT){
@@ -47,19 +53,20 @@ public class Climber extends SubsystemBase{
             leftMotor.set(0.0);
         } 
         else {
-            leftMotor.set(-speed);
+            leftMotor.set(speed);
         }
         
     }
 
     public void climberRetract(double speed){
-        
+         SmartDashboard.putString("climbCommand", "Retract");
+
         //retract right climber only if not at bottom/base
         if(rightEncoder.getPosition() <= MechConstants.BASE_CLIMB_RIGHT){
             rightMotor.set(0.0);
         } 
         else {
-            rightMotor.set(speed);
+            rightMotor.set(-speed);
         }
 
         //retract left climber only if not at bottom/base
@@ -73,12 +80,14 @@ public class Climber extends SubsystemBase{
 
     public void move(double speed){
 
-        speed /= 2;
+        SmartDashboard.putNumber("move", speed);
+
+        //speed /= 2;
         if(speed > 0.1){
-            climberRetract(speed);
+            climberReach(Math.abs(speed));
         }
         else if(speed < -0.1){
-            climberReach(speed);
+            climberRetract(Math.abs((speed)));
         }
         else{
             stop();
@@ -90,8 +99,16 @@ public class Climber extends SubsystemBase{
     }
 
     public double getLeftHeight(){
-        return -this.leftEncoder.getPosition();
+        return this.leftEncoder.getPosition();
     }
+
+    public void resetLeftEncoder(){
+        leftEncoder.setPosition(0);
+    }
+    public void resetRightEncoder(){
+        rightEncoder.setPosition(0);
+    }
+
     public void stop(){
         rightMotor.set(0);
         leftMotor.set(0);

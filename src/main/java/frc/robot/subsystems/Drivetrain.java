@@ -333,10 +333,6 @@ public class Drivetrain extends SubsystemBase {
     );
   }
 
-  public Pose2d getPose2d() {
-    return driveOdometry.getPoseMeters();
-  }
-
   public Field2d getField() {
     return field;
   }
@@ -361,9 +357,9 @@ public class Drivetrain extends SubsystemBase {
 
     // SmartDashboard.putNumber("Robot Angle", getHeading().getDegrees());
 
-    SmartDashboard.putNumber("xOdometry", getPose2d().getX());
-    SmartDashboard.putNumber("yOdometry", getPose2d().getY());
-    SmartDashboard.putNumber("rotOdometry", getPose2d().getRotation().getDegrees());
+    SmartDashboard.putNumber("xOdometry", getPose().getX());
+    SmartDashboard.putNumber("yOdometry", getPose().getY());
+    SmartDashboard.putNumber("rotOdometry", getPose().getRotation().getDegrees());
     //SmartDashboard.putData("Odometry Field", field);
   }
 
