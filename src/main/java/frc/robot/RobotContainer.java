@@ -124,16 +124,16 @@ public class RobotContainer {
 
 
     //TODO
-    //auto arm pivot based on apriltags with LB
-
+    //auto arm pivot based on apriltags with LT
+     new TriggerButton(operatorController, 2).whileTrue(new ArmSetAngleApril());
+     
     //TODO
     //climber up & down with joystick (RY)
     Climber.getInstance().setDefaultCommand(new ClimberJoystick( () ->-operatorController.getRightY()));
 
      new JoystickButton(driverController,Button.kX.value).onTrue(new ClimberResetLeft());
      new JoystickButton(driverController,Button.kB.value).onTrue(new ClimberResetRight());
-
-
+    
   }
 
   /**

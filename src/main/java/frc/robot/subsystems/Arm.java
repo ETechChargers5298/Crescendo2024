@@ -17,7 +17,7 @@ public class Arm extends SubsystemBase{
         private AbsoluteEncoder encoder;
         private static Arm instance;
 
-        private Arm(){
+        private Arm() {
             this.leftMotor = new CANSparkMax(Ports.ARM_LEFT, MotorType.kBrushless);
             this.rightMotor = new CANSparkMax(Ports.ARM_RIGHT, MotorType.kBrushless);
             encoder = leftMotor.getAbsoluteEncoder(Type.kDutyCycle);
@@ -36,7 +36,7 @@ public class Arm extends SubsystemBase{
             return instance;
           }
 
-          public double getPosition(){
+          public double getPosition() {
             return encoder.getPosition();
           }
 

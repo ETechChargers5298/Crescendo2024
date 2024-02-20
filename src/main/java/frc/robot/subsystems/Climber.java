@@ -18,7 +18,7 @@ public class Climber extends SubsystemBase{
     private RelativeEncoder rightEncoder;
     private static Climber instance;
 
-    private Climber(){
+    private Climber() {
         this.rightMotor = new CANSparkMax(Ports.CLIMB_RIGHT_MOTOR_PORT, MotorType.kBrushless);
         this.leftMotor = new CANSparkMax(Ports.CLIMB_LEFT_MOTOR_PORT, MotorType.kBrushless);
         // leftEncoder = leftMotor.getAlternateEncoder(MechConstants.ENCODER_TICKS);
@@ -29,19 +29,19 @@ public class Climber extends SubsystemBase{
         // this.resetRightEncoder();
     }
 
-    public static Climber getInstance(){
+    public static Climber getInstance() {
         if(instance == null) {
             instance = new Climber();
         }
         return instance;
     }
 
-    public void climberReach(double speed){
+    public void climberReach(double speed) {
         SmartDashboard.putString("climbCommand", "Reach");
 
 
         //Reach up only if not at the max height of right climber
-        if(getRightHeight() >= MechConstants.MAX_CLIMB_RIGHT){
+        if(getRightHeight() >= MechConstants.MAX_CLIMB_RIGHT) {
             rightMotor.set(0.0);
         } 
         else {
@@ -49,7 +49,7 @@ public class Climber extends SubsystemBase{
         }
 
         //Reach up only if not at the max height of left climber
-        if(getLeftHeight() >= MechConstants.MAX_CLIMB_LEFT){
+        if(getLeftHeight() >= MechConstants.MAX_CLIMB_LEFT) {
             leftMotor.set(0.0);
         } 
         else {
@@ -62,7 +62,7 @@ public class Climber extends SubsystemBase{
          SmartDashboard.putString("climbCommand", "Retract");
 
         //retract right climber only if not at bottom/base
-        if(rightEncoder.getPosition() <= MechConstants.BASE_CLIMB_RIGHT){
+        if(rightEncoder.getPosition() <= MechConstants.BASE_CLIMB_RIGHT) {
             rightMotor.set(0.0);
         } 
         else {
@@ -70,7 +70,7 @@ public class Climber extends SubsystemBase{
         }
 
         //retract left climber only if not at bottom/base
-        if(leftEncoder.getPosition() <= MechConstants.BASE_CLIMB_LEFT){
+        if(leftEncoder.getPosition() <= MechConstants.BASE_CLIMB_LEFT) {
             leftMotor.set(0.0);
         }
         else {
@@ -78,15 +78,15 @@ public class Climber extends SubsystemBase{
         }
     }
 
-    public void move(double speed){
+    public void move(double speed) {
 
         SmartDashboard.putNumber("move", speed);
 
         //speed /= 2;
-        if(speed > 0.1){
+        if(speed > 0.1) {
             climberReach(Math.abs(speed));
         }
-        else if(speed < -0.1){
+        else if(speed < -0.1) {
             climberRetract(Math.abs((speed)));
         }
         else{
@@ -94,22 +94,22 @@ public class Climber extends SubsystemBase{
         }
     }
 
-    public double getRightHeight(){
+    public double getRightHeight() {
         return this.rightEncoder.getPosition();
     }
 
-    public double getLeftHeight(){
+    public double getLeftHeight() {
         return this.leftEncoder.getPosition();
     }
 
-    public void resetLeftEncoder(){
+    public void resetLeftEncoder() {
         leftEncoder.setPosition(0);
     }
-    public void resetRightEncoder(){
+    public void resetRightEncoder() {
         rightEncoder.setPosition(0);
     }
 
-    public void stop(){
+    public void stop() {
         rightMotor.set(0);
         leftMotor.set(0);
     }
