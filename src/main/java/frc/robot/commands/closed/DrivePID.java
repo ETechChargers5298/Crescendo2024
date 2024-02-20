@@ -10,11 +10,14 @@ import frc.robot.subsystems.Drivetrain;
 
 public class DrivePID extends Command {
 
-private Drivetrain drivetrain;
- private double desiredDistanceMeters, desiredStrafeMeters, desiredAngleDegrees;
- private PIDController distancePID, strafePID, anglePID;
- private double startDistance;
-
+  private Drivetrain drivetrain;
+  private double desiredDistanceMeters; 
+  private double desiredStrafeMeters;
+  private double desiredAngleDegrees;
+  private PIDController distancePID, strafePID, anglePID;
+  private double startDistance;
+  private double startStrafe;
+  private double startAngle;
 
 
   /** Creates a new DrivePID. */
@@ -36,11 +39,18 @@ private Drivetrain drivetrain;
     this.distancePID.setTolerance(0.05);
 
     //TODO: setup for Strafe PID Controller
-
+    this.strafePID = new PIDController(0.5, 0.0, 0.0);
+    startStrafe = drivetrain.getPose().getY();
+    double strafeSetPoint = startStrafe + desiredStrafeMeters;
+    this.strafePID.setSetpoint(strafeSetPoint);
+    this.strafePID.setTolerance(0.1);
 
     //TODO: setup for Angle PID Controller
-
-
+    this.anglePID = new PIDController(0.005, 0.0, 0.0);
+    startAngle = drivetrain.getPose().getRotation().getDegrees();
+    double angleSetPoint = startAngle + desiredAngleDegrees;
+    this.strafePID.setSetpoint(angleSetPoint);
+    this.anglePID.setTolerance(3.0);
 
     addRequirements(drivetrain);
     // Use addRequirements() here to declare subsystem dependencies.
@@ -57,13 +67,16 @@ private Drivetrain drivetrain;
   public void execute() {
 
     //calculating the distance
-    double currentDistance = drivetrain.getPose().getX();
-    double xSpeed = distancePID.calculate(currentDistance);
+    double currentDistanceX = drivetrain.getPose().getX();
+    double xSpeed = distancePID.calculate(currentDistanceX);
 
     //TODO: calculating the strafe
-
+    double currentDistanceY = drivetrain.getPose().getY();
+    double ySpeed = strafePID.calculate(currentDistanceY);
 
     //TODO: calculating the angle
+    double currentAngle = drivetrain.getPose().getRotation().getDegrees();
+    double angleSpeed = anglePID.calculate(currentAngle);
 
     //calling drive function
     drivetrain.drive(xSpeed, 0, 0);
@@ -77,8 +90,7 @@ private Drivetrain drivetrain;
 
   // Returns true when the command should end.
   @Override
-  public boolean isFinished() {
-    
-    return distancePID.atSetpoint();
+  public boolean isFinished() { 
+    return distancePID.atSetpoint() && strafePID.atSetpoint() && anglePID.atSetpoint();
   }
 }

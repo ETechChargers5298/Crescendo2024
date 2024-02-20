@@ -46,7 +46,6 @@ public class Arm extends SubsystemBase{
 
           leftMotor.burnFlash();
 
-          
         }
 
         public static Arm getInstance() {
@@ -68,14 +67,7 @@ public class Arm extends SubsystemBase{
           }
 
           public void pivot(double speed) {
-            // if(speed < 0) {
-            //   leftMotor.setSmartCurrentLimit(3);
-            //   rightMotor.setSmartCurrentLimit(3);
-            // }
-            // else {
-            //   leftMotor.setSmartCurrentLimit(12);
-            //   rightMotor.setSmartCurrentLimit(12);
-            // }
+
             leftMotor.set(speed);
             rightMotor.set(speed);
           }
