@@ -8,7 +8,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 
 
 public class ArmSetAngleFromDistance extends Command {
-  
+
     private Camera camera;
     private static Arm arm;
     double desiredAnglefromDistance;
@@ -20,8 +20,8 @@ public class ArmSetAngleFromDistance extends Command {
         arm = Arm.getInstance();
 
         addRequirements(arm, camera);
-        double distanceInGreenZone = camera.getCam().getX();
-
+        
+        double distanceInGreenZone = camera.getX();
         desiredAnglefromDistance = VisionConstants.DEGREES_PER_METER_SLOPE *distanceInGreenZone + VisionConstants.DEGREES_Y_INTERCEPT; ///Y = mx+b
 
     }

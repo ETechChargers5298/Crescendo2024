@@ -27,13 +27,26 @@ public class Camera extends SubsystemBase {
     return cam;
   }
 
+  public double getX(){
+    return cam.getX();
+  }
+
+  public double getY(){
+    return cam.getY();
+  }
+
+  public double getZ(){
+    return cam.getZ();
+  }
+
+
   @Override
   public void periodic() {
     cam.update();
     SmartDashboard.putBoolean("hasTargetNew", cam.hasTarget());
     SmartDashboard.putNumber("BestID", cam.getBestID());
-    SmartDashboard.putNumber("X", cam.getX());
-    SmartDashboard.putNumber("Y", cam.getY());
-    SmartDashboard.putNumber("Z", cam.getZ());
+    SmartDashboard.putNumber("X", getX());
+    SmartDashboard.putNumber("Y", getY());
+    SmartDashboard.putNumber("Z", getZ());
   }
 }

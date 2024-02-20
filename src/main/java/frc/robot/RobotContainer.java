@@ -146,8 +146,9 @@ public class RobotContainer {
   public Command m_autonomousCommand() {
     // An example command will be run in autonomous
 
-   // return new MoveToTarget();
-    return new DrivePID(1.0, 0, 0);
+    // return new MoveToTarget();
+    //return new DrivePID(1.0, 0, 0);
+    return new AutoMove();
 
   }
 }

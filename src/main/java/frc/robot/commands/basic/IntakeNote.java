@@ -1,14 +1,16 @@
-//make changes to this
+package frc.robot.commands.basic;
 
-package frc.robot.commands.complex;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Intake;
 
-public class ComplexIntake extends Command {
+
+public class IntakeNote extends Command {
+
   private static Intake intake;
+
   /** Creates a new IntakeEat. */
-  public ComplexIntake() {
+  public IntakeNote() {
     intake = Intake.getInstance();
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(intake);
@@ -24,10 +26,6 @@ public class ComplexIntake extends Command {
   @Override
   public void execute() {
     intake.eat();
-    // if(intake.checkNoteFound()){
-    //     intake.spitt();
-    // }
-    //if sees the note it spitts for 0.1 second
   }
 
   // Called once the command ends or is interrupted.
@@ -39,7 +37,7 @@ public class ComplexIntake extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return intake.checkNoteFound();
   }
 }
 

@@ -1,13 +1,11 @@
-// Copyright (c) FIRST and other WPILib contributors.
-// Open Source Software; you can modify and/or share it under the terms of
-// the WPILib BSD license file in the root directory of this project.
-
 package frc.robot.commands.closed;
+
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.PIDCommand;
 import frc.robot.Constants.MechConstants;
 import frc.robot.subsystems.Arm;
+
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
@@ -29,11 +27,14 @@ public class ArmSetAngle extends PIDCommand {
           // Use the output here
           arm.pivot(output);
         });
-    getController().setTolerance(MechConstants.ARM_POSITION_TOLERANCE);
+    
+    // Use addRequirements() here to declare subsystem dependencies.
     arm = Arm.getInstance();
     addRequirements(arm);
-        // Use addRequirements() here to declare subsystem dependencies.
+    
     // Configure additional PID options by calling `getController` here.
+    getController().setTolerance(MechConstants.ARM_POSITION_TOLERANCE);
+    
   }
 
   // Returns true when the command should end.

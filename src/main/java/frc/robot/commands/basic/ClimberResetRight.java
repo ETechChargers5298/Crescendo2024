@@ -1,38 +1,28 @@
-// Copyright (c) FIRST and other WPILib contributors.
-// Open Source Software; you can modify and/or share it under the terms of
-// the WPILib BSD license file in the root directory of this project.
-
 package frc.robot.commands.basic;
+
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Climber;
 
-public class ClimberResetRight extends Command {
-  /** Creates a new RightClimberReset. */
-     private Climber climber;
-  public ClimberResetRight() {
-      /** Creates a new LeftClimberReset. */
- 
 
+public class ClimberResetRight extends Command {
+
+  private Climber climber;
+  
+  /** Creates a new RightClimberReset. */
+  public ClimberResetRight() {
   
     climber = Climber.getInstance();
-    // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(climber);
     
     // Use addRequirements() here to declare subsystem dependencies.
-  }
+    addRequirements(climber);
+   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
     climber.resetRightEncoder();
   }
-
-    // Use addRequirements() here to declare subsystem dependencies.
-  
-
-  // Called when the command is initially scheduled.
-  
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
