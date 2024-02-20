@@ -3,6 +3,8 @@ package frc.robot.commands.basic;
 
 import frc.robot.subsystems.Arm;
 import java.util.function.Supplier;
+
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj2.command.Command;
 
 
@@ -28,7 +30,7 @@ public class ArmJoystick extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-        arm.pivot(speedX.get());
+        arm.pivot(MathUtil.applyDeadband(speedX.get(), 0.1));
 
   }
 
