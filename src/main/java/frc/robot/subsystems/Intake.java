@@ -92,8 +92,7 @@ public class Intake extends SubsystemBase {
 
         if(checkNoteFound()) {
             LEDStrip.request(SubsystemsPriority.NOTE, LEDStrip.HAVE_NOTE);
-            
-        }
+        } 
     }
 
 }

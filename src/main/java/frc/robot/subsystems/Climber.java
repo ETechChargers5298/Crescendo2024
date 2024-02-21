@@ -7,6 +7,7 @@ import com.revrobotics.CANSparkLowLevel.MotorType;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Ports;
+import frc.robot.subsystems.LEDStrip.SubsystemsPriority;
 import frc.robot.Constants.MechConstants;
 
 
@@ -118,6 +119,11 @@ public class Climber extends SubsystemBase{
     public void periodic() {
         SmartDashboard.putNumber("Left Climber Encoder Value", getLeftHeight());
         SmartDashboard.putNumber("Right Climber Encoder Value", getRightHeight());
+
+        if (getLeftHeight() == MechConstants.MAX_CLIMB_LEFT && getRightHeight() == MechConstants.MAX_CLIMB_RIGHT) {
+            LEDStrip.request(SubsystemsPriority.CLIMBING, LEDStrip.CLIMBER_REACHED_MAX);
+
+        }
     }   
 
 
