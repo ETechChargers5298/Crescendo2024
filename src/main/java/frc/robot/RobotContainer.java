@@ -84,10 +84,13 @@ public class RobotContainer {
     //Driver control of intake of notes with LB/RB
     new JoystickButton(driverController,Button.kLeftBumper.value).whileTrue(new IntakeSpit());
     new JoystickButton(driverController,Button.kRightBumper.value).whileTrue(new IntakeEat());
+    new JoystickButton(driverController, Button.kB.value).whileTrue(new RumbleTest(driverController, true));
     
 
     new JoystickButton(driverController,Button.kA.value).whileTrue(new ArmReset());
     
+
+
     //TODO
     //lock & unlock wheels with X/Y
 
