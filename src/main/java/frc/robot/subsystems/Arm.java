@@ -109,6 +109,7 @@ public class Arm extends SubsystemBase{
     SmartDashboard.putBoolean("isGoodAmpAngle", isGoodAmpAngle());
     SmartDashboard.putBoolean("isGoodLaunchAngle", isGoodLaunchAngle());
 
+    
     if (isGoodAmpAngle()) {
       LEDStrip.request(SubsystemsPriority.ARM, LEDStrip.AMP_ANGLE);
     } else if (isGoodLaunchAngle()) {

@@ -3,6 +3,7 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.VisionConstants;
+import frc.robot.subsystems.LEDStrip.SubsystemsPriority;
 import frc.robot.utils.AprilCam;
 
 
@@ -86,5 +87,12 @@ public class Camera extends SubsystemBase {
     SmartDashboard.putNumber("Z", getZ());
     SmartDashboard.putBoolean("isBlueZone", isBlueZone());
     SmartDashboard.putBoolean("isGreenZone", isGreenZone());
+
+
+    if (isGreenZone()) {
+      LEDStrip.request(SubsystemsPriority.VISION, LEDStrip.IN_GREEN_ZONE);
+    } else if (isBlueZone()) {
+      LEDStrip.request(SubsystemsPriority.VISION, LEDStrip.IN_BLUE_ZONE);
+    }
   }
 }

@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Ports;
 import frc.robot.subsystems.LEDStrip.SubsystemsPriority;
 import frc.robot.Constants.MechConstants;
+import frc.robot.commands.basic.RumbleTest;
 
 
 public class Climber extends SubsystemBase{
@@ -120,7 +121,7 @@ public class Climber extends SubsystemBase{
         SmartDashboard.putNumber("Left Climber Encoder Value", getLeftHeight());
         SmartDashboard.putNumber("Right Climber Encoder Value", getRightHeight());
 
-        if (getLeftHeight() == MechConstants.MAX_CLIMB_LEFT && getRightHeight() == MechConstants.MAX_CLIMB_RIGHT) {
+        if (getLeftHeight() >= MechConstants.MAX_CLIMB_LEFT-4 && getRightHeight() >= MechConstants.MAX_CLIMB_RIGHT-4) {
             LEDStrip.request(SubsystemsPriority.CLIMBING, LEDStrip.CLIMBER_REACHED_MAX);
 
         }

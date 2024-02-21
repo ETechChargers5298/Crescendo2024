@@ -7,6 +7,7 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.motorcontrol.Spark;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Ports;
 import frc.robot.Robot;
@@ -18,23 +19,24 @@ public class LEDStrip extends SubsystemBase {
 
     private static Spark LED = new Spark(Ports.BLINKIN_PORT);
 
-    public static final double IntakeEat = LEDColors.HOT_PINK;
+    //public static final double IntakeEat = LEDColors.HOT_PINK;
     public static final double HAVE_NOTE = LEDColors.ORANGE;
     public static final double IN_GREEN_ZONE = LEDColors.GREEN;
-    public static final double DISABLED = LEDColors.BLUE_GREEN;
-    public static final double ENABLED = LEDColors.BLUE_GREEN;
-    public static final double AMP_ANGLE = LEDColors.YELLOW;
-    public static final double SPEAKER_ANGLE = LEDColors.VIOLET;
+    public static final double IN_BLUE_ZONE = LEDColors.BLUE;
+    public static final double DISABLED = LEDColors.RAINBOW_RAINBOW;
+    public static final double ENABLED = LEDColors.OCEAN_COLOR_WAVES;
+    public static final double AMP_ANGLE = LEDColors.VIOLET;
+    public static final double SPEAKER_ANGLE = LEDColors.BLACK;
     public static final double CLIMBER_REACHED_MAX = LEDColors.WHITE;
 
     private static int topCurrentPriority = 0;
 
-    private static double[] patternArray = new double[SubsystemsPriority.DEFAULT.get()];
+    private static double[] patternArray = new double[5];
 
     public enum SubsystemsPriority {
         CLIMBING(4),
         ARM(3),
-        GREENZONE(2),
+        VISION(2),
         NOTE(1),
         DEFAULT(0);
   
@@ -90,11 +92,15 @@ public class LEDStrip extends SubsystemBase {
 
         // resets top priority back to default
         topCurrentPriority = SubsystemsPriority.DEFAULT.get();
+
+        SmartDashboard.putNumber("Top Priority", topCurrentPriority);
+        SmartDashboard.putNumber("LED Value", patternArray[topCurrentPriority]);
     }
 
     @Override
     public void periodic() {
         // This method will be called once per scheduler run
+        request(SubsystemsPriority.DEFAULT, ENABLED);
         setStatus();
     }
 

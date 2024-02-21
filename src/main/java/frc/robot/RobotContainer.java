@@ -44,10 +44,13 @@ public class RobotContainer {
   private static final XboxController driverController = new XboxController(Ports.DRIVER_CONTROLLER);
   private static final XboxController operatorController = new XboxController(Ports.OPERATOR_CONTROLLER);
 
+  private LEDStrip led;
+
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
 
   public RobotContainer() {
+    led = new LEDStrip();
 
     // Configure the trigger bindings
     configureBindings();
