@@ -100,5 +100,13 @@ public class Arm extends SubsystemBase{
     SmartDashboard.putNumber("Pivot Value", getAngle());
     SmartDashboard.putNumber("April Arm Angle", getArmAprilAngle());
     SmartDashboard.putBoolean("isGoodAngle", isGoodAngle());
+
+    if (getAngle() == MechConstants.AMP_ANGLE) {
+      LEDStrip.request(SubsystemsPriority.ARM, LEDStrip.AMP_ANGLE);
+    } else if (getAngle() == MechConstants.LAUNCH_ANGLE) {
+      LEDStrip.request(SubsystemsPriority.ARM, LEDStrip.SPEAKER_ANGLE);
+    }
+    
+
   }   
 }

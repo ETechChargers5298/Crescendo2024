@@ -33,7 +33,7 @@ public class ArmSetAngleApril extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    double currentAngle = arm.getPosition();
+    double currentAngle = arm.getAngle();
     double angleSpeed = controller.calculate(currentAngle);
     arm.pivot(angleSpeed * 0.6);
   }
