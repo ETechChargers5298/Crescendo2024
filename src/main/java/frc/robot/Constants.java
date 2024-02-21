@@ -203,11 +203,11 @@ public final class Constants {
     public static final double CLIMBER_SPEED = 0.3;
 
     //Arm Angles    
-    public static final double START_ANGLE = 186.0;
+    public static final double START_ANGLE = 90;
     public static final double FLOOR_ANGLE = 0.0;
     public static final double LAUNCH_ANGLE = 25.0;
-    public static final double AMP_ANGLE = 231.0;
-    public static final double ARM_POSITION_TOLERANCE = 2.0;
+    public static final double AMP_ANGLE = 107.0;
+    public static final double ARM_POSITION_TOLERANCE = 1.0;
     public static final double ARM_OFFSET = 131.6970420; 
   }
 

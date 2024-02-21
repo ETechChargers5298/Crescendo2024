@@ -12,7 +12,7 @@ public class AutoMove extends SequentialCommandGroup {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
-      new DrivePID(1.5,0.0,0.0)
+      new DrivePID(1.0,1.0,45)
 
     );
   }

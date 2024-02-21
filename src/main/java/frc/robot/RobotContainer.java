@@ -84,15 +84,18 @@ public class RobotContainer {
     //Driver control of intake of notes with LB/RB
     new JoystickButton(driverController,Button.kLeftBumper.value).whileTrue(new IntakeSpit());
     new JoystickButton(driverController,Button.kRightBumper.value).whileTrue(new IntakeEat());
+    new JoystickButton(driverController, Button.kB.value).whileTrue(new RumbleTest(driverController, true));
     
 
     new JoystickButton(driverController,Button.kA.value).whileTrue(new ArmReset());
     
+
+
     //TODO
     //lock & unlock wheels with X/Y
 
     //auto-align drivetrain to speaker target/greenzone with A
-    new JoystickButton(driverController,Button.kA.value).whileTrue(new MoveToTarget());
+    //new JoystickButton(driverController,Button.kA.value).whileTrue(new MoveToTarget());
 
 
 
@@ -108,6 +111,7 @@ public class RobotContainer {
 
     //auto launch sequence with RB
     new JoystickButton(operatorController,Button.kRightBumper.value).onTrue(new ComplexLaunch());
+    new JoystickButton(operatorController,Button.kLeftBumper.value).onTrue(new ArmReset());
 
     // arm Pivot with LB/RB
     // new JoystickButton(operatorController,Button.kLeftBumper.value).whileTrue(new ArmPivotReverse());
@@ -120,11 +124,12 @@ public class RobotContainer {
     new DPad(operatorController, 270).whileTrue(new ArmSetAngle(MechConstants.LAUNCH_ANGLE));
 
     //arm pivot up/down with joystick (LY)
-    Arm.getInstance().setDefaultCommand(new ArmJoystick( () -> operatorController.getLeftY()));
+    Arm.getInstance().setDefaultCommand(new ArmJoystick( () -> -operatorController.getLeftY()));
 
 
     //TODO
-    //auto arm pivot based on apriltags with LB
+    //auto arm pivot based on apriltags with LT
+     new TriggerButton(operatorController, 2).whileTrue(new ArmSetAngleApril());
 
     //TODO
     //climber up & down with joystick (RY)
@@ -132,8 +137,7 @@ public class RobotContainer {
 
      new JoystickButton(driverController,Button.kX.value).onTrue(new ClimberResetLeft());
      new JoystickButton(driverController,Button.kB.value).onTrue(new ClimberResetRight());
-
-
+    
   }
 
   /**

@@ -14,7 +14,7 @@ public class ComplexLaunch extends SequentialCommandGroup {
 
     private Intake intake;
 
-    public ComplexLaunch(){
+    public ComplexLaunch() {
         intake = Intake.getInstance();
         
             addCommands(

@@ -61,9 +61,13 @@ public class Intake extends SubsystemBase {
         return detectedColor;
     }
 
+    public int getDistance() {
+        return noteFinder.getProximity();
+    }
+
     public boolean checkNoteFound(){
         Color detectedColor = noteFinder.getColor();
-        if (detectedColor.red > 0.4){
+        if (detectedColor.red > 0.4 || getDistance() > 137){
             isNoteFound = true;
         } else{
             isNoteFound = false;
@@ -89,10 +93,13 @@ public class Intake extends SubsystemBase {
         SmartDashboard.putNumber("Confidence", match.confidence);
         SmartDashboard.putString("Detected Color ", colorString);
         SmartDashboard.putBoolean("Have Note", isNoteFound);
+ 
 
         if(checkNoteFound()) {
             LEDStrip.request(SubsystemsPriority.NOTE, LEDStrip.HAVE_NOTE);
         } 
+
+        SmartDashboard.putNumber("Note Distance", getDistance());
     }
 
 }
