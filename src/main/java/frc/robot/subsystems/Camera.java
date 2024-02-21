@@ -71,12 +71,25 @@ public class Camera extends SubsystemBase {
   }
 
   public boolean isBlueZone(){
-    if(cam.getDesiredTarget()!=null){
+    int blueSpeakerID = 1;
+    int redSpeakerID = 2;
+
+
+    if(cam.getDesiredTarget(blueSpeakerID)!=null  || cam.getDesiredTarget(redSpeakerID)!=null){
       return true;
     }
     return false;
   }
+    public boolean isVioletZone(){
+    int blueAmpID = 3;
+    int redAmpID = 4;
 
+
+    if(cam.getDesiredTarget(blueAmpID)!=null  || cam.getDesiredTarget(redAmpID)!=null){
+      return true;
+    }
+    return false;
+  }
 
   @Override
   public void periodic() {
@@ -87,6 +100,8 @@ public class Camera extends SubsystemBase {
     SmartDashboard.putNumber("Z", getZ());
     SmartDashboard.putBoolean("isBlueZone", isBlueZone());
     SmartDashboard.putBoolean("isGreenZone", isGreenZone());
+    SmartDashboard.putBoolean("isVioletZone", isVioletZone());
+
     //SmartDashboard.putData("All ID's", (Sendable) cam.getAllTargets());
     for (int i = 0; i < cam.getTargets().size(); i++) {
       SmartDashboard.putString("id" + i, cam.getTargets().get(i).toString());
