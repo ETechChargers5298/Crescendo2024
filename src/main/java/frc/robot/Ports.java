@@ -30,4 +30,6 @@ public class Ports {
 
     public static final int DRIVER_CONTROLLER = 0;
     public static final int OPERATOR_CONTROLLER = 1;
+
+    public static final int BLINKIN_PORT = 9;
 }

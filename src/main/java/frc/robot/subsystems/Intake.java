@@ -3,6 +3,9 @@ package frc.robot.subsystems;
 
 import frc.robot.Ports;
 import frc.robot.Constants.MechConstants;
+import frc.robot.subsystems.LEDStrip.SubsystemsPriority;
+import frc.robot.utils.LEDColors;
+
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.ColorSensorV3;
 import com.revrobotics.CANSparkLowLevel.MotorType;
@@ -90,6 +93,12 @@ public class Intake extends SubsystemBase {
         SmartDashboard.putNumber("Confidence", match.confidence);
         SmartDashboard.putString("Detected Color ", colorString);
         SmartDashboard.putBoolean("Have Note", isNoteFound);
+ 
+
+        if(checkNoteFound()) {
+            LEDStrip.request(SubsystemsPriority.NOTE, LEDStrip.HAVE_NOTE);
+        } 
+
         SmartDashboard.putNumber("Note Distance", getDistance());
     }
 
