@@ -1,5 +1,6 @@
 package frc.robot.subsystems;
 
+import edu.wpi.first.util.sendable.Sendable;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.VisionConstants;
@@ -81,14 +82,16 @@ public class Camera extends SubsystemBase {
   public void periodic() {
     cam.update();
     SmartDashboard.putBoolean("hasTargetNew", cam.hasTarget());
-    SmartDashboard.putNumber("BestID", cam.getBestID());
     SmartDashboard.putNumber("X", getX());
     SmartDashboard.putNumber("Y", getY());
     SmartDashboard.putNumber("Z", getZ());
     SmartDashboard.putBoolean("isBlueZone", isBlueZone());
     SmartDashboard.putBoolean("isGreenZone", isGreenZone());
-
-
+    //SmartDashboard.putData("All ID's", (Sendable) cam.getAllTargets());
+    for (int i = 0; i < cam.getTargets().size(); i++) {
+      SmartDashboard.putString("id" + i, cam.getTargets().get(i).toString());
+    }
+    //SmartDashboard.putString("All ID's", cam.getTargets());
     if (isGreenZone()) {
       LEDStrip.request(SubsystemsPriority.VISION, LEDStrip.IN_GREEN_ZONE);
     } else if (isBlueZone()) {

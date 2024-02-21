@@ -10,6 +10,7 @@ import org.photonvision.EstimatedRobotPose;
 import org.photonvision.PhotonCamera;
 import org.photonvision.PhotonPoseEstimator;
 import org.photonvision.PhotonPoseEstimator.PoseStrategy;
+import org.photonvision.targeting.MultiTargetPNPResult;
 import org.photonvision.targeting.PhotonPipelineResult;
 import org.photonvision.targeting.PhotonTrackedTarget;
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
@@ -113,12 +114,10 @@ public class AprilCam {
 
     
     //method that gets the ID of the "best" target, generally not used by our robot
-    public int getBestID(){
-        PhotonTrackedTarget target = result.getBestTarget();
-        if(target == null) {
-            return -1;
-        }
-        return target.getFiducialId();   
+    public String getAllTargets(){
+        MultiTargetPNPResult target = result.getMultiTagResult();
+
+        return target.fiducialIDsUsed.toString();
     }
 
 
