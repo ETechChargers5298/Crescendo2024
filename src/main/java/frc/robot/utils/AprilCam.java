@@ -30,7 +30,7 @@ public class AprilCam {
     private PhotonCamera camera;
     private PhotonPipelineResult result;
     private PhotonTrackedTarget desiredTarget;
-    private int desiredTargetID;
+
     private AprilTagFieldLayout fieldLayout;
     private Transform3d camOffset;
     private PhotonPoseEstimator photonPoseEstimator;
@@ -80,9 +80,9 @@ public class AprilCam {
         return result.hasTargets();
     }
 
-    public boolean hasDesiredTarget() {
+    public boolean hasDesiredTarget(int desiredTargetID) {
         ///use the getDesiredTarget method to see if it returns null (not correct target) or not
-        if (getDesiredTarget()!= null)
+        if (getDesiredTarget(desiredTargetID)!= null)
         {
             return true;
         }
@@ -95,13 +95,13 @@ public class AprilCam {
     }
 
     //method that returns a PhotonTrackedTarget object for the desired target
-    public PhotonTrackedTarget getDesiredTarget(){
+    public PhotonTrackedTarget getDesiredTarget(int desiredTargetID){
 
         //look at each target in the arraylist of targets
         for (PhotonTrackedTarget t: getTargets())
         {
             //look for the target with the desired ID
-            if (t.getFiducialId() == this.desiredTargetID)
+            if (t.getFiducialId() == desiredTargetID)
             {
                 return t;
             }
