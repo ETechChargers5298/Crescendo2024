@@ -1,17 +1,18 @@
 package frc.robot.subsystems;
 
+
 import com.revrobotics.AbsoluteEncoder;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkBase.SoftLimitDirection;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.SparkAbsoluteEncoder.Type;
-import com.revrobotics.SparkMaxLimitSwitch.Direction;
-
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Ports;
 import frc.robot.Constants.MechConstants;
+import frc.robot.Constants.VisionConstants;
+
 
 public class Arm extends SubsystemBase{
 
@@ -21,8 +22,9 @@ public class Arm extends SubsystemBase{
         private RelativeEncoder leftEncoder;
         private RelativeEncoder rightEncoder;
 
-        private double posAverage;
+        private double angleAverage;
         private static Arm instance;
+        private double aprilAngle;
 
         private Arm(){
           this.leftMotor = new CANSparkMax(Ports.ARM_LEFT, MotorType.kBrushless);
@@ -56,9 +58,9 @@ public class Arm extends SubsystemBase{
           return instance;
           }
 
-          public double getPosition(){
-            posAverage = (leftEncoder.getPosition() + rightEncoder.getPosition()) / 2;
-            return posAverage;
+          public double getAngle(){
+            angleAverage = (leftEncoder.getPosition() + rightEncoder.getPosition()) / 2;
+            return angleAverage;
           }
 
           public void resetValue() {
@@ -78,13 +80,23 @@ public class Arm extends SubsystemBase{
           }
 
   public double getArmAprilAngle() {
-    return 16.6 + 9.29 * Camera.getInstance().getX() - 0.645 * Math.pow(Camera.getInstance().getX(), 2);
+    aprilAngle = VisionConstants.kC + VisionConstants.kB * Camera.getInstance().getX() + VisionConstants.kA * Math.pow(Camera.getInstance().getX(), 2);
+    return aprilAngle;
+  }
 
+  public boolean isGoodAngle(){
+    double diff = getAngle() - aprilAngle;
+    if(diff < VisionConstants.LAUNCH_ANGLE_TOLERANCE 
+    && diff > -VisionConstants.LAUNCH_ANGLE_TOLERANCE){
+      return true;
+    }
+    return false;
   }
 
   @Override
   public void periodic() {
-    SmartDashboard.putNumber("Pivot Value", getPosition());
+    SmartDashboard.putNumber("Pivot Value", getAngle());
     SmartDashboard.putNumber("April Arm Angle", getArmAprilAngle());
+    SmartDashboard.putBoolean("isGoodAngle", isGoodAngle());
   }   
 }

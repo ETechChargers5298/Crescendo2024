@@ -215,12 +215,20 @@ public final class Constants {
   public static class VisionConstants{
 
     //GreenZone boundaries
-    public static final double GREENZONE_MAX_X = 1.3; 
+    public static final double GREENZONE_MAX_X = 4.0; 
     public static final double GREENZONE_MIN_X = 0.8;
-    public static final double GREENZONE_MAX_Y = 0.1;
+    public static final double GREENZONE_MAX_Y = 0.3;
     public static final double GREENZONE_MIN_Y = -0.3;
-    public static final double GREENZONE_ANGLE = 10.0;
+    public static final double GREENZONE_MAX_ANGLE = 15.0;
 
+    //GoodLaunch boundaries
+    public static final double LAUNCH_ANGLE_TOLERANCE = 1.0;
+    
+    //Good Launch 2nd Order Equation Co-efficients
+    public static final double kC = 16.6;
+    public static final double kB = 9.29;
+    public static final double kA = -0.645;    
+    
     //Distance to Angle Constants
     public static final double DEGREES_PER_METER_SLOPE = 10.0;
     public static final double DEGREES_Y_INTERCEPT = -2.0;

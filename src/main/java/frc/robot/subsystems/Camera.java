@@ -39,6 +39,42 @@ public class Camera extends SubsystemBase {
     return cam.getZ();
   }
 
+  public boolean isGreenZoneX(){
+    if(getX() <= VisionConstants.GREENZONE_MAX_X) {
+        return true;
+    }
+    return false;
+  }
+
+  public boolean isGreenZoneY(){
+    if(getY() <= VisionConstants.GREENZONE_MAX_Y 
+    && getY() >= VisionConstants.GREENZONE_MIN_Y) {
+        return true;
+    }
+    return false;
+  }
+
+  public boolean isGreenZoneAngle(){
+    if(Math.abs(getZ()) <= VisionConstants.GREENZONE_MAX_ANGLE) {
+        return true;
+    }
+    return false;
+  }
+
+  public boolean isGreenZone(){
+    if(isGreenZoneX() && isGreenZoneY() && isGreenZoneAngle()){
+      return true;
+    }
+    return false;
+  }
+
+  public boolean isBlueZone(){
+    if(cam.getDesiredTarget()!=null){
+      return true;
+    }
+    return false;
+  }
+
 
   @Override
   public void periodic() {
@@ -48,5 +84,7 @@ public class Camera extends SubsystemBase {
     SmartDashboard.putNumber("X", getX());
     SmartDashboard.putNumber("Y", getY());
     SmartDashboard.putNumber("Z", getZ());
+    SmartDashboard.putBoolean("isBlueZone", isBlueZone());
+    SmartDashboard.putBoolean("isGreenZone", isGreenZone());
   }
 }
