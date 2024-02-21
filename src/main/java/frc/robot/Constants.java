@@ -223,6 +223,7 @@ public final class Constants {
 
     //GoodLaunch boundaries
     public static final double LAUNCH_ANGLE_TOLERANCE = 1.0;
+    public static final double AMP_ANGLE_TOLERANCE = 1.0;
     
     //Good Launch 2nd Order Equation Co-efficients
     public static final double kC = 16.6;

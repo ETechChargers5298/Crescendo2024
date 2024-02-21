@@ -86,10 +86,17 @@ public class Arm extends SubsystemBase{
     return aprilAngle;
   }
 
-  public boolean isGoodAngle(){
+  public boolean isGoodLaunchAngle(){
     double diff = getAngle() - aprilAngle;
-    if(diff < VisionConstants.LAUNCH_ANGLE_TOLERANCE 
-    && diff > -VisionConstants.LAUNCH_ANGLE_TOLERANCE){
+    if (Math.abs(diff) < VisionConstants.LAUNCH_ANGLE_TOLERANCE){
+      return true;
+    }
+    return false;
+  }
+
+  public boolean isGoodAmpAngle(){
+    double diff = getAngle() - aprilAngle;
+    if (Math.abs(diff) < VisionConstants.AMP_ANGLE_TOLERANCE){
       return true;
     }
     return false;
@@ -99,11 +106,12 @@ public class Arm extends SubsystemBase{
   public void periodic() {
     SmartDashboard.putNumber("Pivot Value", getAngle());
     SmartDashboard.putNumber("April Arm Angle", getArmAprilAngle());
-    SmartDashboard.putBoolean("isGoodAngle", isGoodAngle());
+    SmartDashboard.putBoolean("isGoodAmpAngle", isGoodAmpAngle());
+    SmartDashboard.putBoolean("isGoodLaunchAngle", isGoodLaunchAngle());
 
-    if (getAngle() == MechConstants.AMP_ANGLE) {
+    if (isGoodAmpAngle()) {
       LEDStrip.request(SubsystemsPriority.ARM, LEDStrip.AMP_ANGLE);
-    } else if (getAngle() == MechConstants.LAUNCH_ANGLE) {
+    } else if (isGoodLaunchAngle()) {
       LEDStrip.request(SubsystemsPriority.ARM, LEDStrip.SPEAKER_ANGLE);
     }
     
