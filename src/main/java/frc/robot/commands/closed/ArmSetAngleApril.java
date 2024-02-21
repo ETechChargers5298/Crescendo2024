@@ -10,7 +10,7 @@ import frc.robot.subsystems.*;
 public class ArmSetAngleApril extends ArmSetAngle {
   /** Creates a new ArmSetAngleApril. */
   public ArmSetAngleApril() {
-    super(16.6 + 9.29 * Camera.getInstance().getX() + -0.645 * Math.pow(Camera.getInstance().getX(), 2));
+    super(Arm.getInstance().getArmAprilAngle());
 
     // Use addRequirements() here to declare subsystem dependencies.
   }
@@ -32,4 +32,5 @@ public class ArmSetAngleApril extends ArmSetAngle {
   // public boolean isFinished() {
   //   return false;
   // }
+  
 }

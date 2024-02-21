@@ -92,7 +92,7 @@ public class RobotContainer {
     //lock & unlock wheels with X/Y
 
     //auto-align drivetrain to speaker target/greenzone with A
-    new JoystickButton(driverController,Button.kA.value).whileTrue(new MoveToTarget());
+    //new JoystickButton(driverController,Button.kA.value).whileTrue(new MoveToTarget());
 
 
 
@@ -127,7 +127,7 @@ public class RobotContainer {
     //TODO
     //auto arm pivot based on apriltags with LT
      new TriggerButton(operatorController, 2).whileTrue(new ArmSetAngleApril());
-     
+
     //TODO
     //climber up & down with joystick (RY)
     Climber.getInstance().setDefaultCommand(new ClimberJoystick( () ->-operatorController.getRightY()));

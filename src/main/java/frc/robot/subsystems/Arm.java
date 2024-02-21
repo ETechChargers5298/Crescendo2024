@@ -77,9 +77,14 @@ public class Arm extends SubsystemBase{
             rightMotor.set(0);
           }
 
+  public double getArmAprilAngle() {
+    return 16.6 + 9.29 * Camera.getInstance().getX() - 0.645 * Math.pow(Camera.getInstance().getX(), 2);
+
+  }
 
   @Override
   public void periodic() {
     SmartDashboard.putNumber("Pivot Value", getPosition());
+    SmartDashboard.putNumber("April Arm Angle", getArmAprilAngle());
   }   
 }
