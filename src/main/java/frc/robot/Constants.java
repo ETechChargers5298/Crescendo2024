@@ -36,16 +36,16 @@ public final class Constants {
   public static class SwerveConstants {
     ///(Old Robot)
     //Sensor Offsets for the radian difference between the physical sensor orientation and the calibrated swerve direction
-    // public static final double FL_SENSOR_OFFSET = 2.949; //from REV Hardware Client
-    // public static final double FR_SENSOR_OFFSET = 5.610; //from REV Hardware Client
-    // public static final double BR_SENSOR_OFFSET = 1.894; //from REV Hardware Client
-    // public static final double BL_SENSOR_OFFSET = 0.717; //from REV Hardware Client
+    public static final double FL_SENSOR_OFFSET = 2.949; //from REV Hardware Client
+    public static final double FR_SENSOR_OFFSET = 5.610; //from REV Hardware Client
+    public static final double BR_SENSOR_OFFSET = 1.894; //from REV Hardware Client
+    public static final double BL_SENSOR_OFFSET = 0.717; //from REV Hardware Client
 
     ///(New Robot)(Put new numbers)
-    public static final double FL_SENSOR_OFFSET = 0.7848113; //from REV Hardware Client
-    public static final double FR_SENSOR_OFFSET = 4.7082246; //from REV Hardware Client
-    public static final double BR_SENSOR_OFFSET = 1.9979531; //from REV Hardware Client
-    public static final double BL_SENSOR_OFFSET = 1.6861502; //from REV Hardware Client
+    // public static final double FL_SENSOR_OFFSET = 0.7848113; //from REV Hardware Client
+    // public static final double FR_SENSOR_OFFSET = 4.7082246; //from REV Hardware Client
+    // public static final double BR_SENSOR_OFFSET = 1.9979531; //from REV Hardware Client
+    // public static final double BL_SENSOR_OFFSET = 1.6861502; //from REV Hardware Client
 
 
     //Angular Offsets for the radian difference between the calibrated swerve and desired forward direction

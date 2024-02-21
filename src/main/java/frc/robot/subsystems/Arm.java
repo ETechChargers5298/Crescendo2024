@@ -11,7 +11,9 @@ import com.revrobotics.SparkMaxLimitSwitch.Direction;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Ports;
+import frc.robot.subsystems.LEDStrip.SubsystemsPriority;
 import frc.robot.Constants.MechConstants;
+
 
 public class Arm extends SubsystemBase{
 
@@ -79,11 +81,19 @@ public class Arm extends SubsystemBase{
 
   public double getArmAprilAngle() {
     return 16.6 + 9.29 * Camera.getInstance().getX() - 0.645 * Math.pow(Camera.getInstance().getX(), 2);
-
   }
 
   @Override
   public void periodic() {
+    SmartDashboard.putNumber("PivotAngle", getPosition());
+
+    if (getPosition() == MechConstants.AMP_ANGLE) {
+      LEDStrip.request(SubsystemsPriority.ARM, LEDStrip.AMP_ANGLE);
+    } else if (getPosition() == MechConstants.LAUNCH_ANGLE) {
+      LEDStrip.request(SubsystemsPriority.ARM, LEDStrip.SPEAKER_ANGLE);
+    }
+
+  }
     SmartDashboard.putNumber("Pivot Value", getPosition());
     SmartDashboard.putNumber("April Arm Angle", getArmAprilAngle());
   }   
