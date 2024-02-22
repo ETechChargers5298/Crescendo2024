@@ -26,7 +26,7 @@ public class LEDStrip extends SubsystemBase {
     public static final double DISABLED = LEDColors.RAINBOW_RAINBOW;
     public static final double ENABLED = LEDColors.OCEAN_COLOR_WAVES;
     public static final double AMP_ANGLE = LEDColors.VIOLET;
-    public static final double SPEAKER_ANGLE = LEDColors.BLACK;
+    public static final double SPEAKER_ANGLE = LEDColors.FOREST_BPM;
     public static final double CLIMBER_REACHED_MAX = LEDColors.WHITE;
 
     private static int topCurrentPriority = 0;
