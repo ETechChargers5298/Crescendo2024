@@ -45,8 +45,8 @@ public class Arm extends SubsystemBase{
           leftEncoder = leftMotor.getEncoder();
           rightEncoder = rightMotor.getEncoder();
 
-          leftEncoder.setPositionConversionFactor(360 / (80 * 48 / 22));
-          rightEncoder.setPositionConversionFactor(360 / (80 * 48 / 22));
+          leftEncoder.setPositionConversionFactor(360 / (80 * 40 / 18));
+          rightEncoder.setPositionConversionFactor(360 / (80 * 40 / 18));
 
           leftMotor.burnFlash();
 

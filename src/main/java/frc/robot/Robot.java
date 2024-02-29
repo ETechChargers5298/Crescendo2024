@@ -52,11 +52,11 @@ private Command m_autonomousCommand;
     // block in order for anything in the Command-based framework to work.
     CommandScheduler.getInstance().run();
     
-    Launcher.getInstance().launch(0.6);
+    // Launcher.getInstance().launch(0.6);
     
-    if(Intake.getInstance().checkNoteFound()) {
-      Launcher.getInstance().launch(MechConstants.LAUNCHER_SPEED);
-    }
+    // if(Intake.getInstance().checkNoteFound()) {
+    //   Launcher.getInstance().launch(MechConstants.LAUNCHER_SPEED);
+    // }
   }
 
   public static boolean isBlue() {
