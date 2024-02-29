@@ -16,6 +16,8 @@ import com.revrobotics.ColorMatchResult;
 import com.revrobotics.ColorMatch;
 import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj.I2C;
+import edu.wpi.first.wpilibj.SerialPort;
+import edu.wpi.first.wpilibj.Timer;
 
 
 public class Intake extends SubsystemBase {
@@ -27,13 +29,32 @@ public class Intake extends SubsystemBase {
     private final ColorMatch colorMatcher = new ColorMatch();
     public static boolean isNoteFound = false;
     private final Color kOrangeTarget = new Color(0.5, 0.4, 0.1);
+    private Timer timer;
+    private SerialPort arduino;
 
 
     private Intake() {
         intakeMotor = new CANSparkMax(Ports.INTAKE_MOTOR_PORT, MotorType.kBrushless);
         noteFinder = new ColorSensorV3(i2cPort);
+        arduinoInit();
+
     }
     
+    public void arduinoInit(){
+        
+        try {
+            arduino = new SerialPort(9600, SerialPort.Port.kUSB1);
+            System.out.println(("Connected on kUBS01!"));
+        } catch (Exception e1) {
+            System.out.println("Failed to connect on kUSB1");
+        }
+        
+        timer = new Timer();
+        timer.start();
+    }
+
+
+
     public static Intake getInstance(){
         if(instance == null) {
             instance = new Intake();
@@ -75,23 +96,43 @@ public class Intake extends SubsystemBase {
         return isNoteFound;
     }
   
+    public void arduinoUpdate(){
+
+        double ARDUINO_UPDATE_GAP = 0.5;
+        if(timer.get() > ARDUINO_UPDATE_GAP) {
+            System.out.println("Wrote to Arduino");
+            arduino.write(new byte[] {0x12}, 1);
+            timer.reset();
+        }
+
+        if (arduino.getBytesReceived() > 0) {
+            String currentString = arduino.readString();
+
+            if (currentString.equals("0"))
+
+            System.out.print(currentString);
+        }
+    }
+
+
     @Override
     public void periodic() {
         // This method will be called once per scheduler run
-        
-        Color detectedColor = noteFinder.getColor();
-        //ColorMatchResult match = m_colorMatcher.matchClosestColor(detectedColor);
-        
-        ColorMatchResult match = colorMatcher.matchClosestColor(detectedColor);
-        String colorString = match.color.toString();
+        arduinoUpdate();
 
-        this.checkNoteFound();
+        // Color detectedColor = noteFinder.getColor();
+        // //ColorMatchResult match = m_colorMatcher.matchClosestColor(detectedColor);
         
-        SmartDashboard.putNumber("R", detectedColor.red);
-        SmartDashboard.putNumber("G", detectedColor.green);
-        SmartDashboard.putNumber("B", detectedColor.blue);
-        SmartDashboard.putNumber("Confidence", match.confidence);
-        SmartDashboard.putString("Detected Color ", colorString);
+        // ColorMatchResult match = colorMatcher.matchClosestColor(detectedColor);
+        // String colorString = match.color.toString();
+
+        // this.checkNoteFound();
+        
+        // SmartDashboard.putNumber("R", detectedColor.red);
+        // SmartDashboard.putNumber("G", detectedColor.green);
+        // SmartDashboard.putNumber("B", detectedColor.blue);
+        // SmartDashboard.putNumber("Confidence", match.confidence);
+        // SmartDashboard.putString("Detected Color ", colorString);
         SmartDashboard.putBoolean("Have Note", isNoteFound);
  
 
