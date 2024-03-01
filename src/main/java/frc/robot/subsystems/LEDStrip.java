@@ -10,8 +10,6 @@ import edu.wpi.first.wpilibj.motorcontrol.Spark;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Ports;
-import frc.robot.Robot;
-import frc.robot.utils.*;
 import frc.robot.utils.LEDColors;
 
 /** Add your docs here. */
@@ -33,7 +31,7 @@ public class LEDStrip extends SubsystemBase {
 
     private static double[] patternArray = new double[5];
 
-    public enum SubsystemsPriority {
+    public enum SubsystemPriority {
         CLIMBING(4),
         ARM(3),
         VISION(2),
@@ -42,7 +40,7 @@ public class LEDStrip extends SubsystemBase {
   
         private int priority;
 
-        private SubsystemsPriority(int priority) {
+        private SubsystemPriority(int priority) {
             this.priority = priority;
         }
 
@@ -60,7 +58,7 @@ public class LEDStrip extends SubsystemBase {
     }
 
     //
-    public static void request(SubsystemsPriority priority, double lightColor) {
+    public static void request(SubsystemPriority priority, double lightColor) {
         // update the top priority
         if (priority.get() > topCurrentPriority) {
             topCurrentPriority = priority.get();
@@ -91,7 +89,7 @@ public class LEDStrip extends SubsystemBase {
         }
 
         // resets top priority back to default
-        topCurrentPriority = SubsystemsPriority.DEFAULT.get();
+        topCurrentPriority = SubsystemPriority.DEFAULT.get();
 
         SmartDashboard.putNumber("Top Priority", topCurrentPriority);
         SmartDashboard.putNumber("LED Value", patternArray[topCurrentPriority]);
@@ -100,7 +98,7 @@ public class LEDStrip extends SubsystemBase {
     @Override
     public void periodic() {
         // This method will be called once per scheduler run
-        request(SubsystemsPriority.DEFAULT, ENABLED);
+        request(SubsystemPriority.DEFAULT, ENABLED);
         setStatus();
     }
 

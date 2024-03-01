@@ -1,17 +1,14 @@
 package frc.robot.subsystems;
 
 
-import com.revrobotics.AbsoluteEncoder;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkBase.SoftLimitDirection;
 import com.revrobotics.CANSparkLowLevel.MotorType;
-import com.revrobotics.SparkAbsoluteEncoder.Type;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Ports;
-import frc.robot.subsystems.LEDStrip.SubsystemsPriority;
-import frc.robot.Constants.MechConstants;
+import frc.robot.subsystems.LEDStrip.SubsystemPriority;
 import frc.robot.Constants.VisionConstants;
 
 
@@ -111,9 +108,9 @@ public class Arm extends SubsystemBase{
 
     
     if (isGoodAmpAngle()) {
-      LEDStrip.request(SubsystemsPriority.ARM, LEDStrip.AMP_ANGLE);
+      LEDStrip.request(SubsystemPriority.ARM, LEDStrip.AMP_ANGLE);
     } else if (isGoodLaunchAngle()) {
-      LEDStrip.request(SubsystemsPriority.ARM, LEDStrip.SPEAKER_ANGLE);
+      LEDStrip.request(SubsystemPriority.ARM, LEDStrip.SPEAKER_ANGLE);
     }
     
 

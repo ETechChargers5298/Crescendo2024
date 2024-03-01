@@ -3,7 +3,7 @@ package frc.robot.subsystems;
 
 import frc.robot.Ports;
 import frc.robot.Constants.MechConstants;
-import frc.robot.subsystems.LEDStrip.SubsystemsPriority;
+import frc.robot.subsystems.LEDStrip.SubsystemPriority;
 import frc.robot.utils.LEDColors;
 
 import com.revrobotics.CANSparkMax;
@@ -96,7 +96,7 @@ public class Intake extends SubsystemBase {
  
 
         if(checkNoteFound()) {
-            LEDStrip.request(SubsystemsPriority.NOTE, LEDStrip.HAVE_NOTE);
+            LEDStrip.request(SubsystemPriority.NOTE, LEDStrip.HAVE_NOTE);
         } 
 
         SmartDashboard.putNumber("Note Distance", getDistance());
