@@ -5,13 +5,16 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Intake;
 
 
-public class IntakeNote extends Command {
+public class IntakeNoteStop extends Command {
 
   private static Intake intake;
+  private boolean noteFound;
 
   /** Creates a new IntakeEat. */
-  public IntakeNote() {
+  public IntakeNoteStop() {
     intake = Intake.getInstance();
+    noteFound = false;
+
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(intake);
   }
@@ -20,12 +23,17 @@ public class IntakeNote extends Command {
   @Override
   public void initialize() {
     intake.stop();
+    
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    intake.eat();
+    if(Intake.isNoteFound) {
+      intake.stop();
+    } else {
+      intake.eat();
+    }
   }
 
   // Called once the command ends or is interrupted.
@@ -37,7 +45,7 @@ public class IntakeNote extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return intake.checkNoteFound();
+    return Intake.isNoteFound;
   }
 }
 

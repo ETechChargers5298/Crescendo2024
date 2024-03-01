@@ -75,7 +75,8 @@ public class RobotContainer {
     Drivetrain.getInstance().setDefaultCommand(new SwerveDrive(
       () -> -driverController.getRawAxis(1),
       () -> -driverController.getRawAxis(0),
-      () -> -driverController.getRawAxis(4)
+      () -> -driverController.getRawAxis(4),
+      () -> driverController.getAButton()
     ));
 
     //Snap robot to specific angle
@@ -90,7 +91,7 @@ public class RobotContainer {
     new JoystickButton(driverController, Button.kB.value).whileTrue(new RumbleTest(driverController, true));
     
 
-    new JoystickButton(driverController,Button.kA.value).whileTrue(new ArmReset());
+    new JoystickButton(driverController,Button.kX.value).whileTrue(new ArmReset());
     
 
 
@@ -113,7 +114,7 @@ public class RobotContainer {
     new JoystickButton(operatorController,Button.kA.value).whileTrue(new LauncherTake());
 
     //auto launch sequence with RB
-    new JoystickButton(operatorController,Button.kRightBumper.value).onTrue(new ComplexLaunch());
+    new JoystickButton(operatorController,Button.kRightBumper.value).onTrue(new IntakeNoteStop());
     new JoystickButton(operatorController,Button.kLeftBumper.value).onTrue(new ArmReset());
 
     // arm Pivot with LB/RB

@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.subsystems.LEDStrip;
 import frc.robot.subsystems.LEDStrip.SubsystemPriority;
 
+
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
  * each mode, as described in the TimedRobot documentation. If you change the name of this class or
@@ -48,6 +49,12 @@ private Command m_autonomousCommand;
     // and running subsystem periodic() methods.  This must be called from the robot's periodic
     // block in order for anything in the Command-based framework to work.
     CommandScheduler.getInstance().run();
+    
+    // Launcher.getInstance().launch(0.6);
+    
+    // if(Intake.getInstance().checkNoteFound()) {
+    //   Launcher.getInstance().launch(MechConstants.LAUNCHER_SPEED);
+    // }
   }
 
   public static boolean isBlue() {

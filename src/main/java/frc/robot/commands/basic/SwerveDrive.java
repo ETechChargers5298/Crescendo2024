@@ -16,13 +16,15 @@ public class SwerveDrive extends Command {
   private Supplier<Double> rotSpeed;
   private SlewRateLimiter xFilter;
   private SlewRateLimiter yFilter;
+  private Supplier<Boolean> fieldReset;
 
   /** Creates a new SwerveDrive. */
-  public SwerveDrive(Supplier<Double> xSpeed, Supplier<Double> ySpeed, Supplier<Double> rotSpeed) {
+  public SwerveDrive(Supplier<Double> xSpeed, Supplier<Double> ySpeed, Supplier<Double> rotSpeed, Supplier<Boolean> fieldReset) {
 
     this.xSpeed = xSpeed;
     this.ySpeed = ySpeed;
     this.rotSpeed = rotSpeed;
+    this.fieldReset = fieldReset;
     xFilter = new SlewRateLimiter(1.5);
     yFilter = new SlewRateLimiter(1.5);
 
@@ -48,6 +50,10 @@ public class SwerveDrive extends Command {
       MathUtil.applyDeadband(rotSpeed.get(), 0.1), 
       drivetrain.getFieldCentric()
       );
+
+      if(fieldReset.get()) {
+        drivetrain.resetIMU();
+      }
   }
 
   // Called once the command ends or is interrupted.
