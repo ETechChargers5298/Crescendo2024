@@ -226,9 +226,9 @@ public final class Constants {
     public static final double AMP_ANGLE_TOLERANCE = 5.0;
     
     //Good Launch 2nd Order Equation Co-efficients
-    public static final double kC = 16.6;
-    public static final double kB = 9.29;
-    public static final double kA = -0.645;    
+    public static final double kC = -13;
+    public static final double kB = 22.8;
+    public static final double kA = -1.27;    
     
     //Distance to Angle Constants
     public static final double DEGREES_PER_METER_SLOPE = 10.0;

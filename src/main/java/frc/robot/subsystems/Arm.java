@@ -62,7 +62,9 @@ public class Arm extends SubsystemBase{
 
           public double getAngle(){
             angleAverage = (leftEncoder.getPosition() + rightEncoder.getPosition()) / 2;
-            return angleAverage;
+            //return angleAverage;
+           //temporary change for right encoder
+            return rightEncoder.getPosition();
           }
 
           public void resetValue() {

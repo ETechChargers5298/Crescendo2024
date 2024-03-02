@@ -39,7 +39,7 @@ public class RobotAuto extends SequentialCommandGroup {
             new WaitCommand(0.5)
           ),
           new ArmSetAngle(MechConstants.FLOOR_ANGLE),
-          new DrivePID(1.0, 0.0, 0.0),
+          new DrivePID(2.0, 0.0, 0.0),
 
           new ParallelRaceGroup( 
             new IntakeEat(),
