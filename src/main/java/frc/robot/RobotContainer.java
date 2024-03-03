@@ -115,7 +115,7 @@ public class RobotContainer {
 
     //auto launch sequence with RB
     new JoystickButton(operatorController,Button.kRightBumper.value).onTrue(new IntakeNoteStop());
-    new JoystickButton(operatorController,Button.kLeftBumper.value).onTrue(new ArmReset());
+    //new JoystickButton(operatorController,Button.kLeftBumper.value).onTrue(new ArmReset());
 
     // arm Pivot with LB/RB
     // new JoystickButton(operatorController,Button.kLeftBumper.value).whileTrue(new ArmPivotReverse());
@@ -128,7 +128,11 @@ public class RobotContainer {
     new DPad(operatorController, 270).whileTrue(new ArmSetAngle(MechConstants.LAUNCH_ANGLE));
 
     //arm pivot up/down with joystick (LY)
-    Arm.getInstance().setDefaultCommand(new ArmJoystick( () -> -operatorController.getLeftY()));
+    Arm.getInstance().setDefaultCommand(new ArmJoystick( 
+      () -> -operatorController.getLeftY(),
+      () -> operatorController.getLeftBumperPressed()
+      ));
+      
 
 
     //TODO
@@ -156,7 +160,7 @@ public class RobotContainer {
 
     // return new MoveToTarget();
     //return new DrivePID(1.0, 0, 0);
-    return new AutoMove();
+    return new Auto2NoteMid();
 
   }
 }

@@ -15,9 +15,9 @@ public class ArmSetAngleApril extends Command {
   /** Creates a new ArmSetAngleApril. */
   public ArmSetAngleApril() {
     arm = Arm.getInstance();
-    controller = new PIDController(0.02, 0, 0);
-    controller.setSetpoint(arm.getArmAprilAngle());
-    controller.setTolerance(1.0);
+    controller = new PIDController(0.06, 0, 0);
+    controller.setSetpoint(arm.getArmAprilAngle() + 2);
+    controller.setTolerance(0.4);
 
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(arm);
@@ -33,9 +33,21 @@ public class ArmSetAngleApril extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+
+    //if target is seen, try to go to the desired angle
+    if(Camera.getInstance().getCam().hasTarget()){
+      controller.setSetpoint(arm.getArmAprilAngle() + 2);
+
+    //if the target is blocked, maintain current angle
+    } else {
+      controller.setSetpoint(arm.getAngle());
+    }
+    
     double currentAngle = arm.getAngle();
     double angleSpeed = controller.calculate(currentAngle);
     arm.pivot(angleSpeed * 0.6);
+
+    
   }
 
   // // Called once the command ends or is interrupted.

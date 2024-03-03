@@ -113,14 +113,14 @@ public class Intake extends SubsystemBase {
         double ARDUINO_UPDATE_GAP = 0.05;
         if(timer.get() > ARDUINO_UPDATE_GAP) {
             System.out.println("Wrote to Arduino");
-            arduino.write(new byte[] {0x12}, 1);
+            arduino.write(new byte[] {'e'}, 1);
             timer.reset();
         }
 
         if (arduino.getBytesReceived() > 0) {
             String currentString = arduino.readString();
 
-            if (currentString.equals("0"))
+           // if (currentString.equals("0"))
 
             System.out.print(currentString);
         }

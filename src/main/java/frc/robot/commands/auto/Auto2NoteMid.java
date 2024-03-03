@@ -8,48 +8,65 @@ import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.Constants;
-import frc.robot.commands.basic.ArmPivot;
+import frc.robot.Constants.MechConstants;
 import frc.robot.commands.basic.IntakeEat;
 import frc.robot.commands.basic.IntakeSpit;
 import frc.robot.commands.basic.LauncherShoot;
 import frc.robot.commands.closed.ArmSetAngle;
-import frc.robot.commands.closed.ArmSetAngleFromDistance;
+import frc.robot.commands.closed.ArmSetAngleApril;
+import frc.robot.commands.closed.DrivePID;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
+
 public class Auto2NoteMid extends SequentialCommandGroup {
   /** Creates a new robotauto. */
   public Auto2NoteMid() {
+
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
         new SequentialCommandGroup(
 
           //move arm to correct angle to shoot
-          new ArmSetAngleFromDistance(),
+          new ArmSetAngle(MechConstants.LAUNCH_ANGLE),
 
-
+          //Rev flywheel
           new ParallelRaceGroup(
-          
-            //Rev flywheel
             new LauncherShoot(),
-            new WaitCommand(1.0),
-          
-            //Launch Note
+            new WaitCommand(1.0)
+          ),
+
+          //Launch Note
+          new ParallelRaceGroup(
             new IntakeSpit(),
             new WaitCommand(0.5)
-            ),
+          ),
 
           //Put arm down to ground
           new ArmSetAngle(Constants.MechConstants.FLOOR_ANGLE),
+          new WaitCommand(1.5),
+          
+          //Start to eat & Drive forward           
+          new ParallelRaceGroup(
+            new IntakeEat(),
+            new DrivePID(2.0, 0.0, 0.0)
+            //new WaitCommand(0.5)
+          ),
 
-          //Travel out to next note
+          //Move Arm Angle Up to Launch
+          new ArmSetAngleApril(),
 
-          //Eat a new Note
-          new ParallelRaceGroup( 
-            new IntakeEat()
-            )
+          //Launch 2nd Note          
+          new ParallelRaceGroup(
+            new LauncherShoot(),
+            new WaitCommand(1.5)
+          ),
+          new ParallelRaceGroup(
+            new IntakeEat(),
+            new WaitCommand(0.5)
+          )
          
 
         )
