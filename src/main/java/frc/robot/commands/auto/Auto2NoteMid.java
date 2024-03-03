@@ -51,8 +51,8 @@ public class Auto2NoteMid extends SequentialCommandGroup {
           //Start to eat & Drive forward           
           new ParallelRaceGroup(
             new IntakeEat(),
-            new DrivePID(2.0, 0.0, 0.0)
-            //new WaitCommand(0.5)
+            new DrivePID(2.0, 0.0, 0.0),
+            new WaitCommand(1.0)
           ),
 
           //Move Arm Angle Up to Launch
