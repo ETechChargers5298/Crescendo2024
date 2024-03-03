@@ -59,6 +59,7 @@ public class ArmSetAngleApril extends Command {
   // // Returns true when the command should end.
   @Override
   public boolean isFinished() {
+    System.out.println("Finished ArmSetAngleApril at "+ arm.getAngle() + ", while trying for " + arm.getArmAprilAngle());
     return controller.atSetpoint();
   }
   
