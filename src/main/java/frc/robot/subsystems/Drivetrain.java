@@ -97,7 +97,7 @@ public class Drivetrain extends SubsystemBase {
     //pose = driveOdometry.getPoseMeters();
     field = new Field2d();
 
-    navX.reset();
+    // navX.reset();
 
     fieldCentric = true; //default to fieldcentric
 

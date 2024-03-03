@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.Constants.MechConstants;
+import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.LEDStrip;
 import frc.robot.subsystems.LEDStrip.SubsystemsPriority;
@@ -100,6 +101,7 @@ private Command m_autonomousCommand;
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
+    Drivetrain.getInstance().resetIMU();
   }
 
   /** This function is called periodically during operator control. */
