@@ -137,7 +137,7 @@ public class RobotContainer {
 
     //TODO
     //auto arm pivot based on apriltags with LT
-     new TriggerButton(operatorController, 2).whileTrue(new ArmSetAngleApril());
+     new TriggerButton(operatorController, 2).whileTrue(new ArmSetAngleApril().repeatedly());
 
     //TODO
     //climber up & down with joystick (RY)

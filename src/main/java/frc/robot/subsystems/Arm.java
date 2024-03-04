@@ -42,8 +42,8 @@ public class Arm extends SubsystemBase{
           leftEncoder = leftMotor.getEncoder();
           rightEncoder = rightMotor.getEncoder();
 
-          leftEncoder.setPositionConversionFactor(360 / (80 * 40 / 18));
-          rightEncoder.setPositionConversionFactor(360 / (80 * 40 / 18));
+          leftEncoder.setPositionConversionFactor(360 / (80 * 64 / 24));
+          rightEncoder.setPositionConversionFactor(360 / (80 * 64 / 24));
 
           leftMotor.burnFlash();
 
@@ -59,9 +59,9 @@ public class Arm extends SubsystemBase{
 
           public double getAngle(){
             angleAverage = (leftEncoder.getPosition() + rightEncoder.getPosition()) / 2;
-            //return angleAverage;
+            return angleAverage;
            //temporary change for right encoder
-            return rightEncoder.getPosition();
+            //return rightEncoder.getPosition();
           }
 
           public void resetValue() {
