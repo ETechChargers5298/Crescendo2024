@@ -92,6 +92,7 @@ public class RobotContainer {
     
 
     new JoystickButton(driverController,Button.kX.value).whileTrue(new ArmReset());
+    //new TriggerButton(driverController, 2).whileTrue(new TurnToApril().repeatedly());
     
 
 
@@ -125,7 +126,7 @@ public class RobotContainer {
     new DPad(operatorController, 0).whileTrue(new ArmSetAngle(MechConstants.START_ANGLE));
     new DPad(operatorController, 90).whileTrue(new ArmSetAngle(MechConstants.AMP_ANGLE));
     new DPad(operatorController, 180).whileTrue(new ArmSetAngle(MechConstants.FLOOR_ANGLE));
-    new DPad(operatorController, 270).whileTrue(new ArmSetAngle(MechConstants.LAUNCH_ANGLE));
+    new DPad(operatorController, 270).whileTrue(new ArmSetAngle(MechConstants.LAUNCH_ANGLE).repeatedly());
 
     //arm pivot up/down with joystick (LY)
     Arm.getInstance().setDefaultCommand(new ArmJoystick( 

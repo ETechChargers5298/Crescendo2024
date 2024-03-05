@@ -30,7 +30,11 @@ public class Auto2NoteMid extends SequentialCommandGroup {
         new SequentialCommandGroup(
 
           //move arm to correct angle to shoot
-          new ArmSetAngle(MechConstants.LAUNCH_ANGLE),
+          new ParallelRaceGroup(
+            new ArmSetAngle(MechConstants.LAUNCH_ANGLE),
+            new WaitCommand(1.5)
+            ),
+          
 
           //Rev flywheel
           new ParallelRaceGroup(
@@ -40,13 +44,17 @@ public class Auto2NoteMid extends SequentialCommandGroup {
 
           //Launch Note
           new ParallelRaceGroup(
-            new IntakeSpit(),
+            new IntakeEat(),
             new WaitCommand(0.5)
           ),
 
           //Put arm down to ground
+          new ParallelRaceGroup(
           new ArmSetAngle(Constants.MechConstants.FLOOR_ANGLE),
-          new WaitCommand(1.5),
+          new WaitCommand(1.5)
+          ),
+          
+          new WaitCommand(1.2),
           
           //Start to eat & Drive forward           
           new ParallelRaceGroup(

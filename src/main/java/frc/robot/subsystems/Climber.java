@@ -66,6 +66,7 @@ public class Climber extends SubsystemBase{
         //retract right climber only if not at bottom/base
         if(rightEncoder.getPosition() <= MechConstants.BASE_CLIMB_RIGHT) {
             rightMotor.set(0.0);
+            //rightMotor.set(-speed);
         } 
         else {
             rightMotor.set(-speed);
@@ -73,7 +74,8 @@ public class Climber extends SubsystemBase{
 
         //retract left climber only if not at bottom/base
         if(leftEncoder.getPosition() <= MechConstants.BASE_CLIMB_LEFT) {
-            leftMotor.set(0.0);
+            //leftMotor.set(0.0);
+            leftMotor.set(-speed); //takes off the re
         }
         else {
             leftMotor.set(-speed);
