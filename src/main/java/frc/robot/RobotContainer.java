@@ -135,8 +135,8 @@ public class RobotContainer {
       ));
 
     Launcher.getInstance().setDefaultCommand(new ToggleShooter(
-      () -> operatorController.getYButton(),
-      () -> operatorController.getStartButton()));
+      () -> operatorController.getYButtonPressed(),
+      () -> operatorController.getStartButtonPressed()));
       
 
 

@@ -197,7 +197,7 @@ public final class Constants {
     public static final double BASE_CLIMB_LEFT = 0.0;
 
     //Mech Motor Speeds for Buttons
-    public static final double INTAKE_SPEED = 1.0;
+    public static final double INTAKE_SPEED = 0.6;
     public static final double LAUNCHER_SPEED = 1.0;
     public static final double ARM_PIVOT_SPEED = 1.0;
     public static final double CLIMBER_SPEED = 0.3;

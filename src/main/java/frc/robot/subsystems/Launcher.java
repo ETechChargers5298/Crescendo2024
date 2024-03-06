@@ -89,6 +89,8 @@ public class Launcher extends SubsystemBase {
         //code to update SmartDashboard
         SmartDashboard.putNumber("LaunchTopSpeed", getTopSpeed());
         SmartDashboard.putNumber("LaunchBotSpeed", getBottomSpeed());
+        SmartDashboard.putString("top idle mode", topMotor.getIdleMode().toString());
+        SmartDashboard.putString("bot idle mode", bottomMotor.getIdleMode().toString());
 
     }
 

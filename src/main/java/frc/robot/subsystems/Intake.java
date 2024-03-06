@@ -39,22 +39,22 @@ public class Intake extends SubsystemBase {
     private Intake() {
         intakeMotor = new CANSparkMax(Ports.INTAKE_MOTOR_PORT, MotorType.kBrushless);
         // noteFinder = new ColorSensorV3(i2cPort);
-        arduinoInit();
+        //arduinoInit();
 
     }
     
-    public void arduinoInit(){
+    // public void arduinoInit(){
         
-        try {
-            arduino = new SerialPort(9600, SerialPort.Port.kUSB1);
-            System.out.println(("Connected on kUBS01!"));
-        } catch (Exception e1) {
-            System.out.println("Failed to connect on kUSB1");
-        }
+    //     try {
+    //         arduino = new SerialPort(9600, SerialPort.Port.kUSB1);
+    //         System.out.println(("Connected on kUBS01!"));
+    //     } catch (Exception e1) {
+    //         System.out.println("Failed to connect on kUSB1");
+    //     }
         
-        timer = new Timer();
-        timer.start();
-    }
+    //     timer = new Timer();
+    //     timer.start();
+    // }
 
 
 
@@ -105,32 +105,32 @@ public class Intake extends SubsystemBase {
         return isNoteFound;
     }
   
-    public void arduinoUpdate(){
+    // public void arduinoUpdate(){
 
-        //See for color parsing:
-        //https://replit.com/@misterbianchi/RGB-Int-Values-from-Serial#src/main/java/Main.java
+    //     //See for color parsing:
+    //     //https://replit.com/@misterbianchi/RGB-Int-Values-from-Serial#src/main/java/Main.java
 
-        double ARDUINO_UPDATE_GAP = 0.05;
-        if(timer.get() > ARDUINO_UPDATE_GAP) {
-            System.out.println("Wrote to Arduino");
-            arduino.write(new byte[] {'e'}, 1);
-            timer.reset();
-        }
+    //     double ARDUINO_UPDATE_GAP = 0.05;
+    //     if(timer.get() > ARDUINO_UPDATE_GAP) {
+    //         System.out.println("Wrote to Arduino");
+    //         arduino.write(new byte[] {'e'}, 1);
+    //         timer.reset();
+    //     }
 
-        if (arduino.getBytesReceived() > 0) {
-            String currentString = arduino.readString();
+    //     if (arduino.getBytesReceived() > 0) {
+    //         String currentString = arduino.readString();
 
-           // if (currentString.equals("0"))
+    //        // if (currentString.equals("0"))
 
-            System.out.print(currentString);
-        }
-    }
+    //         System.out.print(currentString);
+    //     }
+    // }
 
 
     @Override
     public void periodic() {
         // This method will be called once per scheduler run
-        arduinoUpdate();
+        //arduinoUpdate();
 
         // Color detectedColor = noteFinder.getColor();
         // ColorMatchResult match = colorMatcher.matchClosestColor(detectedColor);

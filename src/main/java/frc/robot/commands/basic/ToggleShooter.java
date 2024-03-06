@@ -6,6 +6,7 @@ package frc.robot.commands.basic;
 
 import java.util.function.Supplier;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Launcher;
 
@@ -60,6 +61,9 @@ public class ToggleShooter extends Command {
     } else {
       launcher.setCoast();
     }
+
+    SmartDashboard.putBoolean("brake toggle", brakeToggle);
+    SmartDashboard.putBoolean("rev toggle", revToggle);
   }
 
   // Called once the command ends or is interrupted.
