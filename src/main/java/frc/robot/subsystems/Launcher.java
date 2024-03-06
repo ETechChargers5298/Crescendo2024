@@ -1,7 +1,9 @@
 package frc.robot.subsystems;
 
+import com.fasterxml.jackson.databind.AnnotationIntrospector.ReferenceProperty.Type;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
+import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -40,6 +42,22 @@ public class Launcher extends SubsystemBase {
         topMotor.set(speed);
         bottomMotor.set(speed);
 
+    }
+
+    public void setBrake() {
+        topMotor.setIdleMode(IdleMode.kBrake);
+        bottomMotor.setIdleMode(IdleMode.kBrake);
+
+        topMotor.burnFlash();
+        bottomMotor.burnFlash();
+    }
+
+    public void setCoast() {
+        topMotor.setIdleMode(IdleMode.kCoast);
+        bottomMotor.setIdleMode(IdleMode.kCoast);
+
+        topMotor.burnFlash();
+        bottomMotor.burnFlash();
     }
 
     public double getBottomEncoder(){

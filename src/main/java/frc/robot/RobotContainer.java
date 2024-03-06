@@ -111,7 +111,7 @@ public class RobotContainer {
     new JoystickButton(operatorController,Button.kX.value).whileTrue(new IntakeSpit());
 
     //launcher shoot/take with A/Y
-    new JoystickButton(operatorController,Button.kY.value).whileTrue(new LauncherShoot());
+    //new JoystickButton(operatorController,Button.kY.value).whileTrue(new LauncherShoot());
     new JoystickButton(operatorController,Button.kA.value).whileTrue(new LauncherTake());
 
     //auto launch sequence with RB
@@ -133,19 +133,23 @@ public class RobotContainer {
       () -> -operatorController.getLeftY(),
       () -> operatorController.getLeftBumperPressed()
       ));
+
+    Launcher.getInstance().setDefaultCommand(new ToggleShooter(
+      () -> operatorController.getYButton(),
+      () -> operatorController.getStartButton()));
       
 
 
     //TODO
     //auto arm pivot based on apriltags with LT
-     new TriggerButton(operatorController, 2).whileTrue(new ArmSetAngleApril().repeatedly());
+    new TriggerButton(operatorController, 2).whileTrue(new ArmSetAngleApril().repeatedly());
 
     //TODO
     //climber up & down with joystick (RY)
     Climber.getInstance().setDefaultCommand(new ClimberJoystick( () ->-operatorController.getRightY()));
 
-     new JoystickButton(driverController,Button.kX.value).onTrue(new ClimberResetLeft());
-     new JoystickButton(driverController,Button.kB.value).onTrue(new ClimberResetRight());
+    new JoystickButton(driverController,Button.kX.value).onTrue(new ClimberResetLeft());
+    new JoystickButton(driverController,Button.kB.value).onTrue(new ClimberResetRight());
     
   }
 
