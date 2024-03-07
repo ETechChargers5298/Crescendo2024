@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Ports;
 import frc.robot.subsystems.LEDStrip.SubsystemPriority;
+import frc.robot.Constants.MechConstants;
 import frc.robot.Constants.VisionConstants;
 
 
@@ -94,7 +95,7 @@ public class Arm extends SubsystemBase{
   }
 
   public boolean isGoodAmpAngle(){
-    double diff = getAngle() - aprilAngle;
+    double diff = getAngle() - MechConstants.AMP_ANGLE;
     if (Math.abs(diff) < VisionConstants.AMP_ANGLE_TOLERANCE){
       return true;
     }
