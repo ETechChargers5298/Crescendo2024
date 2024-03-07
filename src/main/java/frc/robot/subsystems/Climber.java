@@ -108,9 +108,12 @@ public class Climber extends SubsystemBase{
 
     public void resetLeftEncoder() {
         leftEncoder.setPosition(0);
+        System.out.println("left is reset");
     }
     public void resetRightEncoder() {
         rightEncoder.setPosition(0);
+        System.out.println("right is reset");
+
     }
 
     public void stop() {

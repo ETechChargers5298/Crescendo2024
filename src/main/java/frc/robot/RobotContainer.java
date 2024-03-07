@@ -88,10 +88,13 @@ public class RobotContainer {
     //Driver control of intake of notes with LB/RB
     new JoystickButton(driverController,Button.kLeftBumper.value).whileTrue(new IntakeSpit());
     new JoystickButton(driverController,Button.kRightBumper.value).whileTrue(new IntakeEat());
-    new JoystickButton(driverController, Button.kB.value).whileTrue(new RumbleTest(driverController, true));
+    //new JoystickButton(driverController, Button.kB.value).whileTrue(new RumbleTest(driverController, true));
     
 
     new JoystickButton(driverController,Button.kX.value).whileTrue(new ArmReset());
+
+    new JoystickButton(driverController,Button.kX.value).whileTrue(new ClimberResetLeft());
+    new JoystickButton(driverController,Button.kB.value).whileTrue(new ClimberResetRight());
     //new TriggerButton(driverController, 2).whileTrue(new TurnToApril().repeatedly());
     
 
@@ -115,7 +118,7 @@ public class RobotContainer {
     new JoystickButton(operatorController,Button.kA.value).whileTrue(new LauncherTake());
 
     //auto launch sequence with RB
-    new JoystickButton(operatorController,Button.kRightBumper.value).onTrue(new IntakeNoteStop());
+    new JoystickButton(operatorController,Button.kRightBumper.value).onTrue(new LauncherShoot());
     //new JoystickButton(operatorController,Button.kLeftBumper.value).onTrue(new ArmReset());
 
     // arm Pivot with LB/RB
@@ -147,9 +150,6 @@ public class RobotContainer {
     //TODO
     //climber up & down with joystick (RY)
     Climber.getInstance().setDefaultCommand(new ClimberJoystick( () ->-operatorController.getRightY()));
-
-    new JoystickButton(driverController,Button.kX.value).onTrue(new ClimberResetLeft());
-    new JoystickButton(driverController,Button.kB.value).onTrue(new ClimberResetRight());
     
   }
 

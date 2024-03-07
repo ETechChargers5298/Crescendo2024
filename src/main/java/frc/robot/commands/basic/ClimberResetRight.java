@@ -2,10 +2,11 @@ package frc.robot.commands.basic;
 
 
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.subsystems.Climber;
 
 
-public class ClimberResetRight extends Command {
+public class ClimberResetRight extends InstantCommand {
 
   private Climber climber;
   
@@ -21,12 +22,14 @@ public class ClimberResetRight extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    climber.resetRightEncoder();
+    
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {}
+  public void execute() {
+    climber.resetRightEncoder();
+  }
 
   // Called once the command ends or is interrupted.
   @Override

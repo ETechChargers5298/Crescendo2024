@@ -39,13 +39,13 @@ public class Auto2NoteMid extends SequentialCommandGroup {
           //Rev flywheel
           new ParallelRaceGroup(
             new LauncherShoot(),
-            new WaitCommand(1.0)
+            new WaitCommand(2.5)
           ),
 
           //Launch Note
           new ParallelRaceGroup(
             new IntakeEat(),
-            new WaitCommand(0.5)
+            new WaitCommand(0.7)
           ),
 
           //Put arm down to ground
@@ -54,13 +54,17 @@ public class Auto2NoteMid extends SequentialCommandGroup {
           new WaitCommand(1.5)
           ),
           
-          new WaitCommand(1.2),
+          new WaitCommand(0.5),
           
           //Start to eat & Drive forward           
           new ParallelRaceGroup(
             new IntakeEat(),
-            new DrivePID(2.0, 0.0, 0.0),
-            new WaitCommand(1.0)
+            new DrivePID(2.2, 0.0, 0.0),
+            new WaitCommand(1.3)
+          ),
+          new ParallelRaceGroup(
+            new IntakeSpit(),
+            new WaitCommand(0.1)
           ),
 
           //Move Arm Angle Up to Launch
@@ -69,11 +73,11 @@ public class Auto2NoteMid extends SequentialCommandGroup {
           //Launch 2nd Note          
           new ParallelRaceGroup(
             new LauncherShoot(),
-            new WaitCommand(1.5)
+            new WaitCommand(2)
           ),
           new ParallelRaceGroup(
             new IntakeEat(),
-            new WaitCommand(0.5)
+            new WaitCommand(0.7)
           )
          
 

@@ -24,6 +24,9 @@ public class Launcher extends SubsystemBase {
 
         topEncoder = topMotor.getEncoder();
         bottomEncoder = bottomMotor.getEncoder();
+
+        topMotor.setIdleMode(IdleMode.kBrake);
+        bottomMotor.setIdleMode(IdleMode.kBrake);
     }
 
     public static Launcher getInstance(){

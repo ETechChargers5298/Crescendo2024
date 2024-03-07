@@ -25,8 +25,8 @@ public class SwerveDrive extends Command {
     this.ySpeed = ySpeed;
     this.rotSpeed = rotSpeed;
     this.fieldReset = fieldReset;
-    xFilter = new SlewRateLimiter(1.5);
-    yFilter = new SlewRateLimiter(1.5);
+    xFilter = new SlewRateLimiter(1.2);
+    yFilter = new SlewRateLimiter(1.2);
 
     drivetrain = Drivetrain.getInstance();
     // Use addRequirements() here to declare subsystem dependencies.
