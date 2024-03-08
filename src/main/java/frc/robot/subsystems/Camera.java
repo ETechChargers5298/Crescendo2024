@@ -101,6 +101,8 @@ public class Camera extends SubsystemBase {
     SmartDashboard.putBoolean("isGreenZone", isGreenZone());
     SmartDashboard.putBoolean("isVioletZone", isVioletZone());
 
+    SmartDashboard.putNumber("desired angle", Drivetrain.getInstance().getHeading().getDegrees() + getZ());
+
     //SmartDashboard.putData("All ID's", (Sendable) cam.getAllTargets());
     for (int i = 0; i < cam.getTargets().size(); i++) {
       SmartDashboard.putString("id" + i, cam.getTargets().get(i).toString());

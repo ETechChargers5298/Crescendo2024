@@ -350,7 +350,7 @@ public class Drivetrain extends SubsystemBase {
       modules[i].updateTelemetry();
     }
 
-    // SmartDashboard.putNumber("Robot Angle", getHeading().getDegrees());
+    SmartDashboard.putNumber("Robot Angle", getHeading().getDegrees());
 
     SmartDashboard.putNumber("xOdometry", getPose().getX());
     SmartDashboard.putNumber("yOdometry", getPose().getY());

@@ -28,7 +28,7 @@ public class MoveToTarget extends Command {
   @Override
   public void initialize() {
     drivetrain.drive(0, 0, 0);
-    drivetrain.resetIMU();
+    //drivetrain.resetIMU();
   }
 
 

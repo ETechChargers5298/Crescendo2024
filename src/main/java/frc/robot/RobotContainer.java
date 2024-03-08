@@ -7,7 +7,7 @@ package frc.robot;
 
 import frc.robot.commands.basic.*;
 import frc.robot.commands.closed.*;
-import frc.robot.commands.closed.TurnToAngle.DriveAngle;
+//import frc.robot.commands.closed.TurnToAngle.DriveAngle;
 import frc.robot.commands.complex.*;
 import frc.robot.commands.auto.*;
 import frc.robot.Constants.*;
@@ -80,10 +80,10 @@ public class RobotContainer {
     ));
 
     //Snap robot to specific angle
-    new DPad(driverController, 0).whileTrue(new TurnToAngle(DriveAngle.FRONT));
-    new DPad(driverController, 90).whileTrue(new TurnToAngle(DriveAngle.LEFT));
-    new DPad(driverController, 180).whileTrue(new TurnToAngle(DriveAngle.BACK));
-    new DPad(driverController, 270).whileTrue(new TurnToAngle(DriveAngle.RIGHT));
+    new DPad(driverController, 0).onTrue(new TurnToAngle(0));
+    new DPad(driverController, 90).onTrue(new TurnToAngle(90));
+    new DPad(driverController, 180).onTrue(new TurnToAngle(180));
+    new DPad(driverController, 270).onTrue(new TurnToAngle(-90));
     
     //Driver control of intake of notes with LB/RB
     new JoystickButton(driverController,Button.kLeftBumper.value).whileTrue(new IntakeSpit());
@@ -95,6 +95,8 @@ public class RobotContainer {
 
     new JoystickButton(driverController,Button.kX.value).whileTrue(new ClimberResetLeft());
     new JoystickButton(driverController,Button.kB.value).whileTrue(new ClimberResetRight());
+
+    new JoystickButton(driverController, Button.kY.value).whileTrue(new TurnToApril().repeatedly());
     //new TriggerButton(driverController, 2).whileTrue(new TurnToApril().repeatedly());
     
 

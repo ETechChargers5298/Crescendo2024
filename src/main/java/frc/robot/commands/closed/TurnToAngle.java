@@ -13,28 +13,28 @@ public class TurnToAngle extends PIDCommand {
 
   private static Drivetrain drivetrain;
 
-  public enum DriveAngle {
-    FRONT(0),
-    LEFT(-90),
-    RIGHT(90),
-    BACK(180);
+  // public enum DriveAngle {
+  //   FRONT(0),
+  //   LEFT(-90),
+  //   RIGHT(90),
+  //   BACK(180);
 
-    public final double angle;
+  //   public final double angle;
 
-    private DriveAngle(double angle) {
-      this.angle = angle;
-    }
-  }
+  //   private DriveAngle(double angle) {
+  //     this.angle = angle;
+  //   }
+  // }
 
   /** Creates a new TurnToAngle. */
-  public TurnToAngle(DriveAngle driveAngle) {
+  public TurnToAngle(double angle) {
     super(
         // The controller that the command will use
         new PIDController(0.005, 0, 0),
         // This should return the measurement
         () -> drivetrain.getHeading().getDegrees(),
         // This should return the setpoint (can also be a constant)
-        () -> driveAngle.angle,
+        () -> angle,
         // This uses the output
         output -> {
           // Use the output here
@@ -50,6 +50,6 @@ public class TurnToAngle extends PIDCommand {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return getController().atSetpoint();
   }
 }
