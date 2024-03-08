@@ -45,8 +45,10 @@ public class SwerveDrive extends Command {
   @Override
   public void execute() {
     drivetrain.drive(
-      xFilter.calculate(MathUtil.applyDeadband(xSpeed.get(), 0.1)), 
-      yFilter.calculate(MathUtil.applyDeadband(ySpeed.get(), 0.1)),
+      MathUtil.applyDeadband(xSpeed.get(), 0.1),
+      MathUtil.applyDeadband(ySpeed.get(), 0.1),
+      // xFilter.calculate(MathUtil.applyDeadband(xSpeed.get(), 0.1)), 
+      // yFilter.calculate(MathUtil.applyDeadband(ySpeed.get(), 0.1)),
       MathUtil.applyDeadband(rotSpeed.get(), 0.1), 
       drivetrain.getFieldCentric()
       );

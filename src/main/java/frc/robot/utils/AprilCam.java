@@ -148,6 +148,15 @@ public class AprilCam {
         return tea.getZ();
     }
 
+    public double getRot(){
+        PhotonTrackedTarget target = result.getBestTarget();
+        if(target == null) {
+            return 500.0;
+        }
+        Transform3d tea = target.getBestCameraToTarget();   
+        return tea.getRotation().getAngle() / Math.PI * 180;
+    }
+
 
     public String getAllianceColor(){
 

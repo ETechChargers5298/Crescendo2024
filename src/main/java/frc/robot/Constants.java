@@ -37,7 +37,7 @@ public final class Constants {
     ///(Old Robot)
     //Sensor Offsets for the radian difference between the physical sensor orientation and the calibrated swerve direction
     public static final double FL_SENSOR_OFFSET = 2.949; //from REV Hardware Client
-    public static final double FR_SENSOR_OFFSET = 5.610; //from REV Hardware Client
+    public static final double FR_SENSOR_OFFSET = 0.7164975; //from REV Hardware Client
     public static final double BR_SENSOR_OFFSET = 1.894; //from REV Hardware Client
     public static final double BL_SENSOR_OFFSET = 0.717; //from REV Hardware Client
 
@@ -191,9 +191,9 @@ public final class Constants {
 
 
     //Climber Heights
-    public static final double MAX_CLIMB_RIGHT = 130.0;
+    public static final double MAX_CLIMB_RIGHT = 120.0;
     public static final double BASE_CLIMB_RIGHT = 0.0;
-    public static final double MAX_CLIMB_LEFT = 130.0;
+    public static final double MAX_CLIMB_LEFT = 120.0;
     public static final double BASE_CLIMB_LEFT = 0.0;
 
     //Mech Motor Speeds for Buttons

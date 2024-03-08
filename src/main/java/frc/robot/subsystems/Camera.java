@@ -96,7 +96,7 @@ public class Camera extends SubsystemBase {
     SmartDashboard.putBoolean("hasTargetNew", cam.hasTarget());
     SmartDashboard.putNumber("X", getX());
     SmartDashboard.putNumber("Y", getY());
-    SmartDashboard.putNumber("Z", getZ());
+    SmartDashboard.putNumber("Z", cam.getRot());
     SmartDashboard.putBoolean("isBlueZone", isBlueZone());
     SmartDashboard.putBoolean("isGreenZone", isGreenZone());
     SmartDashboard.putBoolean("isVioletZone", isVioletZone());

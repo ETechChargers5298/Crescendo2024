@@ -15,6 +15,8 @@ import frc.robot.commands.basic.LauncherShoot;
 import frc.robot.commands.closed.ArmSetAngle;
 import frc.robot.commands.closed.ArmSetAngleApril;
 import frc.robot.commands.closed.DrivePID;
+import frc.robot.commands.closed.TurnToAngle;
+import frc.robot.commands.closed.TurnToApril;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
@@ -30,6 +32,13 @@ public class Auto2NoteMid extends SequentialCommandGroup {
         new SequentialCommandGroup(
 
           //move arm to correct angle to shoot
+
+
+          // new ParallelRaceGroup(
+          //   new TurnToAngle(45)
+          // ),
+          //new WaitCommand(5),
+
           new ParallelRaceGroup(
             new ArmSetAngle(MechConstants.LAUNCH_ANGLE),
             new WaitCommand(1.5)

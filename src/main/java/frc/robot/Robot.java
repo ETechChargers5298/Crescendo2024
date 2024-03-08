@@ -4,6 +4,9 @@
 
 package frc.robot;
 
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.networktables.StructPublisher;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -28,6 +31,8 @@ public class Robot extends TimedRobot {
 private Command m_autonomousCommand;
 
   private RobotContainer m_robotContainer;
+  StructPublisher<Pose2d> publisher = NetworkTableInstance.getDefault()
+    .getStructTopic("MyPose", Pose2d.struct).publish();
 
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -55,6 +60,7 @@ private Command m_autonomousCommand;
     // commands, running already-scheduled commands, removing finished or interrupted commands,
     // and running subsystem periodic() methods.  This must be called from the robot's periodic
     // block in order for anything in the Command-based framework to work.
+    publisher.set(Drivetrain.getInstance().getPose());
     CommandScheduler.getInstance().run();
     
     // Launcher.getInstance().launch(0.6);
@@ -89,6 +95,8 @@ private Command m_autonomousCommand;
     if (m_autonomousCommand != null) {
       m_autonomousCommand.schedule();
     }
+    Launcher.getInstance().setBrake();
+    Arm.getInstance().setValue(MechConstants.START_ANGLE);
   }
 
   /** This function is called periodically during autonomous. */
@@ -105,7 +113,7 @@ private Command m_autonomousCommand;
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
-    //Drivetrain.getInstance().resetIMU();
+    Drivetrain.getInstance().resetIMU();
   }
 
   /** This function is called periodically during operator control. */
