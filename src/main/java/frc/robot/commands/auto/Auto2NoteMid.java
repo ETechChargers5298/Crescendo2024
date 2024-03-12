@@ -40,7 +40,7 @@ public class Auto2NoteMid extends SequentialCommandGroup {
           //new WaitCommand(5),
 
           new ParallelRaceGroup(
-            new ArmSetAngle(MechConstants.LAUNCH_ANGLE),
+            new ArmSetAngle(MechConstants.LAUNCH_ANGLE + 2),
             new WaitCommand(1.5)
             ),
           
@@ -68,7 +68,7 @@ public class Auto2NoteMid extends SequentialCommandGroup {
           //Start to eat & Drive forward           
           new ParallelRaceGroup(
             new IntakeEat(),
-            new DrivePID(2.2, 0.0, 0.0),
+            new DrivePID(2, 0.0, 0.0),
             new WaitCommand(1.3)
           ),
           new ParallelRaceGroup(

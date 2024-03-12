@@ -38,7 +38,7 @@ public final class Constants {
     //Sensor Offsets for the radian difference between the physical sensor orientation and the calibrated swerve direction
     public static final double FL_SENSOR_OFFSET = 2.949; //from REV Hardware Client
     public static final double FR_SENSOR_OFFSET = 0.7164975; //from REV Hardware Client
-    public static final double BR_SENSOR_OFFSET = 1.894; //from REV Hardware Client
+    public static final double BR_SENSOR_OFFSET = 5.6153907; //from REV Hardware Client
     public static final double BL_SENSOR_OFFSET = 0.717; //from REV Hardware Client
 
     ///(New Robot)(Put new numbers)
@@ -91,7 +91,7 @@ public final class Constants {
     public static final boolean TURN_INVERSION = true;
 
     // Driving Parameters - max speeds allowed, not capable
-    public static final double TOP_SPEED = Units.feetToMeters(2* 4.8); //9.6
+    public static final double TOP_SPEED = Units.feetToMeters(2 * 4.8); //9.6
     public static final double TOP_ANGULAR_SPEED = 2 * 2 * Math.PI;
     public static final double GEER_RATTIOLI = 5.08;
 

@@ -44,7 +44,7 @@ private Command m_autonomousCommand;
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
     Drivetrain.getInstance().resetIMU();
-    Arm.getInstance().setValue(MechConstants.START_ANGLE);
+    //Arm.getInstance().setValue(MechConstants.START_ANGLE);
   }
 
   /**
