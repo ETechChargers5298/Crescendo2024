@@ -17,6 +17,8 @@ import frc.robot.utils.*;
 import java.util.List;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.XboxController.Button;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
@@ -46,14 +48,18 @@ public class RobotContainer {
 
   private LEDStrip led;
 
+  private SendableChooser<Command> autoChooser;
+
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
 
   public RobotContainer() {
     led = new LEDStrip();
+    autoChooser = new SendableChooser<>();
 
     // Configure the trigger bindings
     configureBindings();
+    autoChooser();
   }
 
   /**
@@ -156,6 +162,14 @@ public class RobotContainer {
     
   }
 
+  public void autoChooser() {
+    autoChooser.setDefaultOption("2 Note", new Auto2NoteMid());
+
+    autoChooser.addOption("Empty", null);
+
+    SmartDashboard.putData("Auto Chooser", autoChooser);
+  }
+
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
    *
@@ -168,7 +182,7 @@ public class RobotContainer {
 
     // return new MoveToTarget();
     //return new DrivePID(1.0, 0, 0);
-    return new Auto2NoteMid();
+    return autoChooser.getSelected();
 
   }
 }
