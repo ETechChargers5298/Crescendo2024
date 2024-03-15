@@ -307,10 +307,10 @@ public class Drivetrain extends SubsystemBase {
     //---------------ODOMETRY METHODS --------------//
   public SwerveDriveOdometry getOdometry() {
 
-    Pose3d p3 = new Pose3d();
-    p3.get
-    Pose2D = 
-    driveOdometry.resetPosition(getHeading(), null, getPose());
+    // Pose3d p3 = new Pose3d();
+    // p3.get
+    // Pose2D = 
+    // driveOdometry.resetPosition(getHeading(), null, getPose());
     return driveOdometry;
   }
 
