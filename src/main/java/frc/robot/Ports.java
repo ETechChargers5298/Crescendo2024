@@ -32,4 +32,6 @@ public class Ports {
     public static final int OPERATOR_CONTROLLER = 1;
 
     public static final int BLINKIN_PORT = 9;
+
+    public static final int ANALOG_NOTE_PORT = 3;
 }

@@ -10,6 +10,7 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj.AnalogInput;
 //import com.revrobotics.ColorSensorV3;
 // import com.revrobotics.ColorMatchResult;
 // import com.revrobotics.ColorMatch;
@@ -34,15 +35,20 @@ public class Intake extends SubsystemBase {
     public static int blue = -1;
     private Timer timer;
     private SerialPort arduino;
-
+    
+    private AnalogInput noteFinder;
+    private int distance;
 
     private Intake() {
         intakeMotor = new CANSparkMax(Ports.INTAKE_MOTOR_PORT, MotorType.kBrushless);
+        noteFinder = new AnalogInput(Ports.ANALOG_NOTE_PORT);
         // noteFinder = new ColorSensorV3(i2cPort);
         //arduinoInit();
 
     }
     
+       
+
     // public void arduinoInit(){
         
     //     try {
@@ -93,6 +99,12 @@ public class Intake extends SubsystemBase {
 
     public boolean checkNoteFound(){
         
+        //greater value = closer to sensor
+        if(getDistance() > 1000){
+            isNoteFound = true;
+        } else {
+            isNoteFound = false;
+        }
         //update the color rgb
         //Color detectedColor = noteFinder.getColor();
 
@@ -104,7 +116,11 @@ public class Intake extends SubsystemBase {
         // }
         return isNoteFound;
     }
-  
+    
+    public double getDistance(){
+        distance = noteFinder.getValue();
+        return distance;
+    }
     // public void arduinoUpdate(){
 
     //     //See for color parsing:
@@ -142,6 +158,7 @@ public class Intake extends SubsystemBase {
         //SmartDashboard.putNumber("Note Distance", getDistance());
 
         SmartDashboard.putBoolean("Have Note", isNoteFound);
+        SmartDashboard.putNumber("anolog distance", distance);
         SmartDashboard.putNumber("R", this.red);
         SmartDashboard.putNumber("G", this.green);
         SmartDashboard.putNumber("B", this.blue);

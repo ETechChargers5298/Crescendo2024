@@ -1,11 +1,14 @@
 package frc.robot.subsystems;
 
 
+import com.revrobotics.AbsoluteEncoder;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkBase.SoftLimitDirection;
 import com.revrobotics.CANSparkLowLevel.MotorType;
+import com.revrobotics.SparkAbsoluteEncoder.Type;
+
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Ports;
@@ -20,8 +23,7 @@ public class Arm extends SubsystemBase{
         private CANSparkMax leftMotor;
         private CANSparkMax rightMotor;
 
-        private RelativeEncoder leftEncoder;
-        private RelativeEncoder rightEncoder;
+        private AbsoluteEncoder rightEncoder;
 
         private double angleAverage;
         private static Arm instance;
@@ -47,10 +49,12 @@ public class Arm extends SubsystemBase{
           
           
           //leftEncoder = leftMotor.getAlternateEncoder(8192);
-          rightEncoder = rightMotor.getAlternateEncoder(8192);
+          rightEncoder = rightMotor.getAbsoluteEncoder(Type.kDutyCycle);
+
+          rightEncoder.setZeroOffset(MechConstants.ARM_OFFSET);
 
           //leftEncoder.setPositionConversionFactor(360 / (64 / 24));
-          rightEncoder.setPositionConversionFactor(360 / (64 / 24));
+          rightEncoder.setPositionConversionFactor(360);
 
           leftMotor.setIdleMode(IdleMode.kBrake);
           rightMotor.setIdleMode(IdleMode.kBrake);
@@ -75,15 +79,15 @@ public class Arm extends SubsystemBase{
             //leftEncoder.getPosition()
           }
 
-          public void resetValue() {
-            //leftEncoder.setPosition(0);
-            rightEncoder.setPosition(0);
-          }
+          // public void resetValue() {
+          //   //leftEncoder.setPosition(0);
+          //   rightEncoder.setPosition(0);
+          // }
 
-          public void setValue(double value) {
-            //leftEncoder.setPosition(0);
-            rightEncoder.setPosition(value);
-          }
+          // public void setValue(double value) {
+          //   //leftEncoder.setPosition(0);
+          //   rightEncoder.setPosition(value);
+          // }
 
           public void pivot(double speed) {
 

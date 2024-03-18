@@ -96,7 +96,7 @@ private Command m_autonomousCommand;
       m_autonomousCommand.schedule();
     }
     Launcher.getInstance().setBrake();
-    Arm.getInstance().setValue(MechConstants.START_ANGLE);
+   // Arm.getInstance().setValue(MechConstants.START_ANGLE);
   }
 
   /** This function is called periodically during autonomous. */
