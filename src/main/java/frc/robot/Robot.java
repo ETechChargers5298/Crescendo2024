@@ -113,6 +113,8 @@ private Command m_autonomousCommand;
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
+    
+    Drivetrain.getInstance().resetOdometry(new Pose2d());
     Drivetrain.getInstance().resetIMU();
   }
 

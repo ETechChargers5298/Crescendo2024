@@ -36,10 +36,10 @@ public final class Constants {
   public static class SwerveConstants {
     ///(Old Robot)
     //Sensor Offsets for the radian difference between the physical sensor orientation and the calibrated swerve direction
-    public static final double FL_SENSOR_OFFSET = 2.949; //from REV Hardware Client
-    public static final double FR_SENSOR_OFFSET = 0.7164975; //from REV Hardware Client
-    public static final double BR_SENSOR_OFFSET = 5.6153907; //from REV Hardware Client
-    public static final double BL_SENSOR_OFFSET = 0.717; //from REV Hardware Client
+    public static final double FL_SENSOR_OFFSET = 5.1247236; //from REV Hardware Client
+    public static final double FR_SENSOR_OFFSET = 4.7080523; //from REV Hardware Client
+    public static final double BR_SENSOR_OFFSET = 2.9550133; //from REV Hardware Client
+    public static final double BL_SENSOR_OFFSET = 2.8204095; //from REV Hardware Client
 
     ///(New Robot)(Put new numbers)
     // public static final double FL_SENSOR_OFFSET = 0.7848113; //from REV Hardware Client
@@ -92,8 +92,8 @@ public final class Constants {
 
     // Driving Parameters - max speeds allowed, not capable
     public static final double TOP_SPEED = Units.feetToMeters(2 * 4.8); //9.6
-    public static final double TOP_ANGULAR_SPEED = 2 * 2 * Math.PI;
-    public static final double GEER_RATTIOLI = 5.08;
+    public static final double TOP_ANGULAR_SPEED = 2 * Math.PI;
+    public static final double GEER_RATTIOLI = 3.56;
 
 
     //Slew stuff from Rev
@@ -203,12 +203,12 @@ public final class Constants {
     public static final double CLIMBER_SPEED = 0.3;
 
     //Arm Angles    
-    public static final double START_ANGLE = 93;
+    public static final double START_ANGLE = 94;
     public static final double FLOOR_ANGLE = 0.0;
-    public static final double LAUNCH_ANGLE = 22.7;
-    public static final double AMP_ANGLE = 105;
+    public static final double LAUNCH_ANGLE = 23.7;
+    public static final double AMP_ANGLE = 106;
     public static final double ARM_POSITION_TOLERANCE = 1.0;
-    public static final double ARM_OFFSET = 300.4351614; 
+    public static final double ARM_OFFSET = 359.1940426; 
   }
 
 
@@ -226,9 +226,9 @@ public final class Constants {
     public static final double AMP_ANGLE_TOLERANCE = 5.0;
     
     //Good Launch 2nd Order Equation Co-efficients
-    public static final double kC = -14.7;
+    public static final double kC = -25.6;
     public static final double kB = 38.9;
-    public static final double kA = -4.55;    
+    public static final double kA = -5.38;    
     
     //Distance to Angle Constants
     public static final double DEGREES_PER_METER_SLOPE = 10.0;

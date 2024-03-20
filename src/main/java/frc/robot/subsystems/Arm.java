@@ -23,6 +23,7 @@ public class Arm extends SubsystemBase{
         private CANSparkMax leftMotor;
         private CANSparkMax rightMotor;
 
+        private AbsoluteEncoder leftEncoder;
         private AbsoluteEncoder rightEncoder;
 
         private double angleAverage;
@@ -36,20 +37,12 @@ public class Arm extends SubsystemBase{
           leftMotor.setInverted(true);
           rightMotor.setInverted(false);
 
-          // SoftLimitDirection direction = SoftLimitDirection.kReverse;
-          // leftMotor.enableSoftLimit(SoftLimitDirection.kForward, true);
-          // leftMotor.enableSoftLimit(SoftLimitDirection.kReverse, true);
-          // leftMotor.setSoftLimit(SoftLimitDirection.kForward, 0.0f);
-          // leftMotor.setSoftLimit(SoftLimitDirection.kReverse, 0.0f);
           
-          // rightMotor.enableSoftLimit(SoftLimitDirection.kForward, true);p
-          // rightMotor.enableSoftLimit(SoftLimitDirection.kReverse, true);
-          // rightMotor.setSoftLimit(SoftLimitDirection.kForward, 0.0f);
-          // rightMotor.setSoftLimit(SoftLimitDirection.kReverse, 0.0f);
           
           
           //leftEncoder = leftMotor.getAlternateEncoder(8192);
           rightEncoder = rightMotor.getAbsoluteEncoder(Type.kDutyCycle);
+          leftEncoder = rightEncoder;
 
           rightEncoder.setZeroOffset(MechConstants.ARM_OFFSET);
 
@@ -59,6 +52,18 @@ public class Arm extends SubsystemBase{
           leftMotor.setIdleMode(IdleMode.kBrake);
           rightMotor.setIdleMode(IdleMode.kBrake);
 
+          SoftLimitDirection direction = SoftLimitDirection.kReverse;
+          leftMotor.enableSoftLimit(SoftLimitDirection.kForward, true);
+          leftMotor.enableSoftLimit(SoftLimitDirection.kReverse, true);
+          leftMotor.setSoftLimit(SoftLimitDirection.kForward, 106.0f);
+          leftMotor.setSoftLimit(SoftLimitDirection.kReverse, 1.0f);
+          
+          rightMotor.enableSoftLimit(SoftLimitDirection.kForward, true);
+          rightMotor.enableSoftLimit(SoftLimitDirection.kReverse, true);
+          rightMotor.setSoftLimit(SoftLimitDirection.kForward, 106.0f);
+          rightMotor.setSoftLimit(SoftLimitDirection.kReverse, 1.0f);
+
+          leftMotor.burnFlash();
           rightMotor.burnFlash();
 
         }
