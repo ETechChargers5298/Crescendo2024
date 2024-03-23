@@ -208,7 +208,7 @@ public final class Constants {
     public static final double LAUNCH_ANGLE = 23.7;
     public static final double AMP_ANGLE = 106;
     public static final double ARM_POSITION_TOLERANCE = 1.0;
-    public static final double ARM_OFFSET = 359.1940426; 
+    public static final double ARM_OFFSET = 358.1940426; 
   }
 
 
@@ -226,9 +226,9 @@ public final class Constants {
     public static final double AMP_ANGLE_TOLERANCE = 5.0;
     
     //Good Launch 2nd Order Equation Co-efficients
-    public static final double kC = -25.6;
-    public static final double kB = 38.9;
-    public static final double kA = -5.38;    
+    public static final double kC = -11;
+    public static final double kB = 27.5;
+    public static final double kA = -3.06;    
     
     //Distance to Angle Constants
     public static final double DEGREES_PER_METER_SLOPE = 10.0;

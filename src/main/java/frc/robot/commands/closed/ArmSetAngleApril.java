@@ -15,7 +15,7 @@ public class ArmSetAngleApril extends Command {
   /** Creates a new ArmSetAngleApril. */
   public ArmSetAngleApril() {
     arm = Arm.getInstance();
-    controller = new PIDController(0.06, 0, 0);
+    controller = new PIDController(0.04, 0, 0);
     controller.setSetpoint(arm.getArmAprilAngle() + 2);
     controller.setTolerance(0.4);
 
@@ -45,7 +45,7 @@ public class ArmSetAngleApril extends Command {
     
     double currentAngle = arm.getAngle();
     double angleSpeed = controller.calculate(currentAngle);
-    arm.pivot(angleSpeed * 0.6);
+    arm.pivot(angleSpeed * 0.7);
 
     
   }

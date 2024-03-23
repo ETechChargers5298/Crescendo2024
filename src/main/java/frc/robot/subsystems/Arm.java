@@ -84,10 +84,11 @@ public class Arm extends SubsystemBase{
             //leftEncoder.getPosition()
           }
 
-          // public void resetValue() {
-          //   //leftEncoder.setPosition(0);
-          //   rightEncoder.setPosition(0);
-          // }
+          public void resetValue() {
+            
+            rightEncoder.setZeroOffset(rightEncoder.getZeroOffset() + rightEncoder.getPosition());
+            rightMotor.burnFlash();
+          }
 
           // public void setValue(double value) {
           //   //leftEncoder.setPosition(0);

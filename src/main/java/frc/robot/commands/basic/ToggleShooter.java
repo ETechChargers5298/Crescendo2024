@@ -36,7 +36,7 @@ public class ToggleShooter extends Command {
   @Override
   public void initialize() {
     launcher.launch(0);
-    launcher.setCoast();
+    launcher.setBrake();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
