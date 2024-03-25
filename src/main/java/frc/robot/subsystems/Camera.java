@@ -90,6 +90,10 @@ public class Camera extends SubsystemBase {
     return false;
   }
 
+  public boolean hasTarget() {
+    return cam.hasTarget();
+  }
+
   @Override
   public void periodic() {
     cam.update();

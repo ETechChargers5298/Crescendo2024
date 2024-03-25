@@ -102,8 +102,8 @@ public class RobotContainer {
     new JoystickButton(driverController,Button.kX.value).whileTrue(new ClimberResetLeft());
     new JoystickButton(driverController,Button.kB.value).whileTrue(new ClimberResetRight());
 
-    //new JoystickButton(driverController, Button.kY.value).whileTrue(new TurnToApril());
-    //new TriggerButton(driverController, 2).whileTrue(new TurnToApril().repeatedly());
+    new JoystickButton(driverController, Button.kY.value).whileTrue(new TurnToApril().repeatedly());
+   //new TriggerButton(driverController, 2).whileTrue(new TurnToApril().repeatedly());
     
 
 
