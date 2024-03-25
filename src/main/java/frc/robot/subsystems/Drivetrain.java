@@ -18,6 +18,7 @@ import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
@@ -368,6 +369,11 @@ public class Drivetrain extends SubsystemBase {
 
     //---------------ODOMETRY METHODS --------------//
   public SwerveDriveOdometry getOdometry() {
+
+    // Pose3d p3 = new Pose3d();
+    // p3.get
+    // Pose2D = 
+    // driveOdometry.resetPosition(getHeading(), null, getPose());
     return driveOdometry;
   }
 
