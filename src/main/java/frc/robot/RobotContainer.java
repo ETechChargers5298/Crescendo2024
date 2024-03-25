@@ -126,8 +126,8 @@ public class RobotContainer {
     new JoystickButton(operatorController,Button.kA.value).whileTrue(new LauncherTake());
 
     //auto launch sequence with RB
-    new JoystickButton(operatorController,Button.kRightBumper.value).onTrue(new LauncherShoot());
-    //new JoystickButton(operatorController,Button.kLeftBumper.value).onTrue(new ArmReset());
+    new JoystickButton(operatorController,Button.kLeftBumper.value).onTrue(new LauncherShoot());
+    new JoystickButton(operatorController,Button.kRightBumper.value).whileTrue(new IntakeNoteStop());
 
     // arm Pivot with LB/RB
     // new JoystickButton(operatorController,Button.kLeftBumper.value).whileTrue(new ArmPivotReverse());
@@ -141,8 +141,7 @@ public class RobotContainer {
 
     //arm pivot up/down with joystick (LY)
     Arm.getInstance().setDefaultCommand(new ArmJoystick( 
-      () -> -operatorController.getLeftY(),
-      () -> operatorController.getLeftBumperPressed()
+      () -> -operatorController.getLeftY()
       ));
 
     Launcher.getInstance().setDefaultCommand(new ToggleShooter(

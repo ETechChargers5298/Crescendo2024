@@ -2,10 +2,11 @@ package frc.robot.commands.basic;
 
 
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.subsystems.Arm;
 
 
-public class ArmReset extends Command {
+public class ArmReset extends InstantCommand {
 
     private Arm arm;
 

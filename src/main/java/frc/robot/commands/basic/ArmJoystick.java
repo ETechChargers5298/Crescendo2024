@@ -15,7 +15,7 @@ public class ArmJoystick extends Command {
   private Supplier<Boolean> armReset;
   
   /** Creates a new LauncherJoystick. */
-  public ArmJoystick(Supplier<Double> speedX, Supplier<Boolean> armReset) {
+  public ArmJoystick(Supplier<Double> speedX) {
     this.speedX = speedX;  
     this.armReset = armReset;  
     arm = Arm.getInstance();
@@ -34,9 +34,9 @@ public class ArmJoystick extends Command {
   public void execute() {
         arm.pivot(MathUtil.applyDeadband(speedX.get(), 0.1));
 
-        if(armReset.get()){
-          arm.resetValue();
-        }
+        // if(armReset.get()){
+        //   arm.resetValue();
+        // }
 
   }
 
