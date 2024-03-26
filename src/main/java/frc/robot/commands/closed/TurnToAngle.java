@@ -43,7 +43,7 @@ public class TurnToAngle extends PIDCommand {
     // Use addRequirements() here to declare subsystem dependencies.
     getController().setTolerance(3);
     drivetrain = Drivetrain.getInstance();
-    addRequirements(drivetrain);
+    //addRequirements(drivetrain);
     // Configure additional PID options by calling `getController` here.
   }
 

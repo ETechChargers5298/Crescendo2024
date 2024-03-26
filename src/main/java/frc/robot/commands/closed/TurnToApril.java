@@ -19,7 +19,7 @@ public class TurnToApril extends PIDCommand {
   public TurnToApril() {
     super(
         // The controller that the command will use
-        new PIDController(0.5, 0, 0),
+        new PIDController(0.4, 0, 0),
         // This should return the measurement
         () -> Camera.getInstance().getY(),
         // This should return the setpoint (can also be a constant)
@@ -37,7 +37,7 @@ public class TurnToApril extends PIDCommand {
     cam = Camera.getInstance();
     //addRequirements( drivetrain );
     // Configure additional PID options by calling `getController` here.
-    getController().setTolerance(0.5);  //how far off in meters y-value can be for a good shotler.
+    getController().setTolerance(0.01);  //how far off in meters y-value can be for a good shotler.
   }
 
   // Called when the command is initially scheduled.

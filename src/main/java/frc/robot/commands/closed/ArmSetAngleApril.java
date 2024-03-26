@@ -16,7 +16,7 @@ public class ArmSetAngleApril extends Command {
   public ArmSetAngleApril() {
     arm = Arm.getInstance();
     controller = new PIDController(0.04, 0, 0);
-    controller.setSetpoint(arm.getArmAprilAngle() + 2);
+    controller.setSetpoint(arm.getArmAprilAngle() +3);
     controller.setTolerance(0.4);
 
     // Use addRequirements() here to declare subsystem dependencies.
@@ -36,7 +36,7 @@ public class ArmSetAngleApril extends Command {
 
     //if target is seen, try to go to the desired angle
     if(Camera.getInstance().getCam().hasTarget()){
-      controller.setSetpoint(arm.getArmAprilAngle() + 2);
+      controller.setSetpoint(arm.getArmAprilAngle() + 3);
 
     //if the target is blocked, maintain current angle
     } else {
