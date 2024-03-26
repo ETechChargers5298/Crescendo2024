@@ -35,7 +35,7 @@ public class TurnToApril extends PIDCommand {
     // Use addRequirements() here to declare subsystem dependencies.
     drivetrain = Drivetrain.getInstance();
     cam = Camera.getInstance();
-    addRequirements( drivetrain );
+    //addRequirements( drivetrain );
     // Configure additional PID options by calling `getController` here.
     getController().setTolerance(0.5);  //how far off in meters y-value can be for a good shotler.
   }
