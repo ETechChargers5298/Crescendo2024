@@ -2,8 +2,8 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 5.0,
-      "y": 2
+      "x": 1.2064433431192452,
+      "y": 5.565873600441298
     },
     "rotation": 0
   },
@@ -18,19 +18,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "TestPlanner"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": null
-                }
-              },
-              {
-                "type": "path",
-                "data": {
-                  "pathName": null
+                  "pathName": "one meter"
                 }
               }
             ]

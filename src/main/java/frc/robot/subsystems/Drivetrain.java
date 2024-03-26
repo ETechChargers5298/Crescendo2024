@@ -4,16 +4,21 @@
 
 package frc.robot.subsystems;
 
+import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.SwerveConstants;
 import com.kauailabs.navx.frc.AHRS;
+import com.pathplanner.lib.auto.AutoBuilder;
+
 // import com.pathplanner.lib.PathPlannerTrajectory;
 // import com.pathplanner.lib.commands.PPSwerveControllerCommand;
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
@@ -62,6 +67,7 @@ public class Drivetrain extends SubsystemBase {
   private double xSpeed = 0.0;
   private double ySpeed = 0.0;
   private double rotSpeed = 0.0;
+  private boolean shutUpRotSpeedJoystick = false;
 
   //---------------DRIVETRAIN SUBSYSTEM CONSTRUCTOR --------------//
   public Drivetrain() {
@@ -96,6 +102,25 @@ public class Drivetrain extends SubsystemBase {
 
     fieldCentric = true; //default to fieldcentric
 
+    AutoBuilder.configureHolonomic(
+      this::getPose, 
+      this::resetOdometry, 
+      this::getSpeeds, 
+      this::driveRobotRelative, 
+      AutoConstants.pathFollowerConfig, 
+      () -> {
+        // Boolean supplier that controls when the path will be mirrored for the red alliance
+        // This will flip the path being followed to the red side of the field.
+        // THE ORIGIN WILL REMAIN ON THE BLUE SIDE
+
+        var alliance = DriverStation.getAlliance();
+        if (alliance.isPresent()) {
+          return alliance.get() == DriverStation.Alliance.Red;
+        }
+        return false;
+      }, 
+      this);
+
   } //end constructor
 
     /**
@@ -110,13 +135,33 @@ public class Drivetrain extends SubsystemBase {
     return instance;
   }
 
+  public void configure() {
+    AutoBuilder.configureHolonomic(
+      this::getPose, 
+      this::resetOdometry, 
+      this::getSpeeds, 
+      this::driveRobotRelative, 
+      AutoConstants.pathFollowerConfig, 
+      () -> {
+        // Boolean supplier that controls when the path will be mirrored for the red alliance
+        // This will flip the path being followed to the red side of the field.
+        // THE ORIGIN WILL REMAIN ON THE BLUE SIDE
+
+        var alliance = DriverStation.getAlliance();
+        if (alliance.isPresent()) {
+          return alliance.get() == DriverStation.Alliance.Red;
+        }
+        return false;
+      }, 
+      this);
+  }
 
     
   //---------------DRIVE METHODS --------------//
 
   //Drive based on Drivetrain class fields
   public void drive() {
-    drive(this.xSpeed, this.ySpeed, this.rotSpeed, this.fieldCentric);
+    move(this.xSpeed, this.ySpeed, this.rotSpeed, this.fieldCentric);
   }
 
   //sets forward/backward motion of robot
@@ -134,6 +179,19 @@ public class Drivetrain extends SubsystemBase {
     this.rotSpeed = rotSpeed;
   }
 
+  ////Block Access Joystick
+  public boolean getShutUpRotSpeedJoystick()
+  {
+    return shutUpRotSpeedJoystick;
+  }
+
+  public void setShutUpRotSpeedJoystick(boolean block)
+  {
+    shutUpRotSpeedJoystick = block;
+  }
+
+
+
   //sets whether driving is fieldcentric or not
   public void setFieldCentric(boolean fieldCentric) {
     this.fieldCentric = fieldCentric;
@@ -141,6 +199,18 @@ public class Drivetrain extends SubsystemBase {
   public boolean getFieldCentric() {
     return fieldCentric;
   }
+
+  public ChassisSpeeds getSpeeds() {
+    return driveKinematics.toChassisSpeeds(getModuleStates());
+  }
+
+  public void driveRobotRelative(ChassisSpeeds robotRelativeSpeeds) {
+    ChassisSpeeds targetSpeeds = ChassisSpeeds.discretize(robotRelativeSpeeds, 0.02);
+
+    SwerveModuleState[] targetStates = driveKinematics.toSwerveModuleStates(targetSpeeds);
+    setModuleStates(targetStates);
+  }
+
 
 
 
@@ -152,9 +222,25 @@ public class Drivetrain extends SubsystemBase {
    * @param ySpeed speed of robot left to right
    * @param rotSpeed speed of robot turning
    */
-  public void drive(double xSpeed, double ySpeed, double rotSpeed) {
-    drive(xSpeed, ySpeed, rotSpeed, false);
+  public void setDrive(double xSpeed, double ySpeed, double rotSpeed) {
+    this.xSpeed = xSpeed;
+    this.ySpeed = ySpeed;
+    this.rotSpeed = rotSpeed;
   }
+
+   public void setDrive(double xSpeed, double ySpeed, double rotSpeed, boolean fieldCentric) {
+    this.xSpeed = xSpeed;
+    this.ySpeed = ySpeed;
+    this.rotSpeed = rotSpeed;
+    this.fieldCentric = fieldCentric;
+    //drive(xSpeed, ySpeed, rotSpeed, false);
+  }
+
+  public void stopDrive()
+  {
+    setDrive(0.0,0.0,0.0);
+  }
+
 
   /**
    * Method to drive the robot using joystick info.
@@ -165,8 +251,8 @@ public class Drivetrain extends SubsystemBase {
    * @param fieldcentric Whether the provided x and y speeds are relative to the field.
    * @param rateLimit     Whether to enable rate limiting for smoother control.
    */
-  public void drive(double xSpeed, double ySpeed, double rot, boolean fieldcentric) {
-    
+  public void move(double xSpeed, double ySpeed, double rot, boolean fieldcentric) {
+
     double xSpeedCommanded;
     double ySpeedCommanded;
 
@@ -249,6 +335,14 @@ public class Drivetrain extends SubsystemBase {
     return modulePosition;
   }
 
+  public SwerveModuleState[] getModuleStates() {
+    SwerveModuleState[] states = new SwerveModuleState[modules.length];
+    for (int i = 0; i < modules.length; i++) {
+      states[i] = modules[i].getState();
+    }
+    return states;
+  }
+
   
   
   //---------------NAVX METHODS --------------//
@@ -305,6 +399,11 @@ public class Drivetrain extends SubsystemBase {
 
     //---------------ODOMETRY METHODS --------------//
   public SwerveDriveOdometry getOdometry() {
+
+    // Pose3d p3 = new Pose3d();
+    // p3.get
+    // Pose2D = 
+    // driveOdometry.resetPosition(getHeading(), null, getPose());
     return driveOdometry;
   }
 
@@ -366,6 +465,8 @@ public class Drivetrain extends SubsystemBase {
   public void periodic() {
     updateOdometry();
     updateTelemetry();
+    drive();
+    SmartDashboard.putBoolean("Lock", shutUpRotSpeedJoystick);
 
   }
 

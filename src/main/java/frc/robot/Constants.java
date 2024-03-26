@@ -11,6 +11,10 @@ import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import frc.robot.utils.ModuleConfig;
 import frc.robot.utils.PIDF;
 import frc.robot.Ports;
+
+import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
+import com.pathplanner.lib.util.PIDConstants;
+import com.pathplanner.lib.util.ReplanningConfig;
 import com.revrobotics.CANSparkBase.IdleMode;
 
 //import edu.wpi.first.apriltag.AprilTag;
@@ -73,8 +77,11 @@ public final class Constants {
     // Distance between centers of right and left wheels on robot
     public static final double WHEEL_BASE = Units.inchesToMeters(25);
 
+    public static final double DISTANCE_TO_CENTER = Math.sqrt(Math.pow(WHEEL_BASE/2, 2) + Math.pow(WHEEL_BASE/2, 2));
+
     // Diamter of the REV Swerve wheels in inches
     public static final double WHEEL_DIAMETER = Units.inchesToMeters(3);
+    public static final double FREE_SPIN_METER = 6.36;
 
 
     // Distance between front and back wheels on robot
@@ -107,6 +114,7 @@ public final class Constants {
     // public static final PIDConstants rotationPID = new PIDConstants(0.08, 0, 0);
 
   }
+
 
   public static final class ModuleConstants {
     // The MAXSwerve module can be configured with one of three pinion gears: 12T, 13T, or 14T.
@@ -177,6 +185,14 @@ public final class Constants {
     // Constraint for the motion profiled robot angle controller
     public static final TrapezoidProfile.Constraints kThetaControllerConstraints = new TrapezoidProfile.Constraints(
         kMaxAngularSpeedRadiansPerSecond, kMaxAngularSpeedRadiansPerSecondSquared);
+
+    public static final HolonomicPathFollowerConfig pathFollowerConfig = new HolonomicPathFollowerConfig(
+      new PIDConstants(5.0, 0, 0), // Translation constants 
+      new PIDConstants(5.0, 0, 0), // Rotation constants 
+      SwerveConstants.FREE_SPIN_METER, 
+      SwerveConstants.DISTANCE_TO_CENTER, // Drive base radius (distance from center to furthest module) 
+      new ReplanningConfig()
+    );
   }
 
 

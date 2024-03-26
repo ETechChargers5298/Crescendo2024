@@ -38,7 +38,7 @@ public class TurnToAngle extends PIDCommand {
         // This uses the output
         output -> {
           // Use the output here
-          drivetrain.drive(0, 0, output);
+          drivetrain.setRotSpeed(output);
         });
     // Use addRequirements() here to declare subsystem dependencies.
     getController().setTolerance(3);
