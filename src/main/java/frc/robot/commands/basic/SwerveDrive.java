@@ -37,22 +37,23 @@ public class SwerveDrive extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    drivetrain.drive(0, 0, 0);
+    drivetrain.stopDrive();
     //drivetrain.resetIMU();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    drivetrain.drive(
-      MathUtil.applyDeadband(xSpeed.get(), 0.1),
-      MathUtil.applyDeadband(ySpeed.get(), 0.1),
+    drivetrain.setXSpeed(MathUtil.applyDeadband(xSpeed.get(), 0.1));
+    drivetrain.setYSpeed(MathUtil.applyDeadband(ySpeed.get(), 0.1));
+
+    if(!drivetrain.getShutUpRotSpeedJoystick())
+    {
+      drivetrain.setRotSpeed(MathUtil.applyDeadband(rotSpeed.get(), 0.1));
+    }
       // xFilter.calculate(MathUtil.applyDeadband(xSpeed.get(), 0.1)), 
       // yFilter.calculate(MathUtil.applyDeadband(ySpeed.get(), 0.1)),
-      MathUtil.applyDeadband(rotSpeed.get(), 0.1), 
-      drivetrain.getFieldCentric()
-      );
-
+    
       if(fieldReset.get()) {
         drivetrain.resetIMU();
       }
@@ -61,7 +62,7 @@ public class SwerveDrive extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    drivetrain.drive(0, 0, 0);
+    drivetrain.stopDrive();
   }
 
   // Returns true when the command should end.

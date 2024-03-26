@@ -27,7 +27,7 @@ public class MoveToTarget extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    drivetrain.drive(0, 0, 0);
+    drivetrain.stopDrive();
     //drivetrain.resetIMU();
   }
 
@@ -36,13 +36,13 @@ public class MoveToTarget extends Command {
   @Override
   public void execute() {
     if(cam.getCam().getX() > Constants.VisionConstants.GREENZONE_MAX_X && cam.getCam().getY() > Constants.VisionConstants.GREENZONE_MAX_Y) {
-      drivetrain.drive(0.8, 0.8, 0);
+      drivetrain.setDrive(0.8, 0.8, 0);
     }
     else if(cam.getCam().getX() > Constants.VisionConstants.GREENZONE_MAX_X && cam.getCam().getY() <= Constants.VisionConstants.GREENZONE_MAX_Y) {
-      drivetrain.drive(0.8, 0, 0);
+      drivetrain.setDrive(0.8, 0, 0);
     }
     else {
-        drivetrain.drive(0, 0, 0);
+        drivetrain.stopDrive();
     }
 
 
@@ -51,7 +51,7 @@ public class MoveToTarget extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    drivetrain.drive(0, 0, 0);
+    drivetrain.stopDrive();
   }
 
   // Returns true when the command should end.

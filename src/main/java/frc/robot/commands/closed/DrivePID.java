@@ -59,7 +59,7 @@ public class DrivePID extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    drivetrain.drive(0, 0, 0);
+    drivetrain.stopDrive();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -79,13 +79,13 @@ public class DrivePID extends Command {
     double angleSpeed = anglePID.calculate(currentAngle);
 
     //calling drive function
-    drivetrain.drive(xSpeed, 0, 0);
+    drivetrain.setXSpeed(xSpeed);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    drivetrain.drive(0, 0, 0);
+    drivetrain.stopDrive();
   }
 
   // Returns true when the command should end.

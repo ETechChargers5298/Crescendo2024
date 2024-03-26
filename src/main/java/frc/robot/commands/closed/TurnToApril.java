@@ -27,7 +27,7 @@ public class TurnToApril extends PIDCommand {
         // This uses the output
         output -> {
           // Use the output here
-           Drivetrain.getInstance().drive(0.0, 0.0, -output);
+           Drivetrain.getInstance().setRotSpeed(-output);
         }
       );
 
@@ -35,8 +35,7 @@ public class TurnToApril extends PIDCommand {
     // Use addRequirements() here to declare subsystem dependencies.
     drivetrain = Drivetrain.getInstance();
     cam = Camera.getInstance();
-    addRequirements( drivetrain, cam );
-    
+    addRequirements( drivetrain );
     // Configure additional PID options by calling `getController` here.
     getController().setTolerance(0.5);  //how far off in meters y-value can be for a good shotler.
   }
@@ -52,22 +51,23 @@ public class TurnToApril extends PIDCommand {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    double angle = cam.getY();
-    double angleRot = getController().calculate(angle, 0);
-
+    // double angle = cam.getY();
+    // double angleRot = getController().calculate(angle, 0);
+      drivetrain.setShutUpRotSpeedJoystick(true);
     if (!cam.hasTarget()) {
-      drivetrain.drive(0, 0, 0);
+      drivetrain.stopDrive();
     } else {
       super.execute();
     }
   
   }
 
-  // // Called once the command ends or is interrupted.
-  // @Override
-  // public void end(boolean interrupted) {
-  //   drivetrain.drive(0,0,0);
-  // }
+  // Called once the command ends or is interrupted.
+  @Override
+  public void end(boolean interrupted) {
+    super.end(interrupted);
+    drivetrain.setShutUpRotSpeedJoystick(false);
+  }
 
   // Returns true when the command should end.
   @Override

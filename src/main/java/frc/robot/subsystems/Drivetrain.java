@@ -67,6 +67,7 @@ public class Drivetrain extends SubsystemBase {
   private double xSpeed = 0.0;
   private double ySpeed = 0.0;
   private double rotSpeed = 0.0;
+  private boolean shutUpRotSpeedJoystick = false;
 
   //---------------DRIVETRAIN SUBSYSTEM CONSTRUCTOR --------------//
   public Drivetrain() {
@@ -160,7 +161,7 @@ public class Drivetrain extends SubsystemBase {
 
   //Drive based on Drivetrain class fields
   public void drive() {
-    drive(this.xSpeed, this.ySpeed, this.rotSpeed, this.fieldCentric);
+    move(this.xSpeed, this.ySpeed, this.rotSpeed, this.fieldCentric);
   }
 
   //sets forward/backward motion of robot
@@ -177,6 +178,19 @@ public class Drivetrain extends SubsystemBase {
   public void setRotSpeed(double rotSpeed){
     this.rotSpeed = rotSpeed;
   }
+
+  ////Block Access Joystick
+  public boolean getShutUpRotSpeedJoystick()
+  {
+    return shutUpRotSpeedJoystick;
+  }
+
+  public void setShutUpRotSpeedJoystick(boolean block)
+  {
+    shutUpRotSpeedJoystick = block;
+  }
+
+
 
   //sets whether driving is fieldcentric or not
   public void setFieldCentric(boolean fieldCentric) {
@@ -208,9 +222,25 @@ public class Drivetrain extends SubsystemBase {
    * @param ySpeed speed of robot left to right
    * @param rotSpeed speed of robot turning
    */
-  public void drive(double xSpeed, double ySpeed, double rotSpeed) {
-    drive(xSpeed, ySpeed, rotSpeed, false);
+  public void setDrive(double xSpeed, double ySpeed, double rotSpeed) {
+    this.xSpeed = xSpeed;
+    this.ySpeed = ySpeed;
+    this.rotSpeed = rotSpeed;
   }
+
+   public void setDrive(double xSpeed, double ySpeed, double rotSpeed, boolean fieldCentric) {
+    this.xSpeed = xSpeed;
+    this.ySpeed = ySpeed;
+    this.rotSpeed = rotSpeed;
+    this.fieldCentric = fieldCentric;
+    //drive(xSpeed, ySpeed, rotSpeed, false);
+  }
+
+  public void stopDrive()
+  {
+    setDrive(0.0,0.0,0.0);
+  }
+
 
   /**
    * Method to drive the robot using joystick info.
@@ -221,8 +251,8 @@ public class Drivetrain extends SubsystemBase {
    * @param fieldcentric Whether the provided x and y speeds are relative to the field.
    * @param rateLimit     Whether to enable rate limiting for smoother control.
    */
-  public void drive(double xSpeed, double ySpeed, double rot, boolean fieldcentric) {
-    
+  public void move(double xSpeed, double ySpeed, double rot, boolean fieldcentric) {
+
     double xSpeedCommanded;
     double ySpeedCommanded;
 
@@ -435,6 +465,8 @@ public class Drivetrain extends SubsystemBase {
   public void periodic() {
     updateOdometry();
     updateTelemetry();
+    drive();
+    SmartDashboard.putBoolean("Lock", shutUpRotSpeedJoystick);
 
   }
 
