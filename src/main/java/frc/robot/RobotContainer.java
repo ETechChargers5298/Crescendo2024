@@ -21,6 +21,7 @@ import com.fasterxml.jackson.databind.util.Named;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.commands.PathPlannerAuto;
+import com.pathplanner.lib.path.PathPlannerPath;
 
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.XboxController.Button;
@@ -29,6 +30,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
@@ -65,14 +67,26 @@ public class RobotContainer {
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
 
   public RobotContainer() {
-    led = new LEDStrip();
 
-    //NamedCommands.registerCommand("Intake Eat", new IntakeEat());
+    NamedCommands.registerCommand("Intake", new IntakeEat());
+
+    // Build an auto chooser. This will use Commands.none() as the default option.
+    autoChooser = AutoBuilder.buildAutoChooser();
+    SmartDashboard.putData("Auto Chooser", autoChooser);
+    
+    //autoChooser = new SendableChooser<>();
+    //autoChooser();
+
+    
+
+    //configure LED lights
+    led = new LEDStrip();
 
     // Configure the trigger bindings
     configureBindings();
-    autoChooser = new SendableChooser<>();
-    autoChooser();
+
+
+
   }
 
   /**
@@ -174,14 +188,14 @@ public class RobotContainer {
     
   }
 
-  public void autoChooser() {
-    autoChooser.setDefaultOption("2 Note", new Auto2NoteMid());
+  // public void autoChooser() {
+  //   autoChooser.setDefaultOption("2 Note", new Auto2NoteMid());
 
-    autoChooser.addOption("One Meter", oneMeter);
-    autoChooser.addOption("Turn", turn);
+  //   autoChooser.addOption("One Meter", oneMeter);
+  //   autoChooser.addOption("Turn", turn);
 
-    SmartDashboard.putData("Auto Chooser", autoChooser);
-  }
+  //   SmartDashboard.putData("Auto Chooser", autoChooser);
+  // }
 
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
@@ -198,4 +212,13 @@ public class RobotContainer {
     return autoChooser.getSelected();
 
   }
+
+  // public Command getAutonomousCommand() {
+  //   // Load the path you want to follow using its name in the GUI
+  //   PathPlannerPath path = PathPlannerPath.fromPathFile("Forward");
+
+  //   // Create a path following command using AutoBuilder. This will also trigger event markers.
+  //   return AutoBuilder.followPath(path);
+  // }
+
 }

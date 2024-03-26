@@ -119,7 +119,8 @@ public class Drivetrain extends SubsystemBase {
         }
         return false;
       }, 
-      this);
+      this
+    );
 
   } //end constructor
 
@@ -135,26 +136,26 @@ public class Drivetrain extends SubsystemBase {
     return instance;
   }
 
-  public void configure() {
-    AutoBuilder.configureHolonomic(
-      this::getPose, 
-      this::resetOdometry, 
-      this::getSpeeds, 
-      this::driveRobotRelative, 
-      AutoConstants.pathFollowerConfig, 
-      () -> {
-        // Boolean supplier that controls when the path will be mirrored for the red alliance
-        // This will flip the path being followed to the red side of the field.
-        // THE ORIGIN WILL REMAIN ON THE BLUE SIDE
+  // public void configure() {
+  //   AutoBuilder.configureHolonomic(
+  //     this::getPose, 
+  //     this::resetOdometry, 
+  //     this::getSpeeds, 
+  //     this::driveRobotRelative, 
+  //     AutoConstants.pathFollowerConfig, 
+  //     () -> {
+  //       // Boolean supplier that controls when the path will be mirrored for the red alliance
+  //       // This will flip the path being followed to the red side of the field.
+  //       // THE ORIGIN WILL REMAIN ON THE BLUE SIDE
 
-        var alliance = DriverStation.getAlliance();
-        if (alliance.isPresent()) {
-          return alliance.get() == DriverStation.Alliance.Red;
-        }
-        return false;
-      }, 
-      this);
-  }
+  //       var alliance = DriverStation.getAlliance();
+  //       if (alliance.isPresent()) {
+  //         return alliance.get() == DriverStation.Alliance.Red;
+  //       }
+  //       return false;
+  //     }, 
+  //     this);
+  // }
 
     
   //---------------DRIVE METHODS --------------//
@@ -204,11 +205,22 @@ public class Drivetrain extends SubsystemBase {
     return driveKinematics.toChassisSpeeds(getModuleStates());
   }
 
+  //method to help AutoBuilder do stuff
   public void driveRobotRelative(ChassisSpeeds robotRelativeSpeeds) {
-    ChassisSpeeds targetSpeeds = ChassisSpeeds.discretize(robotRelativeSpeeds, 0.02);
 
-    SwerveModuleState[] targetStates = driveKinematics.toSwerveModuleStates(targetSpeeds);
-    setModuleStates(targetStates);
+    ChassisSpeeds speeds = ChassisSpeeds.discretize(robotRelativeSpeeds, 0.02);
+
+    //Store the states of each module
+    SwerveModuleState[] swerveModuleStates = driveKinematics.toSwerveModuleStates(speeds);
+    
+    //cleans up any weird speeds that may be too high after kinematics equation
+    SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates, SwerveConstants.TOP_SPEED);
+
+    // setting the state for each module as an array
+    for(int i = 0; i < modules.length; i++) {
+      modules[i].setDesiredState(swerveModuleStates[i]);
+    }
+
   }
 
 

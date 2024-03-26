@@ -6,9 +6,16 @@
     "data": {
       "commands": [
         {
-          "type": "path",
+          "type": "sequential",
           "data": {
-            "pathName": "one meter"
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "Intake Eat"
+                }
+              }
+            ]
           }
         }
       ]
