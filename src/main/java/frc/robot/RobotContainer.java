@@ -30,10 +30,12 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.geometry.Pose2d;
@@ -57,26 +59,39 @@ public class RobotContainer {
   private static final XboxController operatorController = new XboxController(Ports.OPERATOR_CONTROLLER);
 
   private LEDStrip led;
-
   private Drivetrain drivetrain = Drivetrain.getInstance();
   private SendableChooser<Command> autoChooser;
 
+  //Paths from PathPlanner
   private Command oneMeter = new PathPlannerAuto("Forward");
   private Command turn = new PathPlannerAuto("Turn");
 
-  /** The container for the robot. Contains subsystems, OI devices, and commands. */
 
+  /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
 
-    NamedCommands.registerCommand("Intake", new IntakeEat());
+    //NamedCommands to be used in PathPlanner
+    NamedCommands.registerCommand("IntakeEat", new IntakeEat());
+    NamedCommands.registerCommand("IntakeSpit", new IntakeSpit());
+    NamedCommands.registerCommand("AngleFloor", new ArmSetAngle(MechConstants.FLOOR_ANGLE));
+    NamedCommands.registerCommand("AngleLaunch", new ArmSetAngle(MechConstants.LAUNCH_ANGLE));
+    NamedCommands.registerCommand("AngleAmp", new ArmSetAngle(MechConstants.AMP_ANGLE));
+    NamedCommands.registerCommand("AngleApril", new ArmSetAngleApril());
+    NamedCommands.registerCommand("LauncherShoot", new LauncherShoot());
+    NamedCommands.registerCommand("TurnToApril", new TurnToApril());
+    NamedCommands.registerCommand("Wait1.0", new WaitCommand(1.0));
+    NamedCommands.registerCommand("AutoFirstShot", new AutoFirstShot());
+    NamedCommands.registerCommand("AutoSecondShot", new AutoSecondShot());
+    
 
-    // Build an auto chooser. This will use Commands.none() as the default option.
+    //Create an autoChooser from PathPlanner to choose an auto from SmartDashboard, populated from PathPlanner autos
+    //This will use Commands.none() as the default option.
     autoChooser = AutoBuilder.buildAutoChooser();
     SmartDashboard.putData("Auto Chooser", autoChooser);
     
+    //Alternate SendableChoose if just using PathPlanner for Paths
     //autoChooser = new SendableChooser<>();
-    //autoChooser();
-
+    //autoChooserInit();
     
 
     //configure LED lights
@@ -84,8 +99,6 @@ public class RobotContainer {
 
     // Configure the trigger bindings
     configureBindings();
-
-
 
   }
 
@@ -117,30 +130,21 @@ public class RobotContainer {
     new DPad(driverController, 90).onTrue(new TurnToAngle(90));
     new DPad(driverController, 180).onTrue(new TurnToAngle(180));
     new DPad(driverController, 270).onTrue(new TurnToAngle(-90));
-    
+
+    //Driver turn towards apriltag target
+    new JoystickButton(driverController, Button.kY.value).whileTrue(new TurnToApril().repeatedly());
+
     //Driver control of intake of notes with LB/RB
     new JoystickButton(driverController,Button.kLeftBumper.value).whileTrue(new IntakeSpit());
     new JoystickButton(driverController,Button.kRightBumper.value).whileTrue(new IntakeEat());
-    //new JoystickButton(driverController, Button.kB.value).whileTrue(new RumbleTest(driverController, true));
     
-
+    //Driver reset buttons
     new JoystickButton(driverController,Button.kX.value).whileTrue(new ArmReset());
-
     new JoystickButton(driverController,Button.kX.value).whileTrue(new ClimberResetLeft());
     new JoystickButton(driverController,Button.kB.value).whileTrue(new ClimberResetRight());
 
-    new JoystickButton(driverController, Button.kY.value).whileTrue(new TurnToApril().repeatedly());
-   //new TriggerButton(driverController, 2).whileTrue(new TurnToApril().repeatedly());
+    //new JoystickButton(driverController, Button.kB.value).whileTrue(new RumbleTest(driverController, true));
     
-
-
-    //TODO
-    //lock & unlock wheels with X/Y
-
-    //auto-align drivetrain to speaker target/greenzone with A
-    //new JoystickButton(driverController,Button.kA.value).whileTrue(new MoveToTarget());
-
-
 
     //----- OPERATOR CONTROLS -----//
 
@@ -155,6 +159,11 @@ public class RobotContainer {
     //auto launch sequence with RB
     new JoystickButton(operatorController,Button.kLeftBumper.value).onTrue(new LauncherShoot());
     new JoystickButton(operatorController,Button.kRightBumper.value).whileTrue(new IntakeNoteStop().alongWith(new RumbleTest(operatorController, false)));
+
+    //toggle launcher wheels on/off with Y & Start
+    Launcher.getInstance().setDefaultCommand(new ToggleShooter(
+      () -> operatorController.getYButtonPressed(),
+      () -> operatorController.getStartButtonPressed()));
 
     // arm Pivot with LB/RB
     // new JoystickButton(operatorController,Button.kLeftBumper.value).whileTrue(new ArmPivotReverse());
@@ -171,29 +180,20 @@ public class RobotContainer {
       () -> -operatorController.getLeftY()
       ));
 
-    Launcher.getInstance().setDefaultCommand(new ToggleShooter(
-      () -> operatorController.getYButtonPressed(),
-      () -> operatorController.getStartButtonPressed()));
-      
-
-
-    //TODO
     //auto arm pivot based on apriltags with LT
     new TriggerButton(operatorController, 2).whileTrue(new ArmSetAngleApril().repeatedly());
     new TriggerButton(operatorController, 3).whileTrue(new ArmSetAngle(54));
 
-    //TODO
     //climber up & down with joystick (RY)
     Climber.getInstance().setDefaultCommand(new ClimberJoystick( () ->-operatorController.getRightY()));
     
   }
 
-  // public void autoChooser() {
+  //Auto Chooser for non-PathPlanner autos
+  // public void autoChooserInit() {
   //   autoChooser.setDefaultOption("2 Note", new Auto2NoteMid());
-
   //   autoChooser.addOption("One Meter", oneMeter);
   //   autoChooser.addOption("Turn", turn);
-
   //   SmartDashboard.putData("Auto Chooser", autoChooser);
   // }
 
@@ -202,17 +202,14 @@ public class RobotContainer {
    *
    * @return the command to run in autonomous
    */
-
-
   public Command m_autonomousCommand() {
-    // An example command will be run in autonomous
-
     // return new MoveToTarget();
-    //return new DrivePID(1.0, 0, 0);
+    // return new DrivePID(1.0, 0, 0);
     return autoChooser.getSelected();
 
   }
 
+  //method to create Command objects from PathPlanner paths
   // public Command getAutonomousCommand() {
   //   // Load the path you want to follow using its name in the GUI
   //   PathPlannerPath path = PathPlannerPath.fromPathFile("Forward");

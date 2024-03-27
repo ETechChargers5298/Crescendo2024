@@ -2,8 +2,8 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 0.6924444618120005,
-      "y": 4.502249460339376
+      "x": 0.8259172881982126,
+      "y": 4.505784284295841
     },
     "rotation": -60.0
   },
@@ -12,15 +12,21 @@
     "data": {
       "commands": [
         {
+          "type": "named",
+          "data": {
+            "name": "AutoFirstShot"
+          }
+        },
+        {
           "type": "path",
           "data": {
-            "pathName": "sidePodium"
+            "pathName": "SidePodium"
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "Intake Eat"
+            "name": "AutoSecondShot"
           }
         }
       ]
