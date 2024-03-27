@@ -2,31 +2,32 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 0.8259172881982126,
-      "y": 4.505784284295841
+      "x": 0.8072597963377744,
+      "y": 4.52444177615628
     },
-    "rotation": -60.0
+    "rotation": -59.313498389634944
   },
   "command": {
     "type": "sequential",
     "data": {
       "commands": [
         {
-          "type": "named",
+          "type": "parallel",
           "data": {
-            "name": "AutoFirstShot"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "SidePodium"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "AutoSecondShot"
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "SidePodium"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "IntakeSensor"
+                }
+              }
+            ]
           }
         }
       ]

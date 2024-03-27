@@ -27,11 +27,6 @@ public class AutoFirstShot extends SequentialCommandGroup {
           //move arm to correct angle to shoot
           new ParallelRaceGroup(
             new ArmSetAngle(MechConstants.LAUNCH_ANGLE + 2),
-            new WaitCommand(1.5)
-            ),
-          
-          //Rev flywheel
-          new ParallelRaceGroup(
             new LauncherShoot(),
             new WaitCommand(2.5)
           ),

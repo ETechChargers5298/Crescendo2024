@@ -73,6 +73,7 @@ public class RobotContainer {
     //NamedCommands to be used in PathPlanner
     NamedCommands.registerCommand("IntakeEat", new IntakeEat());
     NamedCommands.registerCommand("IntakeSpit", new IntakeSpit());
+    NamedCommands.registerCommand("IntakeSensor", new IntakeNoteStop());
     NamedCommands.registerCommand("AngleFloor", new ArmSetAngle(MechConstants.FLOOR_ANGLE));
     NamedCommands.registerCommand("AngleLaunch", new ArmSetAngle(MechConstants.LAUNCH_ANGLE));
     NamedCommands.registerCommand("AngleAmp", new ArmSetAngle(MechConstants.AMP_ANGLE));

@@ -2,10 +2,10 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 0.6924444618120005,
-      "y": 4.502249460339376
+      "x": 1.2064433431192452,
+      "y": 5.565873600441298
     },
-    "rotation": -60.0
+    "rotation": 0
   },
   "command": {
     "type": "sequential",
@@ -15,6 +15,18 @@
           "type": "named",
           "data": {
             "name": "AutoFirstShot"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "OneMeter"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "AutoSecondShot"
           }
         }
       ]

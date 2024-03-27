@@ -96,6 +96,7 @@ private Command m_autonomousCommand;
       m_autonomousCommand.schedule();
     }
     Launcher.getInstance().setBrake();
+    //Drivetrain.getInstance().resetOdometry(new Pose2d());
    // Arm.getInstance().setValue(MechConstants.START_ANGLE);
   }
 

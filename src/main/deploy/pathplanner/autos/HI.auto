@@ -2,8 +2,8 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 1.4416145195926755,
-      "y": 2.145611563950401
+      "x": 2,
+      "y": 2
     },
     "rotation": 0
   },
@@ -14,7 +14,7 @@
         {
           "type": "named",
           "data": {
-            "name": null
+            "name": "Intake"
           }
         }
       ]

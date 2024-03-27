@@ -81,7 +81,7 @@ public final class Constants {
 
     // Diamter of the REV Swerve wheels in inches
     public static final double WHEEL_DIAMETER = Units.inchesToMeters(3);
-    public static final double FREE_SPIN_METER = 6.36;
+    public static final double FREE_SPIN_METER = 2;
 
 
     // Distance between front and back wheels on robot
@@ -187,8 +187,8 @@ public final class Constants {
         kMaxAngularSpeedRadiansPerSecond, kMaxAngularSpeedRadiansPerSecondSquared);
 
     public static final HolonomicPathFollowerConfig pathFollowerConfig = new HolonomicPathFollowerConfig(
-      new PIDConstants(5.0, 0, 0), // Translation constants 
-      new PIDConstants(5.0, 0, 0), // Rotation constants 
+      new PIDConstants(1.0, 0, 0), // Translation constants 
+      new PIDConstants(.005, 0, 0), // Rotation constants 
       SwerveConstants.FREE_SPIN_METER, 
       SwerveConstants.DISTANCE_TO_CENTER, // Drive base radius (distance from center to furthest module) 
       new ReplanningConfig()
