@@ -52,16 +52,16 @@ public class Arm extends SubsystemBase{
           leftMotor.setIdleMode(IdleMode.kBrake);
           rightMotor.setIdleMode(IdleMode.kBrake);
 
-          SoftLimitDirection direction = SoftLimitDirection.kReverse;
-          leftMotor.enableSoftLimit(SoftLimitDirection.kForward, true);
-          leftMotor.enableSoftLimit(SoftLimitDirection.kReverse, true);
-          leftMotor.setSoftLimit(SoftLimitDirection.kForward, 106.0f);
-          leftMotor.setSoftLimit(SoftLimitDirection.kReverse, 1.0f);
+          // SoftLimitDirection direction = SoftLimitDirection.kReverse;
+          // leftMotor.enableSoftLimit(SoftLimitDirection.kForward, true);
+          // leftMotor.enableSoftLimit(SoftLimitDirection.kReverse, true);
+          // leftMotor.setSoftLimit(SoftLimitDirection.kForward, 106.0f);
+          // leftMotor.setSoftLimit(SoftLimitDirection.kReverse, 1.0f);
           
-          rightMotor.enableSoftLimit(SoftLimitDirection.kForward, true);
-          rightMotor.enableSoftLimit(SoftLimitDirection.kReverse, true);
-          rightMotor.setSoftLimit(SoftLimitDirection.kForward, 106.0f);
-          rightMotor.setSoftLimit(SoftLimitDirection.kReverse, 1.0f);
+          // rightMotor.enableSoftLimit(SoftLimitDirection.kForward, true);
+          // rightMotor.enableSoftLimit(SoftLimitDirection.kReverse, true);
+          // rightMotor.setSoftLimit(SoftLimitDirection.kForward, 106.0f);
+          // rightMotor.setSoftLimit(SoftLimitDirection.kReverse, 1.0f);
 
           leftMotor.burnFlash();
           rightMotor.burnFlash();
@@ -86,11 +86,7 @@ public class Arm extends SubsystemBase{
 
           public void resetValue() {
             
-            if( rightEncoder.getPosition() > 355) {
-              rightEncoder.setZeroOffset(rightEncoder.getZeroOffset() - rightEncoder.getPosition());
-            } else if(rightEncoder.getPosition() < 5) {
-              rightEncoder.setZeroOffset(rightEncoder.getZeroOffset() + rightEncoder.getPosition());
-            }
+            rightEncoder.setZeroOffset(rightEncoder.getZeroOffset() - rightEncoder.getPosition());
             rightMotor.burnFlash();
           }
 
@@ -111,7 +107,12 @@ public class Arm extends SubsystemBase{
           }
 
   public double getArmAprilAngle() {
-    aprilAngle = VisionConstants.kC + VisionConstants.kB * Camera.getInstance().getX() + VisionConstants.kA * Math.pow(Camera.getInstance().getX(), 2);
+    aprilAngle = getEquationAngle(Camera.getInstance().getX());
+    return aprilAngle;
+  }
+
+  public double getEquationAngle(double distance) {
+    aprilAngle = VisionConstants.kC + VisionConstants.kB * distance + VisionConstants.kA * Math.pow(distance, 2);
     return aprilAngle;
   }
 

@@ -13,6 +13,7 @@ import frc.robot.commands.basic.IntakeEat;
 import frc.robot.commands.basic.LauncherShoot;
 import frc.robot.commands.closed.ArmSetAngle;
 import frc.robot.commands.closed.TurnToApril;
+import frc.robot.subsystems.Arm;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
@@ -26,28 +27,27 @@ public class AutoSecondShot extends SequentialCommandGroup {
         new SequentialCommandGroup(
 
           //aim arm to correct angle and robot turn to face target to shoot
-          new ParallelRaceGroup(
-            new ArmSetAngle(MechConstants.LAUNCH_ANGLE + 2),
-            new TurnToApril(),
-            new WaitCommand(1.5)
-            ),
+          // new ParallelRaceGroup(
+          //   new ArmSetAngle(MechConstants.LAUNCH_ANGLE + 2),
+          //   new TurnToApril(),
+          //   new WaitCommand(1.5)
+          //   ),
           
-          //Rev flywheel
+          // //Rev flywheel
+          // new ParallelRaceGroup(
+          //   new LauncherShoot(),
+          //   new WaitCommand(2.5)
+          // ),
+
+          //Put arm to set angel
           new ParallelRaceGroup(
-            new LauncherShoot(),
-            new WaitCommand(2.5)
+          new ArmSetAngle(49),
+          new WaitCommand(1.0)
           ),
 
-          //Launch Note
           new ParallelRaceGroup(
             new IntakeEat(),
             new WaitCommand(0.7)
-          ),
-
-          //Put arm down to ground
-          new ParallelRaceGroup(
-          new ArmSetAngle(Constants.MechConstants.FLOOR_ANGLE),
-          new WaitCommand(1.0)
           )
 
         )

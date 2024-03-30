@@ -23,8 +23,8 @@ public class ToggleShooter extends Command {
   public ToggleShooter(Supplier<Boolean> toggleOn, Supplier<Boolean> toggleBrake) {
     this.toggleOn = toggleOn;
     this.toggleBrake = toggleBrake;
-    brakeToggle = false;
-    revToggle = false;
+    brakeToggle = true;
+    revToggle = true;
 
     launcher = Launcher.getInstance();
     

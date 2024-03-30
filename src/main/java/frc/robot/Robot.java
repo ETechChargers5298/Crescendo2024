@@ -63,7 +63,7 @@ private Command m_autonomousCommand;
     publisher.set(Drivetrain.getInstance().getPose());
     CommandScheduler.getInstance().run();
     
-    // Launcher.getInstance().launch(0.6);
+     
     
     // if(Intake.getInstance().checkNoteFound()) {
     //   Launcher.getInstance().launch(MechConstants.LAUNCHER_SPEED);
@@ -95,7 +95,8 @@ private Command m_autonomousCommand;
     if (m_autonomousCommand != null) {
       m_autonomousCommand.schedule();
     }
-    Launcher.getInstance().setBrake();
+    // Launcher.getInstance().setBrake();
+    // Launcher.getInstance().toggleRev(true);
     //Drivetrain.getInstance().resetOdometry(new Pose2d());
    // Arm.getInstance().setValue(MechConstants.START_ANGLE);
   }
@@ -103,6 +104,8 @@ private Command m_autonomousCommand;
   /** This function is called periodically during autonomous. */
   @Override
   public void autonomousPeriodic() {
+    // Launcher.getInstance().toggleRev(true);
+    // Launcher.getInstance().toggleBrake(true);
   }
 
   @Override

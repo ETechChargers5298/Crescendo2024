@@ -63,6 +63,22 @@ public class Launcher extends SubsystemBase {
         bottomMotor.burnFlash();
     }
 
+    public void toggleRev(boolean rev) {
+          if (rev) {
+            launch(0.8);
+          } else {
+            launch(0);
+          }
+    }
+
+    public void toggleBrake(boolean brake) {
+          if (brake) {
+            setBrake();
+          } else {
+            setCoast();
+          }
+    }
+
     public double getBottomEncoder(){
         double bottomPosition = bottomEncoder.getPosition();
         return bottomPosition;

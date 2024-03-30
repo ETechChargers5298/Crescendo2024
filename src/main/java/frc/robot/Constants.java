@@ -165,7 +165,7 @@ public final class Constants {
     public static final IdleMode kTurningMotorIdleMode = IdleMode.kBrake;
 
     public static final int kDrivingMotorCurrentLimit = 50; // amps
-    public static final int kTurningMotorCurrentLimit = 20; // amps
+    public static final int kTurningMotorCurrentLimit = 40; // amps
   }
 
   public static final class OIConstants {
@@ -207,9 +207,9 @@ public final class Constants {
 
 
     //Climber Heights
-    public static final double MAX_CLIMB_RIGHT = 120.0;
+    public static final double MAX_CLIMB_RIGHT = 48.0;
     public static final double BASE_CLIMB_RIGHT = 0.0;
-    public static final double MAX_CLIMB_LEFT = 120.0;
+    public static final double MAX_CLIMB_LEFT = 48.0;
     public static final double BASE_CLIMB_LEFT = 0.0;
 
     //Mech Motor Speeds for Buttons

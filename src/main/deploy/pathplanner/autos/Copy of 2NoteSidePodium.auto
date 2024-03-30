@@ -2,10 +2,10 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 1.2064433431192452,
-      "y": 5.565873600441298
+      "x": 0.8072597963377744,
+      "y": 4.52444177615628
     },
-    "rotation": 0
+    "rotation": -59.313498389634944
   },
   "command": {
     "type": "sequential",
@@ -18,13 +18,13 @@
           }
         },
         {
-          "type": "race",
+          "type": "parallel",
           "data": {
             "commands": [
               {
                 "type": "path",
                 "data": {
-                  "pathName": "OneMeter"
+                  "pathName": "MidNote"
                 }
               },
               {
@@ -34,12 +34,6 @@
                 }
               }
             ]
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "AutoSecondShot"
           }
         }
       ]
