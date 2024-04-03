@@ -95,8 +95,8 @@ private Command m_autonomousCommand;
     if (m_autonomousCommand != null) {
       m_autonomousCommand.schedule();
     }
-    // Launcher.getInstance().setBrake();
-    // Launcher.getInstance().toggleRev(true);
+     Launcher.getInstance().setBrake();
+     Launcher.getInstance().toggleRev(true);
     //Drivetrain.getInstance().resetOdometry(new Pose2d());
    // Arm.getInstance().setValue(MechConstants.START_ANGLE);
   }
@@ -104,8 +104,8 @@ private Command m_autonomousCommand;
   /** This function is called periodically during autonomous. */
   @Override
   public void autonomousPeriodic() {
-    // Launcher.getInstance().toggleRev(true);
-    // Launcher.getInstance().toggleBrake(true);
+     Launcher.getInstance().toggleRev(true);
+     Launcher.getInstance().toggleBrake(true);
   }
 
   @Override

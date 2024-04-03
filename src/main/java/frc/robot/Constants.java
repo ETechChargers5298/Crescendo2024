@@ -224,8 +224,7 @@ public final class Constants {
     public static final double LAUNCH_ANGLE = 23.7;
     public static final double AMP_ANGLE = 106;
     public static final double ARM_POSITION_TOLERANCE = 1.0;
-    public static final double ARM_OFFSET = 355.4097962
-    ; 
+    public static final double ARM_OFFSET = 0.0201634;
   }
 
 

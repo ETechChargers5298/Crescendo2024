@@ -12,6 +12,7 @@ import frc.robot.Constants.MechConstants;
 import frc.robot.commands.basic.IntakeEat;
 import frc.robot.commands.basic.LauncherShoot;
 import frc.robot.commands.closed.ArmSetAngle;
+import frc.robot.commands.closed.ArmSetAngleApril;
 import frc.robot.commands.closed.TurnToApril;
 import frc.robot.subsystems.Arm;
 
@@ -41,7 +42,7 @@ public class AutoSecondShot extends SequentialCommandGroup {
 
           //Put arm to set angel
           new ParallelRaceGroup(
-          new ArmSetAngle(49),
+          new ArmSetAngleApril(),
           new WaitCommand(1.0)
           ),
 
