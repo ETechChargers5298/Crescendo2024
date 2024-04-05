@@ -34,4 +34,8 @@ public class Ports {
     public static final int BLINKIN_PORT = 9;
 
     public static final int ANALOG_NOTE_PORT = 3;
+
+    public static final int LEFT_LIMIT_PORT = 1;
+    public static final int RIGHT_LIMIT_PORT = 0;
+
 }
