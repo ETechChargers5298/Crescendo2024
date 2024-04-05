@@ -1,5 +1,7 @@
 package frc.robot.subsystems;
 
+import org.photonvision.targeting.PhotonTrackedTarget;
+
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.VisionConstants;
@@ -28,8 +30,20 @@ public class Camera extends SubsystemBase {
     return cam;
   }
 
+  public PhotonTrackedTarget getDesiredTarget(int target) {
+    return cam.getDesiredTarget(target);
+  }
+
+  public double getDesiredX(PhotonTrackedTarget target) {
+    return cam.getDesiredX(target);
+  }
+
   public double getX(){
     return cam.getX();
+  }
+
+  public double getDesiredY(PhotonTrackedTarget target) {
+    return cam.getDesiredY(target);
   }
 
   public double getY(){
@@ -62,19 +76,19 @@ public class Camera extends SubsystemBase {
     return false;
   }
 
+  // public boolean isGreenZone(){
+  //   if(isGreenZoneX() && isGreenZoneY() && isGreenZoneAngle()){
+  //     return true;
+  //   }
+  //   return false;
+  // }
+
   public boolean isGreenZone(){
-    if(isGreenZoneX() && isGreenZoneY() && isGreenZoneAngle()){
-      return true;
-    }
-    return false;
-  }
-
-  public boolean isBlueZone(){
-    int blueSpeakerID = 1;
-    int redSpeakerID = 2;
+    int blueSpeakerID = 7;
+    int redSpeakerID = 3;
 
 
-    if(cam.getDesiredTarget(blueSpeakerID)!=null  || cam.getDesiredTarget(redSpeakerID)!=null){
+    if(getDesiredTarget(blueSpeakerID)!=null  || getDesiredTarget(redSpeakerID)!=null){
       return true;
     }
     return false;
@@ -84,7 +98,7 @@ public class Camera extends SubsystemBase {
     int redAmpID = 4;
 
 
-    if(cam.getDesiredTarget(blueAmpID)!=null  || cam.getDesiredTarget(redAmpID)!=null){
+    if(getDesiredTarget(blueAmpID)!=null  || getDesiredTarget(redAmpID)!=null){
       return true;
     }
     return false;
@@ -94,14 +108,22 @@ public class Camera extends SubsystemBase {
     return cam.hasTarget();
   }
 
+  public String getAllianceColor() {
+    return cam.getAllianceColor();
+  }
+
   @Override
   public void periodic() {
     cam.update();
     SmartDashboard.putBoolean("hasTargetNew", cam.hasTarget());
     SmartDashboard.putNumber("X", getX());
     SmartDashboard.putNumber("Y", getY());
+    SmartDashboard.putNumber("Desired X 7", getDesiredX(getDesiredTarget(7)));
+    SmartDashboard.putNumber("Desired Y 7", getDesiredY(getDesiredTarget(7)));
+    SmartDashboard.putNumber("Desired X 3", getDesiredX(getDesiredTarget(3)));
+    SmartDashboard.putNumber("Desired Y 3", getDesiredY(getDesiredTarget(3)));
     SmartDashboard.putNumber("Z", cam.getRot());
-    SmartDashboard.putBoolean("isBlueZone", isBlueZone());
+    // SmartDashboard.putBoolean("isBlueZone", isBlueZone());
     SmartDashboard.putBoolean("isGreenZone", isGreenZone());
     SmartDashboard.putBoolean("isVioletZone", isVioletZone());
 
@@ -114,8 +136,9 @@ public class Camera extends SubsystemBase {
     //SmartDashboard.putString("All ID's", cam.getTargets());
     if (isGreenZone()) {
       LEDStrip.request(SubsystemPriority.VISION, LEDStrip.IN_GREEN_ZONE);
-    } else if (isBlueZone()) {
-      LEDStrip.request(SubsystemPriority.VISION, LEDStrip.IN_BLUE_ZONE);
-    }
+    } 
+    // else if (isBlueZone()) {
+    //   LEDStrip.request(SubsystemPriority.VISION, LEDStrip.IN_BLUE_ZONE);
+    // }
   }
 }
