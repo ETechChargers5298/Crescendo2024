@@ -44,6 +44,7 @@ private Command m_autonomousCommand;
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
     Drivetrain.getInstance().resetIMU();
+    Arm.getInstance().setCoast();
     //Arm.getInstance().setValue(MechConstants.START_ANGLE);
   }
 
@@ -79,6 +80,7 @@ private Command m_autonomousCommand;
   @Override
   public void disabledInit() {
     LEDStrip.request(SubsystemPriority.DEFAULT, LEDStrip.DISABLED);
+    Arm.getInstance().setCoast();
   }
 
   @Override
@@ -95,8 +97,9 @@ private Command m_autonomousCommand;
     if (m_autonomousCommand != null) {
       m_autonomousCommand.schedule();
     }
-     Launcher.getInstance().setBrake();
-     Launcher.getInstance().toggleRev(true);
+    Arm.getInstance().setBrake();
+    //  Launcher.getInstance().setBrake();
+    //  Launcher.getInstance().toggleRev(true);
     //Drivetrain.getInstance().resetOdometry(new Pose2d());
    // Arm.getInstance().setValue(MechConstants.START_ANGLE);
   }
@@ -104,8 +107,8 @@ private Command m_autonomousCommand;
   /** This function is called periodically during autonomous. */
   @Override
   public void autonomousPeriodic() {
-     Launcher.getInstance().toggleRev(true);
-     Launcher.getInstance().toggleBrake(true);
+    //  Launcher.getInstance().toggleRev(true);
+    //  Launcher.getInstance().toggleBrake(true);
   }
 
   @Override
@@ -114,6 +117,7 @@ private Command m_autonomousCommand;
     // teleop starts running. If you want the autonomous to
     // continue until interrupted by another command, remove
     // this line or comment it out.
+    Arm.getInstance().setBrake();
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }

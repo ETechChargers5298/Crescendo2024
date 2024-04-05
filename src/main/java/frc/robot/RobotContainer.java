@@ -100,6 +100,7 @@ public class RobotContainer {
 
     // Configure the trigger bindings
     configureBindings();
+    autoChooserInit();
 
   }
 
@@ -119,11 +120,12 @@ public class RobotContainer {
 
     //----- DRIVER CONTROLS -----//
     //Drive robot with forward (LY), strafe (LX), and turn (RX)
-    Drivetrain.getInstance().setDefaultCommand(new SwerveDrive(
+    Drivetrain.getInstance().setDefaultCommand(new SwerveDriveNew(
       () -> -driverController.getRawAxis(1),
       () -> -driverController.getRawAxis(0),
       () -> -driverController.getRawAxis(4),
-      () -> driverController.getAButton()
+      () -> driverController.getAButton(),
+      () -> driverController.getYButton()
     ));
 
     //Snap robot to specific angle
@@ -133,16 +135,18 @@ public class RobotContainer {
     new DPad(driverController, 270).onTrue(new TurnToAngle(-90));
 
     //Driver turn towards apriltag target
-    new JoystickButton(driverController, Button.kY.value).whileTrue(new TurnToApril().repeatedly());
+    // new JoystickButton(driverController, Button.kY.value).whileTrue(new TurnToApril().repeatedly());
 
     //Driver control of intake of notes with LB/RB
     new JoystickButton(driverController,Button.kLeftBumper.value).whileTrue(new IntakeSpit());
-    new JoystickButton(driverController,Button.kRightBumper.value).whileTrue(new IntakeEat());
+    new JoystickButton(driverController,Button.kRightBumper.value).whileTrue(new IntakeNoteStop());
     
     //Driver reset buttons
-    new JoystickButton(driverController,Button.kX.value).whileTrue(new ArmReset());
+    
     new JoystickButton(driverController,Button.kX.value).whileTrue(new ClimberResetLeft());
     new JoystickButton(driverController,Button.kB.value).whileTrue(new ClimberResetRight());
+
+    new TriggerButton(driverController, 3).whileTrue(new ClimberRetract());
 
     //new JoystickButton(driverController, Button.kB.value).whileTrue(new RumbleTest(driverController, true));
     
@@ -160,6 +164,8 @@ public class RobotContainer {
     //auto launch sequence with RB
     new JoystickButton(operatorController,Button.kLeftBumper.value).onTrue(new LauncherShoot());
     new JoystickButton(operatorController,Button.kRightBumper.value).whileTrue(new IntakeNoteStop().alongWith(new RumbleTest(operatorController, false)));
+
+    new JoystickButton(operatorController,Button.kBack.value).whileTrue(new ArmReset());
 
     //toggle launcher wheels on/off with Y & Start
     Launcher.getInstance().setDefaultCommand(new ToggleShooter(
@@ -191,12 +197,11 @@ public class RobotContainer {
   }
 
   //Auto Chooser for non-PathPlanner autos
-  // public void autoChooserInit() {
-  //   autoChooser.setDefaultOption("2 Note", new Auto2NoteMid());
-  //   autoChooser.addOption("One Meter", oneMeter);
-  //   autoChooser.addOption("Turn", turn);
-  //   SmartDashboard.putData("Auto Chooser", autoChooser);
-  // }
+  public void autoChooserInit() {
+    
+    autoChooser.addOption("DrivePID", new DrivePID(1, 0, 0));
+    
+  }
 
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.

@@ -207,13 +207,13 @@ public final class Constants {
 
 
     //Climber Heights
-    public static final double MAX_CLIMB_RIGHT = 48.0;
+    public static final double MAX_CLIMB_RIGHT = 45.0;
     public static final double BASE_CLIMB_RIGHT = 0.0;
-    public static final double MAX_CLIMB_LEFT = 48.0;
+    public static final double MAX_CLIMB_LEFT = 45.0;
     public static final double BASE_CLIMB_LEFT = 0.0;
 
     //Mech Motor Speeds for Buttons
-    public static final double INTAKE_SPEED = 0.6;
+    public static final double INTAKE_SPEED = 0.4;
     public static final double LAUNCHER_SPEED = 1.0;
     public static final double ARM_PIVOT_SPEED = 1.0;
     public static final double CLIMBER_SPEED = 0.3;
@@ -224,7 +224,7 @@ public final class Constants {
     public static final double LAUNCH_ANGLE = 23.7;
     public static final double AMP_ANGLE = 106;
     public static final double ARM_POSITION_TOLERANCE = 1.0;
-    public static final double ARM_OFFSET = 0.0201634;
+    public static final double ARM_OFFSET = 358.2335615;
   }
 
 

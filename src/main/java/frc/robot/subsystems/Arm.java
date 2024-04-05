@@ -37,20 +37,18 @@ public class Arm extends SubsystemBase{
           leftMotor.setInverted(true);
           rightMotor.setInverted(false);
 
-          
-          
-          
           //leftEncoder = leftMotor.getAlternateEncoder(8192);
           rightEncoder = rightMotor.getAbsoluteEncoder(Type.kDutyCycle);
-          leftEncoder = rightEncoder;
+          //leftEncoder = rightEncoder;
 
+          rightEncoder.setPositionConversionFactor(360);
           rightEncoder.setZeroOffset(MechConstants.ARM_OFFSET);
 
           //leftEncoder.setPositionConversionFactor(360 / (64 / 24));
-          rightEncoder.setPositionConversionFactor(360);
+          
 
-          leftMotor.setIdleMode(IdleMode.kBrake);
-          rightMotor.setIdleMode(IdleMode.kBrake);
+          leftMotor.setIdleMode(IdleMode.kCoast);
+          rightMotor.setIdleMode(IdleMode.kCoast);
 
           // SoftLimitDirection direction = SoftLimitDirection.kReverse;
           // leftMotor.enableSoftLimit(SoftLimitDirection.kForward, true);
@@ -88,6 +86,21 @@ public class Arm extends SubsystemBase{
             
             rightEncoder.setZeroOffset(rightEncoder.getZeroOffset() - rightEncoder.getPosition());
             rightMotor.burnFlash();
+          }
+
+          public void setBrake() {
+            
+            rightMotor.setIdleMode(IdleMode.kBrake);
+            leftMotor.setIdleMode(IdleMode.kBrake);
+            rightMotor.burnFlash();
+            leftMotor.burnFlash();
+          }
+          public void setCoast() {
+            
+            rightMotor.setIdleMode(IdleMode.kCoast);
+            leftMotor.setIdleMode(IdleMode.kCoast);
+            rightMotor.burnFlash();
+            leftMotor.burnFlash();
           }
 
           // public void setValue(double value) {

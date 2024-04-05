@@ -65,7 +65,7 @@ public class Launcher extends SubsystemBase {
 
     public void toggleRev(boolean rev) {
           if (rev) {
-            launch(0.8);
+            launch(0.7);
           } else {
             launch(0);
           }

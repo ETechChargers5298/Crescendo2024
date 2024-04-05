@@ -60,22 +60,28 @@ public class Climber extends SubsystemBase{
         
     }
 
-    public void climberRetract(double speed){
+    public void climberRetract(double speed, boolean emergency){
          SmartDashboard.putString("climbCommand", "Retract");
 
         //retract right climber only if not at bottom/base
-        if(rightEncoder.getPosition() <= MechConstants.BASE_CLIMB_RIGHT) {
+        if(emergency) {
             //rightMotor.set(0.0);
             rightMotor.set(-speed);
-        } 
+        }
+        else if(rightEncoder.getPosition() <= MechConstants.BASE_CLIMB_RIGHT) { 
+            rightMotor.set(0.0);
+        }
         else {
             rightMotor.set(-speed);
         }
 
         //retract left climber only if not at bottom/base
-        if(leftEncoder.getPosition() <= MechConstants.BASE_CLIMB_LEFT) {
+        if(emergency) {
             //leftMotor.set(0.0);
             leftMotor.set(-speed); //takes off the re
+        }
+        else if(leftEncoder.getPosition() <= MechConstants.BASE_CLIMB_LEFT) { 
+            leftMotor.set(0.0);
         }
         else {
             leftMotor.set(-speed);
@@ -91,7 +97,7 @@ public class Climber extends SubsystemBase{
             climberReach(Math.abs(speed));
         }
         else if(speed < -0.1) {
-            climberRetract(Math.abs((speed)));
+            climberRetract(Math.abs((speed)), false);
         }
         else{
             stop();

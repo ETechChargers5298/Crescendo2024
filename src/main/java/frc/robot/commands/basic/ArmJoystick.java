@@ -12,12 +12,12 @@ public class ArmJoystick extends Command {
 
   private Arm arm;
   private Supplier<Double> speedX;
-  private Supplier<Boolean> armReset;
+  //private Supplier<Boolean> armReset;
   
   /** Creates a new LauncherJoystick. */
   public ArmJoystick(Supplier<Double> speedX) {
     this.speedX = speedX;  
-    this.armReset = armReset;  
+    //this.armReset = armReset;  
     arm = Arm.getInstance();
     addRequirements(arm);
   }

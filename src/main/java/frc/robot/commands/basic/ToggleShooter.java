@@ -51,7 +51,7 @@ public class ToggleShooter extends Command {
     }
 
     if (revToggle) {
-      launcher.launch(1);
+      launcher.launch(0.7);
     } else {
       launcher.launch(0);
     }
