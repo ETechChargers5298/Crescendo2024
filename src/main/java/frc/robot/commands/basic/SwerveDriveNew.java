@@ -64,9 +64,13 @@ public class SwerveDriveNew extends Command {
     drivetrain.setXSpeed(MathUtil.applyDeadband(xSpeed.get(), 0.1));
     drivetrain.setYSpeed(MathUtil.applyDeadband(ySpeed.get(), 0.1));
 
-    if(tta.get() && cam.hasTarget())
+    if(tta.get() && cam.isGreenZone())
     {
-      ttaSpeed = ttaController.calculate(cam.getY());
+      if(cam.getAllianceColor().equals("BLUE")) {
+       ttaSpeed = ttaController.calculate(cam.getDesiredY(cam.getDesiredTarget(7)));
+      } else if(cam.getAllianceColor().equals("RED")) {
+        ttaSpeed = ttaController.calculate(cam.getDesiredY(cam.getDesiredTarget(3)));
+      }
       drivetrain.setRotSpeed(-ttaSpeed);
 
 

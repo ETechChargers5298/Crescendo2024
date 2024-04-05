@@ -131,8 +131,24 @@ public class AprilCam {
         return tea.getX();
     }
     
+    public double getDesiredX(PhotonTrackedTarget target){
+        if(target == null) {
+            return Float.NaN;
+        }
+        Transform3d tea = target.getBestCameraToTarget();   
+        return tea.getX();
+    }
+
     public double getY(){
         PhotonTrackedTarget target = result.getBestTarget();
+        if(target == null) {
+            return Float.NaN;
+        }
+        Transform3d tea = target.getBestCameraToTarget();   
+        return tea.getY();
+    }
+
+    public double getDesiredY(PhotonTrackedTarget target){
         if(target == null) {
             return Float.NaN;
         }
