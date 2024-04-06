@@ -139,7 +139,7 @@ public class RobotContainer {
 
     //Driver control of intake of notes with LB/RB
     new JoystickButton(driverController,Button.kLeftBumper.value).whileTrue(new IntakeSpit());
-    new JoystickButton(driverController,Button.kRightBumper.value).whileTrue(new IntakeNoteStop());
+    new JoystickButton(driverController,Button.kRightBumper.value).whileTrue(new ComplexEat());
     
     //Driver reset buttons
     
@@ -163,7 +163,7 @@ public class RobotContainer {
 
     //auto launch sequence with RB
     new JoystickButton(operatorController,Button.kLeftBumper.value).onTrue(new LauncherShoot());
-    new JoystickButton(operatorController,Button.kRightBumper.value).whileTrue(new IntakeNoteStop().alongWith(new RumbleTest(operatorController, false)));
+    new JoystickButton(operatorController,Button.kRightBumper.value).whileTrue(new ComplexEat().alongWith(new RumbleTest(operatorController, false)));
 
     new JoystickButton(operatorController,Button.kBack.value).whileTrue(new ArmReset());
 

@@ -120,8 +120,8 @@ public class Camera extends SubsystemBase {
     SmartDashboard.putNumber("Y", getY());
     SmartDashboard.putNumber("Desired X 7", getDesiredX(getDesiredTarget(7)));
     SmartDashboard.putNumber("Desired Y 7", getDesiredY(getDesiredTarget(7)));
-    SmartDashboard.putNumber("Desired X 3", getDesiredX(getDesiredTarget(3)));
-    SmartDashboard.putNumber("Desired Y 3", getDesiredY(getDesiredTarget(3)));
+    SmartDashboard.putNumber("Desired X 3", getDesiredX(getDesiredTarget(4)));
+    SmartDashboard.putNumber("Desired Y 3", getDesiredY(getDesiredTarget(4)));
     SmartDashboard.putNumber("Z", cam.getRot());
     // SmartDashboard.putBoolean("isBlueZone", isBlueZone());
     SmartDashboard.putBoolean("isGreenZone", isGreenZone());

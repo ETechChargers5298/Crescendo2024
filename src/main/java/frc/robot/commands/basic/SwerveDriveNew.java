@@ -69,12 +69,15 @@ public class SwerveDriveNew extends Command {
       if(cam.getAllianceColor().equals("BLUE")) {
        ttaSpeed = ttaController.calculate(cam.getDesiredY(cam.getDesiredTarget(7)));
       } else if(cam.getAllianceColor().equals("RED")) {
-        ttaSpeed = ttaController.calculate(cam.getDesiredY(cam.getDesiredTarget(3)));
+        ttaSpeed = ttaController.calculate(cam.getDesiredY(cam.getDesiredTarget(4)));
       }
       drivetrain.setRotSpeed(-ttaSpeed);
 
 
-    } else {
+    } else if (tta.get() && !cam.isGreenZone()) {
+      drivetrain.setRotSpeed(0.0);
+    }
+    else {
       drivetrain.setRotSpeed(MathUtil.applyDeadband(rotSpeed.get(), 0.1));
 
     }

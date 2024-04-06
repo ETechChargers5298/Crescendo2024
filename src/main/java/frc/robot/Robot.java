@@ -98,6 +98,7 @@ private Command m_autonomousCommand;
       m_autonomousCommand.schedule();
     }
     Arm.getInstance().setBrake();
+    MechConstants.INTAKE_SPEED = MechConstants.AUTO_INTAKE_SPEED;
     //  Launcher.getInstance().setBrake();
     //  Launcher.getInstance().toggleRev(true);
     //Drivetrain.getInstance().resetOdometry(new Pose2d());
@@ -124,6 +125,7 @@ private Command m_autonomousCommand;
     
     Drivetrain.getInstance().resetOdometry(new Pose2d());
     Drivetrain.getInstance().resetIMU();
+    MechConstants.INTAKE_SPEED = MechConstants.TELE_INTAKE_SPEED;
   }
 
   /** This function is called periodically during operator control. */
