@@ -84,6 +84,10 @@ public class Intake extends SubsystemBase {
         intakeMotor.set(MechConstants.INTAKE_SPEED);
     }
 
+    public void changeSpeed(double newSpeed) {
+        MechConstants.INTAKE_SPEED = newSpeed;
+    }
+
     //Elijah did this
     public void stop(){
         intakeMotor.set(0);

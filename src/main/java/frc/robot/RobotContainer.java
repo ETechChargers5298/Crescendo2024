@@ -134,6 +134,9 @@ public class RobotContainer {
     new DPad(driverController, 180).onTrue(new TurnToAngle(180));
     new DPad(driverController, 270).onTrue(new TurnToAngle(-90));
 
+    new TriggerButton(driverController, 2).onTrue(new MoveToAmp());
+    new TriggerButton(driverController, 3).whileTrue(new ClimberRetract());
+
     //Driver turn towards apriltag target
     // new JoystickButton(driverController, Button.kY.value).whileTrue(new TurnToApril().repeatedly());
 
@@ -145,8 +148,6 @@ public class RobotContainer {
     
     new JoystickButton(driverController,Button.kX.value).whileTrue(new ClimberResetLeft());
     new JoystickButton(driverController,Button.kB.value).whileTrue(new ClimberResetRight());
-
-    new TriggerButton(driverController, 3).whileTrue(new ClimberRetract());
 
     //new JoystickButton(driverController, Button.kB.value).whileTrue(new RumbleTest(driverController, true));
     

@@ -2,6 +2,8 @@ package frc.robot.commands.complex;
 
 
 import frc.robot.subsystems.Intake;
+import frc.robot.Constants.MechConstants;
+import frc.robot.commands.basic.IntakeChangeSpeed;
 import frc.robot.commands.basic.IntakeEat;
 import frc.robot.commands.basic.IntakeNoteStop;
 import frc.robot.commands.basic.IntakeSpit;
@@ -24,6 +26,7 @@ public class ComplexEat extends SequentialCommandGroup {
                 new WaitCommand(0.1),
                 //little spit
                 new ParallelRaceGroup(
+                    new IntakeChangeSpeed(MechConstants.AUTO_INTAKE_SPEED),
                     new IntakeSpit(),
                     new WaitCommand(0.1)
                 )
